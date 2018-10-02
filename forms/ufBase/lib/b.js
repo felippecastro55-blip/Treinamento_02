@@ -1,21 +1,34 @@
 var uFFw = {
+	
+	//objeto de configuração padrão para funcionamento de rotinas
+	defaults: {
+		
+		dateOptions: { useCurrent: false },
+		validOptions: { depends: function(el) { return $(el).is(":visible"); }, },
+		moneyOptions: { prefix: '', thousands: '', decimal: ',' },
+
+	},
+		
 	//Inicia procedimento do framework
 	//Parametros: numero da Atividade, configuração de campos, configuração de seções
-	init: function (modForm, numState, fieldsConfig, sectionsConfig) {
+	init: function ( modForm, numState, fieldsConfig, sectionsConfig ) {
 		
-		this.fields.init(modForm, numState, fieldsConfig);
-		this.sections.init(numState, sectionsConfig);
+		this.status.init ( numState );
+		this.fields.init ( modForm, numState, fieldsConfig );
+		this.sections.init ( numState, sectionsConfig );
+		
 	},
 
+	
 	fields: {
-
+		
 		//inicia procedimento de campos
 		//parametros: numero da atividade, configuração de campos
 		init: function (modForm, numState, fieldsConfig) {
 			//verifica se campo tem ação em tal atividade e em tal modo
-			fieldsConfig.forEach(function(fieldConfig){
+			fieldsConfig.forEach( function(fieldConfig) {
 
-				if ( fieldConfig.state.type == 'default' ){
+				if ( typeof fieldConfig.state.type == 'undefined' || fieldConfig.state.type == 'default' ||  fieldConfig.state.type == null){
 
 					if( modForm == 'ADD' || modForm == 'MOD' ) {
 
@@ -33,11 +46,8 @@ var uFFw = {
 							uFFw.fields.start(fieldConfig);
 
 						}
-						
 
 					}
-
-
 
 				}
 
@@ -45,35 +55,108 @@ var uFFw = {
 		},
 
 		start: function (fieldConfig) {
+			
+			
+			if ( fieldConfig.fieldType == 'aprovacao') {
+				
+				//inicia rotina de tipo de campo APROVACAO
+				uFFw.fields.aprovacao.init(fieldConfig);
 
-			if( fieldConfig.fieldType == 'aprovacao') {
-
-				uFFw.fields.aprovacao.init(fieldConfig.name);
-
-
+			} else if ( fieldConfig.fieldType == 'date' ) {
+				
+				//inicia rotina de tipo de campo DATA
+				uFFw.fields.date.init(fieldConfig);
+				
+			} else if ( fieldConfig.fieldType == 'money' ) {
+				
+				//inicia rotina de tipo de campo MONETARIO
+				uFFw.fields.money.init(fieldConfig);
+				
 			}
 
-
 			
+			//inicia rotina de adição de classes
+			uFFw.utils.addClass.init(fieldConfig);
+			
+			//inicia rotina de adição de validação de campos
+			uFFw.utils.validate.init(fieldConfig);
 		},
+		
+		
+		//Objeto de configuração de elementos de money
+		money: {
 
+			//inicia aprovacao de formulario
+			//parametro: objeto de configuração do campo
+			init: function ( fieldConfig ) {
+				
+				if ( typeof fieldConfig.fieldOptions == 'undefined' ) {
+					
+					this.start ( $('[name="' + fieldConfig.name + '"]'),  uFFw.defaults.moneyOptions );
+					
+				} else {
+					
+					this.start ( $('[name="' + fieldConfig.name + '"]'), fieldConfig.fieldOptions );
+					
+				}
+
+			},
+		
+			start: function ( $el, options ) {
+				
+				$el.maskMoney( options ).maskMoney('mask', this.value);
+				
+				
+			}
+
+		},
+		
+		
+		//Objeto de configuração de elementos de data
+		date: {
+
+			//inicia aprovacao de formulario
+			//parametro: objeto de configuração do campo
+			init: function ( fieldConfig ) {
+				
+				if ( typeof fieldConfig.fieldOptions == 'undefined' ) {
+					
+					this.start ( $('[name="' + fieldConfig.name + '"]'),  uFFw.defaults.dateOptions );
+					
+				} else {
+					
+					this.start ( $('[name="' + fieldConfig.name + '"]'), fieldConfig.fieldOptions );
+					
+				}
+				
+				
+
+			},
+		
+			start: function ( $el, options ) {
+				
+				FLUIGC.calendar ( $el, options );
+				
+			}
+
+		},
 
 		//Objeto de configuração de elementos de aprovação
 		aprovacao: {
 
 			//inicia aprovacao de formulario
-			//parametro: nome chave de todos os campos
-			init: function ( name ) {
+			//parametro: objeto de configuração do campo
+			init: function ( fieldConfig ) {
 
 
-				var $elBase =  $('section#secAprovacao'+ name),
-			        $cmpAprov = $('section#secAprovacao' + name + ' input[name="APROVADO' + name + '"]'),
-			        $cmpAprovNom = $('section#secAprovacao' + name + ' input[name="APROVADORNOME' + name + '"]'),
-			        $cmpAprovDta = $('section#secAprovacao' + name + ' input[name="APROVADODATA' + name + '"]'),
-			        $cmpAprovCod = $('section#secAprovacao' + name + ' input[name="APROVADORID' + name + '"]'),
-			        $cmpAprovMail = $('section#secAprovacao' + name + ' input[name="APROVADOREMAIL' + name + '"]'),
-			        $cmpObs = $('section#secAprovacao' + name + ' textarea[name="APROVADOOBS' + name + '"]'),
-			        $elAprovMsg = $('section#secAprovacao' + name + ' .msg-aprov div.alert');
+				var $elBase =  $('section#secAprovacao'+ fieldConfig.name),
+			        $cmpAprov = $('section#secAprovacao' + fieldConfig.name + ' input[name="APROVADO' + fieldConfig.name + '"]'),
+			        $cmpAprovNom = $('section#secAprovacao' + fieldConfig.name + ' input[name="APROVADORNOME' + fieldConfig.name + '"]'),
+			        $cmpAprovDta = $('section#secAprovacao' + fieldConfig.name + ' input[name="APROVADODATA' + fieldConfig.name + '"]'),
+			        $cmpAprovCod = $('section#secAprovacao' + fieldConfig.name + ' input[name="APROVADORID' + fieldConfig.name + '"]'),
+			        $cmpAprovMail = $('section#secAprovacao' + fieldConfig.name + ' input[name="APROVADOREMAIL' + fieldConfig.name + '"]'),
+			        $cmpObs = $('section#secAprovacao' + fieldConfig.name + ' textarea[name="APROVADOOBS' + fieldConfig.name + '"]'),
+			        $elAprovMsg = $('section#secAprovacao' + fieldConfig.name + ' .msg-aprov div.alert');
 
 
 				var exbMsgAprov = function(strSel, ckd) {
@@ -91,8 +174,8 @@ var uFFw = {
 						
 						// ao aprovar pelo painel de atendimento, o mapa do formulário não é atualizado
 						// sendo assim, não adianta consultar dele no modo view, sempre virá em branco ""
-		                if (nm == undefined) nm = $('[name="APROVNOME' + name + '"]').html();
-		                if (dt == undefined) dt = $('[name="APROVDATA' + name + '"]').html();
+		                if (nm == undefined) nm = $('[name="APROVNOME' + fieldConfig.name + '"]').html();
+		                if (dt == undefined) dt = $('[name="APROVDATA' + fieldConfig.name + '"]').html();
 						
 		                // remove as classes
 		                $elAprovMsg.removeClass('alert-success alert-danger');
@@ -128,7 +211,7 @@ var uFFw = {
 			                	break;
 			                	
 			                default: // sem seleção
-			                    console.error('Seleção na aprovação não reconhecida: ', this.value);
+			                    console.error('Seleção na aprovação não reconhecida: ');
 			            };
 
 			            } else {    // se está desmarcando
@@ -138,23 +221,28 @@ var uFFw = {
 
 			            };
 
-		        	};
+		        };
 
-					$cmpAprov.on('change', function() {
-		                // atualiza a data no campo
-		                $cmpAprovDta.val( moment().format('DD/MM/YYYY HH:mm:ss') );
-		                $cmpAprovNom.val(parent.WCMAPI.user);
-		                $cmpAprovCod.val(parent.WCMAPI.userCode);
-		                $cmpAprovMail.val(parent.WCMAPI.userEmail);
-		                // exibe a mensagem no formulário
-		                exbMsgAprov( this.value, this.checked );
-            		});
+				$cmpAprov.on('change', function() {
+	                // atualiza a data no campo
+	                $cmpAprovDta.val( moment().format('DD/MM/YYYY HH:mm:ss') );
+	                $cmpAprovNom.val(parent.WCMAPI.user);
+	                $cmpAprovCod.val(parent.WCMAPI.userCode);
+	                $cmpAprovMail.val(parent.WCMAPI.userEmail);
+	                // exibe a mensagem no formulário
+	                exbMsgAprov( this.value, this.checked );
+        		});
+				
+				this.valid(fieldConfig, $cmpAprov, $cmpObs)
+				
+			},
+		
+			valid: function (fieldConfig, $cmpAprov, $cmpObs) {
+				
+				$cmpAprov.rules('add', { required: true});
+    			$cmpObs.rules('add', { required:{ depends: function(el) { return $('input[name="APROVADO' + fieldConfig.name + '"]:checked').val() != 'S' }, },})
 
-
-					$cmpAprov.rules('add', { required: true});
-        			$cmpObs.rules('add', { required:{ depends: function(el) { return $('input[name="APROVADO' + name + '"]:checked').val() != 'S' }, },})
-
-
+				
 			}
 
 		}
@@ -210,10 +298,37 @@ var uFFw = {
 
 	utils: {
 
+		addClass: {
+			
+			init: function ( fieldConfig ) {
+				
+				if ( !typeof fieldConfig.class == 'undefined' || !fieldConfig.class.length == 0) {
+					
+					this.start ( $('[name="' + fieldConfig.name + '"]'), fieldConfig.class );
+					
+				};
+
+			},
+			
+			start: function ( $el, listClass ) {
+				
+				listClass.forEach( function( classe ) {
+					
+					$el.addClass( classe );
+					
+				});
+				
+				
+			}
+			
+			
+			
+		},
+		
 		/**
 		 * Retorna a lista (string de html) de campos não validados e respectivas mensagem
 		 */
-		listaErros: function() {
+		listaErros: function( ) {
 			var lstHtml = '</br>';
 			$.each($validator.errorList, function (id, campo) {
 				var label = $('label.control-label[for="' + campo.element.name + '"]').text();
@@ -221,11 +336,45 @@ var uFFw = {
 			})
 			return lstHtml;
 		},
-
+		
+		//objeto de tratativa de validação em campos
+		validate: {
+			
+			init: function( fieldConfig ) {
+				
+				if( fieldConfig.required ){
+					
+					if ( typeof fieldConfig.requiredConfig == 'undefined' || requiredConfig.type == 'default') {
+						
+						uFFw.utils.validate.start ( $('[name="' + fieldConfig.name + '"]'), uFFw.defaults.validOptions );
+						
+					} else {
+						
+						uFFw.utils.validate.start ( $('[name="' + fieldConfig.name + '"]'), fieldConfig.config );
+						
+					}
+					
+					
+				}
+				
+			},
+			
+			//inicia validação em um elemento
+			//parametros: elemento jquery do campo, configuração (padrão quando elemento é visivel)
+			start: function ( $el, config ) {
+				
+				$el.rules( 'add', { required: config } );
+				
+			}
+			
+			
+		},
+		
+		
 
 		//verifica se o conteudo passado esta na lista
-		verificaConteudo: function(conteudo, lista){
-			return lista.some(function(conteudoLoop){
+		verificaConteudo: function( conteudo, lista ) {
+			return lista.some( function( conteudoLoop ) {
 				return conteudo == conteudoLoop
 			});
 		}

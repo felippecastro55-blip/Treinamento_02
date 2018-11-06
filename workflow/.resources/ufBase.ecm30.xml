@@ -2,7 +2,7 @@
   <ProcessDefinition>
     <processDefinitionPK>
       <companyId>1</companyId>
-      <processId>ufBase</processId>
+      <processId>UFBASE</processId>
     </processDefinitionPK>
     <processDescription>ufBase</processDescription>
     <instruction></instruction>
@@ -49,7 +49,7 @@
     <ProcessState>
       <processStatePK>
         <companyId>1</companyId>
-        <processId>ufBase</processId>
+        <processId>UFBASE</processId>
         <version>1</version>
         <sequence>1</sequence>
       </processStatePK>
@@ -99,7 +99,7 @@
     <ProcessState>
       <processStatePK>
         <companyId>1</companyId>
-        <processId>ufBase</processId>
+        <processId>UFBASE</processId>
         <version>1</version>
         <sequence>2</sequence>
       </processStatePK>
@@ -149,7 +149,7 @@
     <ProcessState>
       <processStatePK>
         <companyId>1</companyId>
-        <processId>ufBase</processId>
+        <processId>UFBASE</processId>
         <version>1</version>
         <sequence>4</sequence>
       </processStatePK>
@@ -199,7 +199,7 @@
     <ProcessLink>
       <processLinkPK>
         <companyId>1</companyId>
-        <processId>ufBase</processId>
+        <processId>UFBASE</processId>
         <version>1</version>
         <linkSequence>3</linkSequence>
       </processLinkPK>
@@ -216,7 +216,7 @@
     <ProcessLink>
       <processLinkPK>
         <companyId>1</companyId>
-        <processId>ufBase</processId>
+        <processId>UFBASE</processId>
         <version>1</version>
         <linkSequence>5</linkSequence>
       </processLinkPK>
@@ -232,7 +232,68 @@
     </ProcessLink>
   </list>
   <list/>
-  <list/>
+  <list>
+    <WorkflowProcessEvent>
+      <workflowProcessEventPK>
+        <companyId>1</companyId>
+        <eventId>afterProcessCreate</eventId>
+        <processId>UFBASE</processId>
+        <version>1</version>
+      </workflowProcessEventPK>
+      <eventDescription>/**&#xd;
+ *&#xd;
+ * @desc        Script que será executado logo após a criação da solicitação no Fluig&#xd;
+ * @copyright   2018 upFlow.me&#xd;
+ * @version     1.0.0&#xd;
+ * @author      Helbert Campos &lt;helbert@upflow.me&gt;&#xd;
+ *&#xd;
+ */&#xd;
+&#xd;
+function afterProcessCreate(processId) {&#xd;
+    log.info(&apos;### uf-log | Início afterProcessCreate(processId: &apos;+processId+&apos;) ###&apos;);&#xd;
+&#xd;
+	// salva o número da solicitação no campo do formulário&#xd;
+	hAPI.setCardValue(&quot;PROTOCOLO&quot;, processId);&#xd;
+    &#xd;
+    // salva a data no campo do formulário&#xd;
+    var dtaHra = dataFormatada();&#xd;
+	hAPI.setCardValue(&apos;SOLICDATA&apos;, dtaHra);&#xd;
+	&#xd;
+    log.info(&apos;### uf-log | Final afterProcessCreate(processId: &apos;+processId+&apos;) ###&apos;);&#xd;
+}&#xd;
+&#xd;
+/**&#xd;
+ * @desc 	Retorna a Data e Hora atual no formato: DD/MM/AAAA hh:mm:ss &#xd;
+ */&#xd;
+function dataFormatada() {&#xd;
+    var data = new Date(),&#xd;
+        dia = data.getDate(),&#xd;
+        mes = data.getMonth() + 1,&#xd;
+        ano = data.getFullYear(),&#xd;
+        hora = data.getHours(),&#xd;
+        minutos = data.getMinutes(),&#xd;
+        segundos = data.getSeconds();&#xd;
+    &#xd;
+    var dtaHra = &apos;&apos;;&#xd;
+    dtaHra += [Number(dia).pad(), Number(mes).pad(), Number(ano).pad()].join(&apos;/&apos;);&#xd;
+    dtaHra += &apos; &apos;;&#xd;
+    dtaHra += [Number(hora).pad(), Number(minutos).pad(), Number(segundos).pad()].join(&apos;:&apos;);&#xd;
+    &#xd;
+    return dtaHra;&#xd;
+}&#xd;
+&#xd;
+/**&#xd;
+ * @desc 	Formata um número colocando @size zeros à esquerda  &#xd;
+ */&#xd;
+Number.prototype.pad = function (size) {&#xd;
+    var s = String(this);&#xd;
+    while (s.length &lt; (size || 2)) {&#xd;
+        s = &quot;0&quot; + s;&#xd;
+    }&#xd;
+    return s;&#xd;
+}</eventDescription>
+    </WorkflowProcessEvent>
+  </list>
   <list/>
   <list/>
   <list/>

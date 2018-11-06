@@ -1,20 +1,63 @@
 var uFFw = {
 	
+	globalFunctions: {
+		
+		init: function ( modForm ) {
+			
+			
+			// atualiza a cor dos elementos com a mesma cor do menu do Fluig
+			if ( typeof parent.WCMAPI != 'undefined' ) {
+		        if ( parent.WCMAPI.colorMenu != '' ) {
+		            $( '.uf-colormenu' ).css( 'color', parent.WCMAPI.colorMenu );
+		        } else {
+		            $( '.uf-colormenu' ).css( 'color', parent.$('.profile-pencil').css('color') );            
+		        }
+		    }
+			
+			
+			
+			// dispara quando altera qualquer campo do formulário
+			window.$validator = $('form').validate();
+		    $('form').on('change', function () {
+		        // efetua a validação total do formulário
+		        $validator.form();
+		        
+		    });
+		    
+		    if ( modForm == 'ADD') {
+		    	
+		    	$('input[name="SOLICDATA"]').val( moment().format('DD/MM/YYYY') );
+				// preenhe as informações do solicitante
+				$('input[name="SOLICCOD"]').val( parent.WCMAPI.userCode );
+				$('input[name="SOLICNOME"]').val( parent.WCMAPI.user );
+				$('input[name="SOLICEMAIL"]').val( parent.WCMAPI.userEmail );
+		    	
+		    	
+		    };
+			
+		}
+		
+	},
+		
 	//objeto de configuração padrão para funcionamento de rotinas
 	defaults: {
 		
 		dateOptions: { useCurrent: false },
 		validOptions: { depends: function(el) { return $(el).is(":visible"); }, },
 		moneyOptions: { prefix: '', thousands: '', decimal: ',' },
-		zoomReturn: function (cmp, info){
+		zoomReturn: function (cmp, info, fields = null, sufix){
+			
+			var sufix = sufix == null ? '' : sufix;
+			var nameField = field.formField + sufix
 			
 			for (var key in info) {
-				$('[name="' + key + '"]').val(info[key]);
+				$('[name="' + nameField +  + '"]').val(info[key]);
 			}
 			
+			$('form').trigger('change');
 			
 		},
-		zoomFields: function ( cmp, info, fields ) {
+		zoomFields: function ( cmp, info, fields, sufix ) {
 			
 			for (var key in info) {
 				
@@ -26,7 +69,11 @@ var uFFw = {
 				
 				if ( typeof field != 'undefined'){
 					
-					$('[name="' + field.formField + '"]').val(info[key]);
+					var sufix = sufix == null ? '' : sufix;
+					
+					var nameField = field.formField + sufix
+					
+					$('[name="' + nameField + '"]').val(info[key]);
 					
 				}
 				
@@ -41,11 +88,128 @@ var uFFw = {
 		
 	//Inicia procedimento do framework
 	//Parametros: numero da Atividade, configuração de campos, configuração de seções
-	init: function ( modForm, numState, fieldsConfig, sectionsConfig ) {
+	init: function ( modForm, numState, fieldsConfig, sectionsConfig, tablesConfig ) {
 		
+		this.globalFunctions.init ( modForm );		
 		this.status.init ( );
 		this.fields.init ( modForm, numState, fieldsConfig );
 		this.sections.init ( numState, sectionsConfig );
+		this.tables.init ( numState, tablesConfig );
+		
+	},
+	
+	tables: {
+		
+		init: function ( numState, tablesConfig ) {
+			
+			
+			tablesConfig.forEach( function (tableConfig) {
+				
+				
+				$( '[uf-addChild="' + tableConfig.id + '"]' ).on( 'click', function () {
+					
+					var linhaIdx = wdkAddChild(tableConfig.id);
+					
+					tableConfig.fields.forEach( function(fieldConfig){
+						
+						var prefix = fieldConfig.name.split('___')[0];
+						var sufix = '___' + linhaIdx;
+						
+						fieldConfig.name = prefix + sufix;
+						
+						$('[name="' + fieldConfig.name + '"]').parents('tr').find('[uf-removeChild="' + tableConfig.id + '"]').off().on('click', function(){
+							
+							var element = this;
+							
+							// exibe a mensagem de confirmação para o usuário
+							parent.FLUIGC.message.confirm({
+								message : 'Você realmente deseja remover o item da tabela?',
+								title : 'Remover linha da tabela',
+								labelYes : 'Remover',
+								labelNo : 'Cancelar'
+							}, function(result, el, ev) {
+								
+								// se respondeu para remover a linha
+								if (result) {
+									
+									
+									fnWdkRemoveChild(element);
+								}
+
+							});					
+						})
+						
+						
+						uFFw.fields.start ( fieldConfig, sufix );
+						
+						
+					})
+					
+					
+					
+				})
+				
+				if ( typeof tableConfig.fields != 'undefined' ) {
+					
+					if ( tableConfig.fields.length > 0 ) {
+						
+						
+						tableConfig.fields.forEach( function (fieldConfig){
+							
+							uFFw.tables.start ( tableConfig.id, fieldConfig )
+							
+						})
+						
+						
+					}
+					
+				}
+				
+				
+			})
+			
+		},
+		
+		start: function ( tableName, fieldConfig ) {
+						
+			$('table[tablename="' + tableName + '"] tbody > tr:not(:first-child)').each( function(index, linha) {
+				
+				linha.find('[uf-removeChild="' + tableName + '"]').off().on('click', function(){
+					
+					var el = this;
+					
+					// exibe a mensagem de confirmação para o usuário
+					parent.FLUIGC.message.confirm({
+						message : 'Você realmente deseja remover o item da tabela?',
+						title : 'Remover linha da tabela',
+						labelYes : 'Remover',
+						labelNo : 'Cancelar'
+					}, function(result, el, ev) {
+						
+						
+						
+						// se respondeu para remover a linha
+						if (result) {
+							
+							fnWdkRemoveChild(el);
+						}
+
+					});					
+				})
+				
+				
+				var prefix = fieldConfig.name.split('___')[0];
+				var sufix = '___' + linha.find ( '[name^="' + fieldConfig.name + '"]' ).prop('name').prop('name').split('___')[1];
+				
+				fieldConfig.name = prefix + sufix;
+				
+				uFFw.fields.start ( fieldConfig, sufix );
+				
+			})
+			
+			
+			
+		}
 		
 	},
 	
@@ -73,7 +237,7 @@ var uFFw = {
 		
 		start: function ( options ) {
 			
-			this.$elBase.append( $('<div>', opt).html(ufStatus.ico+' '+ufStatus.tit) );
+			this.$elBase.append( $('<div>', options).html(ufStatus.ico+' '+ufStatus.tit) );
             FLUIGC.popover('[data-toggle="popover"]', { trigger:'hover', placement:'auto', viewport:'html', html:true} );
 			
 		}
@@ -84,6 +248,26 @@ var uFFw = {
 	
 	fields: {
 		
+		customActions: {
+			
+			init: function ( fieldConfig ) {
+				
+				if ( typeof fieldConfig.customActions != 'undefined' ) {
+					
+					this.start ( $('[name="' + fieldConfig.name + '"]'), fieldConfig.customActions );
+					
+				}
+				
+			},
+			
+			start: function ( $self, customActions ) {
+				
+				customActions ($self);
+				
+			}
+			
+		},
+		
 		//inicia procedimento de campos
 		//parametros: numero da atividade, configuração de campos
 		init: function (modForm, numState, fieldsConfig) {
@@ -93,20 +277,34 @@ var uFFw = {
 				if ( typeof fieldConfig.state.type == 'undefined' || fieldConfig.state.type == 'default' ||  fieldConfig.state.type == null){
 
 					if( modForm == 'ADD' || modForm == 'MOD' ) {
+						
+						
+						if (  typeof fieldConfig.state.num != 'undefined'  ) {
+							
+							
+							if( uFFw.utils.verificaConteudo(numState, fieldConfig.state.num) ) {
 
-						uFFw.fields.start(fieldConfig);
+								uFFw.fields.start(fieldConfig);
+
+							}
+							
+						}
 
 					}
 
-
 				}else{
 
-					if ( uFFw.utils.verificaConteudo(modForm, fieldsConfig.state.type) ) {
+					if ( uFFw.utils.verificaConteudo(modForm, fieldConfig.state.type) ) {
 
-						if( uFFw.utils.verificaConteudo(numState, fieldsConfig.state.num) ) {
+						if (  typeof fieldConfig.state.num != 'undefined' ) {
+							
+							
+							if( uFFw.utils.verificaConteudo(numState, fieldConfig.state.num) ) {
 
-							uFFw.fields.start(fieldConfig);
+								uFFw.fields.start(fieldConfig);
 
+							}
+							
 						}
 
 					}
@@ -116,8 +314,11 @@ var uFFw = {
 			});
 		},
 
-		start: function (fieldConfig) {
+		start: function (fieldConfig, sufix = null) {
 			
+			
+			//inicia rotina de adição de validação de campos
+			uFFw.utils.validate.init(fieldConfig);
 			
 			if ( fieldConfig.fieldType == 'aprovacao') {
 				
@@ -134,45 +335,49 @@ var uFFw = {
 				//inicia rotina de tipo de campo MONETARIO
 				uFFw.fields.money.init(fieldConfig);
 				
-			}  else if ( fieldConfig.fieldType == 'zoom' ) {
+			} else if ( fieldConfig.fieldType == 'zoom' ) {
 				
 				//inicia rotina de tipo de campo ZOOM
-				uFFw.fields.zoom.init(fieldConfig);
+				uFFw.fields.zoom.init(fieldConfig, sufix);
 				
-			}
+			} 
 			
 			//inicia rotina de adição de classes
 			uFFw.utils.addClass.init(fieldConfig);
 			
-			//inicia rotina de adição de validação de campos
-			uFFw.utils.validate.init(fieldConfig);
+			//inicia rotina de adição de funções customizadas
+			uFFw.fields.customActions.init(fieldConfig);
+			
+			
 		},
 		
 		zoom: {
 
 			//inicia aprovacao de formulario
 			//parametro: objeto de configuração do campo
-			init: function ( fieldConfig ) {
+			init: function ( fieldConfig, sufix ) {
 				
 				if ( typeof fieldConfig.zoomReturn == 'undefined' ) {
 					
-					this.start ( $('button[uf-zoom="' + fieldConfig.name + '"]'), fieldConfig.zoomOptions, uFFw.defaults.zoomReturn );
+					this.start ( $('button[uf-zoom="' + fieldConfig.name.split('___')[0] + '"]'), fieldConfig.zoomOptions, uFFw.defaults.zoomReturn, sufix );
 					
 				} else {
 					
+					
 					if ( typeof fieldConfig.zoomReturn.type == 'undefined' ||  fieldConfig.zoomReturn.type == 'default' ) {
 						
-						this.start ( $('button[uf-zoom="' + fieldConfig.name + '"]'), fieldConfig.zoomOptions, uFFw.defaults.zoomReturn );
+						this.start ( $('button[uf-zoom="' + fieldConfig.name.split('___')[0] + '"]'), fieldConfig.zoomOptions, uFFw.defaults.zoomReturn, sufix );
 						
 					} else {
 						
 						if ( fieldConfig.zoomReturn.type == '1' ) {
 							
-							this.start ( $('button[uf-zoom="' + fieldConfig.name + '"]'), fieldConfig.zoomOptions,  uFFw.defaults.zoomFields, fieldConfig.zoomReturn.fields );
+							this.start ( $('button[uf-zoom="' + fieldConfig.name.split('___')[0] + '"]'), fieldConfig.zoomOptions,  uFFw.defaults.zoomFields, fieldConfig.zoomReturn.fields, sufix );
 							
 						} else {
 							
-							this.start ( $('button[uf-zoom="' + fieldConfig.name + '"]'), fieldConfig.zoomOptions, fieldConfig.fields );
+							
+							this.start ( $('button[uf-zoom="' + fieldConfig.name.split('___')[0] + '"]'), fieldConfig.zoomOptions, fieldConfig.fields );
 							
 						}
 						
@@ -182,7 +387,7 @@ var uFFw = {
 
 			},
 		
-			start: function ( $el, zoomOptions, zoomCallback, listFields ) {
+			start: function ( $el, zoomOptions, zoomCallback, listFields, sufix ) {
 				
 				$el.uFZoom({
                     loading: 'Aguarde, consultando cadastro de ' + zoomOptions.label + '...',
@@ -192,7 +397,7 @@ var uFFw = {
                     CodQuery: zoomOptions.CodQuery, // dataserver | codsentenca | nome_dataset | array
                     constraints: zoomOptions.constraints,
                     columns: zoomOptions.columns,
-                }, zoomCallback, listFields);
+                }, zoomCallback, listFields, sufix);
 				
 			},
 
@@ -299,14 +504,14 @@ var uFFw = {
 			                case 'S': // aprovado
 
 			                    // mensagem de aprovação
-			                    var msg = '<strong><i class="fa fa-check-circle" aria-hidden="true"></i> PEDIDO APROVADO!</strong> Aprovação realizada por '+nm+' em '+dt;
+			                    var msg = '<strong><i class="fa fa-check-circle" aria-hidden="true"></i> APROVADO!</strong> Aprovação realizada por '+nm+' em '+dt;
 			                    $elAprovMsg.removeClass('alert-danger').removeClass('alert-warning').addClass('alert-success').html( msg ).show();
 
 			                    break;
 			                case 'N': // reprovado
 
 			                    // mensagem de reprovação
-			                    var msg = '<strong><i class="fa fa-times-circle" aria-hidden="true"></i> PEDIDO REPROVADO!</strong> Reprovação realizada por '+nm+' em '+dt;
+			                    var msg = '<strong><i class="fa fa-times-circle" aria-hidden="true"></i> REPROVADO!</strong> Reprovação realizada por '+nm+' em '+dt;
 			                    $elAprovMsg.removeClass('alert-success').removeClass('alert-warning').addClass('alert-danger').html( msg ).show();
 
 			                    break;
@@ -352,7 +557,6 @@ var uFFw = {
 			},
 		
 			valid: function (fieldConfig, $cmpAprov, $cmpObs) {
-				
 				$cmpAprov.rules('add', { required: true});
     			$cmpObs.rules('add', { required:{ depends: function(el) { return $('input[name="APROVADO' + fieldConfig.name + '"]:checked').val() != 'S' }, },})
 
@@ -385,14 +589,13 @@ var uFFw = {
 					}
 				};
 
-
 				//verifica Condições de edição
-				if( !sectionConfig.enable ){
+				if( !sectionConfig.enabled ){
 
 					$('section#' + sectionConfig.id).setDisabled();
 
 				}else{
-
+					
 					//caso atividade atual não esteja dentro da lista, aplica o setDisabled
 					if ( !uFFw.utils.verificaConteudo(numState, sectionConfig.enabledAtv) ) {
 
@@ -416,9 +619,14 @@ var uFFw = {
 			
 			init: function ( fieldConfig ) {
 				
-				if ( !typeof fieldConfig.class == 'undefined' || !fieldConfig.class.length == 0) {
+				if ( typeof fieldConfig.class != 'undefined') {
 					
-					this.start ( $('[name="' + fieldConfig.name + '"]'), fieldConfig.class );
+					if ( fieldConfig.class.length != 0 ) {
+						
+						this.start ( $('[name="' + fieldConfig.name + '"]'), fieldConfig.class );
+						
+						
+					}
 					
 				};
 
@@ -458,13 +666,13 @@ var uFFw = {
 				
 				if( fieldConfig.required ){
 					
-					if ( typeof fieldConfig.requiredConfig == 'undefined' || requiredConfig.type == 'default') {
+					if ( typeof fieldConfig.requiredConfig == 'undefined' ) {
 						
 						uFFw.utils.validate.start ( $('[name="' + fieldConfig.name + '"]'), uFFw.defaults.validOptions );
 						
 					} else {
 						
-						uFFw.utils.validate.start ( $('[name="' + fieldConfig.name + '"]'), fieldConfig.config );
+						uFFw.utils.validate.start ( $('[name="' + fieldConfig.name + '"]'), fieldConfig.requiredConfig );
 						
 					}
 					
@@ -506,7 +714,6 @@ var uFFw = {
  * @version	2.3.0
  */
 $.fn.setDisabled = function () {
-    console.info('DESABILITA', $(this), 'Desabilita os elementos.');
     
     var $el = $(this);  // resgata o elemento atual
     
@@ -609,8 +816,7 @@ $.fn.setDisabled = function () {
  * @desc   	Inicializa o zoom no campo de acordo com as opções
  * @since   1.0.0
  */
-$.fn.uFZoom = function (zoomInfo, callback, listFields) {
-    console.info('ZOOM', 'Inicializando o zoom no elemento.');
+$.fn.uFZoom = function (zoomInfo, callback, listFields, sufix) {
     
     var $elZoom = $(this);
     
@@ -656,7 +862,6 @@ $.fn.uFZoom = function (zoomInfo, callback, listFields) {
 		// e se a lista desse zoom já está armazenada na variável
 		if (zoomInfo.lstLocal != undefined) {
 			if (lstZoom[zoomInfo.lstLocal] != undefined) {
-				console.info('ZOOM', 'A lista deste zoom já foi consultada do servidor.');
 				exbTabela(lstZoom[zoomInfo.lstLocal]);	// chama a função para preenchimento
 				return;	// saí do zoom
 			}
@@ -994,7 +1199,7 @@ $.fn.uFZoom = function (zoomInfo, callback, listFields) {
 				if ($(this).find('td').hasClass('dataTables_empty')) return;
 
                 // faz chamada para preenchimento do formulário
-                callback( $cmp, dtZoom.row(this).data(), listFields );
+                callback( $cmp, dtZoom.row(this).data(), listFields, sufix );
 
                 zoomModal.remove(); // fecha o modal do Fluig
                 $('#zoomModal').remove(); // remove o modal do DOM
@@ -1011,7 +1216,7 @@ $.fn.uFZoom = function (zoomInfo, callback, listFields) {
 				if (!$lin.length) return; 
                 
                 // faz chamada para preenchimento do formulário
-                callback( $cmp, dtZoom.rows('.selected').data()[0], listFields );
+                callback( $cmp, dtZoom.rows('.selected').data()[0], listFields, sufix );
     
                 zoomModal.remove(); // fecha o modal do Fluig
                 $('#zoomModal').remove(); // remove o modal do DOM

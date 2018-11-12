@@ -660,17 +660,26 @@ var uFFw = {
 			
 			init: function( fieldConfig ) {
 				
-				if( fieldConfig.required ){
+				if( fieldConfig.validate.length > 0 ){
 					
-					if ( typeof fieldConfig.requiredConfig == 'undefined' ) {
+					
+					fieldConfig.validate.forEach( function ( tipoValidacao ) {
 						
-						uFFw.utils.validate.start ( $('[name="' + fieldConfig.name + '"]'), uFFw.defaults.validOptions );
+						if ( typeof fieldConfig.requiredConfig == 'undefined' ) {
+							
+							uFFw.utils.validate.start ( $('[name="' + fieldConfig.name + '"]'), typeValidation, uFFw.defaults.validOptions );
+							
+						} else {
+							
+							uFFw.utils.validate.start ( $('[name="' + fieldConfig.name + '"]'), typeValidation, fieldConfig.requiredConfig );
+							
+						}
 						
-					} else {
 						
-						uFFw.utils.validate.start ( $('[name="' + fieldConfig.name + '"]'), fieldConfig.requiredConfig );
-						
-					}
+					})
+					
+					
+					
 					
 					
 				}
@@ -679,9 +688,9 @@ var uFFw = {
 			
 			//inicia validação em um elemento
 			//parametros: elemento jquery do campo, configuração (padrão quando elemento é visivel)
-			start: function ( $el, config ) {
+			start: function ( $el, typeValidation, config ) {
 				
-				$el.rules( 'add', { required: config } );
+				$el.rules( 'add', { typeValidation: config } );
 				
 			}
 			

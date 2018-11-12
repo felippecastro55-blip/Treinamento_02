@@ -13,24 +13,35 @@ $(document).ready(function() {
 		state: {type: 'default', num: [0, 1]}, //type: LISTA DE ESTADO DO FORMULARIO (EX: ['VIEW']). DEFAULT = [MOD, ADD] || NUM = LISTA DE ATIVIDADES QUE TAL CONFIGURAÇÃO VAI AGIR. (EX: [1, 2]). NULL = TODAS 
 		name: 'DATAEXEMPLO', //NOME DO CAMPO
 		fieldType: 'date', //TIPO DE CAMPO DATA
-		required: true, 
+		validate: [], 
 		fieldOptions: {
 			minDate: moment(),
 			maxDate: moment(),
 			useCurrent: false
 		},
 		customActions: function( $self ) { //função para customização
+		}
+	},
+	{
+		state: {type: 'default', num: [0, 1]}, //type: LISTA DE ESTADO DO FORMULARIO (EX: ['VIEW']). DEFAULT = [MOD, ADD] || NUM = LISTA DE ATIVIDADES QUE TAL CONFIGURAÇÃO VAI AGIR. (EX: [1, 2]). NULL = TODAS 
+		name: 'OBSERVACOES', //NOME DO CAMPO
+		class: ['text-right'],
+		validate: [], 
+		requiredConfig: { depends: function(el) { return $(el).is(":visible") && $('[name="DATAEXEMPLO"]').val() != '' }, },
+		customActions: function( $self ) { //função para customização
 			console.log('Teste Execução Custom')
 			console.log($self)
 
 		}
 	},
+	
+	
 	{
 		state: {type: 'default', num: [0, 1]}, //type: LISTA DE ESTADO DO FORMULARIO (EX: ['VIEW']). DEFAULT = [MOD, ADD] || NUM = LISTA DE ATIVIDADES QUE TAL CONFIGURAÇÃO VAI AGIR. (EX: [1, 2]). NULL = TODAS 
 		name: 'MONETARIOEXEMPLO', //NOME DO CAMPO
 		class: ['text-right'],
 		fieldType: 'money', //TIPO DE CAMPO monetario
-		required: true, 
+		validate: [], 
 		requiredConfig: { depends: function(el) { return $(el).is(":visible") && $('[name="DATAEXEMPLO"]').val() != '' }, },
 		fieldOptions: {
 			prefix: 'R$ ', 
@@ -47,7 +58,7 @@ $(document).ready(function() {
 		state: {type: 'default', num: [0, 1]}, 
 		fieldType: 'zoom', //TIPO DE CAMPO APROVACAO
 		name: 'COLIGADA', //STRING CHAVE PARA INICIAR APROVACAO
-		required: false, 
+		validate: [], 
 		zoomOptions: {
 			label: 'Coligada',
 	        uFZommType: '2',	// 1=DataServer | 2=Consulta | 3=Dataset | 4=query 
@@ -88,17 +99,13 @@ $(document).ready(function() {
 			enabledAtv: [2] //LISTA DE ATIVIDADES QUE ESSA SECTION NÃO ESTÁ DISABLED
 		},
 		{
-			id: 'secRequisicao',
-			visible: true,
-			enabled: true, 
-			enabledAtv: [0, 1]
-		},
-		{
 			id: 'secDependentes',
-			visible: false,
-			enabled: true, 
-			enabledAtv: [0, 1]
+			visible: false, //TRUE = SEMPRE VISIVEL || FALSE = VISIVEL APENAS NAS ATIVIDADES CONTIDAS EM VISIBLEATV
+			visibleAtv: [0, 1], //LISTA DE ATIVIDADES QUE ESSA SECTION É VISIVEL
+			enabled: true, //TRUE = TAL SECTION É ENABLED EM ALGUMA ATIVIDADE || FALSE = SEMPRE DISABLED
+			enabledAtv: [0, 1] //LISTA DE ATIVIDADES QUE ESSA SECTION NÃO ESTÁ DISABLED
 		},
+		
 	];
 
 	//Lista contendo objeto de tables
@@ -110,7 +117,7 @@ $(document).ready(function() {
 				state: {type: 'default', num: [0, 1]}, //type: LISTA DE ESTADO DO FORMULARIO (EX: ['VIEW']). DEFAULT = [MOD, ADD] || NUM = LISTA DE ATIVIDADES QUE TAL CONFIGURAÇÃO VAI AGIR. (EX: [1, 2]). NULL = TODAS 
 				name: 'DATAEXEMPLOTABLE', //NOME DO CAMPO
 				fieldType: 'date', //TIPO DE CAMPO DATA
-				required: true, 
+				validate: [], 
 				fieldOptions: {
 					minDate: moment(),
 					useCurrent: false
@@ -126,7 +133,7 @@ $(document).ready(function() {
 				name: 'MONETARIOEXEMPLOTABLE', //NOME DO CAMPO
 				class: ['text-right'],
 				fieldType: 'money', //TIPO DE CAMPO monetario
-				required: true, 
+				validate: [], 
 				requiredConfig: { depends: function(el) { return $(el).is(":visible") && $('[name="DATAEXEMPLO"]').val() != '' }, },
 				fieldOptions: {
 					prefix: 'R$ ', 
@@ -138,7 +145,7 @@ $(document).ready(function() {
 				state: {type: 'default', num: [0, 1]}, 
 				fieldType: 'zoom', //TIPO DE CAMPO APROVACAO
 				name: 'COLIGADATABLE', //STRING CHAVE PARA INICIAR APROVACAO
-				required: false, 
+				validate: [], 
 				zoomOptions: {
 					label: 'Coligada',
 			        uFZommType: '2',	// 1=DataServer | 2=Consulta | 3=Dataset | 4=query 

@@ -170,8 +170,7 @@ var uFFw = {
 		start: function ( tableName, fieldConfig ) {
 						
 			$('table[tablename="' + tableName + '"] tbody > tr:not(:first-child)').each( function(index, linha) {
-				
-				linha.find('[uf-removeChild="' + tableName + '"]').off().on('click', function(){
+				$(linha).find('[uf-removeChild="' + tableName + '"]').off().on('click', function(){
 					
 					var el = this;
 					
@@ -192,15 +191,22 @@ var uFFw = {
 						}
 
 					});					
-				})
+				});
 				
 				
 				var prefix = fieldConfig.name.split('___')[0];
-				var sufix = '___' + linha.find ( '[name^="' + fieldConfig.name + '"]' ).prop('name').prop('name').split('___')[1];
+				var sufix = '___' + $(linha).find( '[name^="' + prefix + '"]' ).prop('name').split('___')[1];
 				
-				fieldConfig.name = prefix + sufix;
+				var obj = {};
 				
-				uFFw.fields.start ( fieldConfig, sufix );
+				
+				for(var key in fieldConfig){
+					obj[key] = fieldConfig[key];
+				};
+				
+				obj.name = prefix + sufix;
+				
+				uFFw.fields.start ( obj, sufix );
 				
 			})
 			
@@ -336,7 +342,7 @@ var uFFw = {
 				//inicia rotina de tipo de campo ZOOM
 				uFFw.fields.zoom.init(fieldConfig, sufix);
 				
-			} 
+			}
 			
 			//inicia rotina de adição de classes
 			uFFw.utils.addClass.init(fieldConfig);
@@ -353,27 +359,29 @@ var uFFw = {
 			//parametro: objeto de configuração do campo
 			init: function ( fieldConfig, sufix ) {
 				
+				console.log(fieldConfig)
+				
 				if ( typeof fieldConfig.zoomReturn == 'undefined' ) {
 					
-					this.start ( $('button[uf-zoom="' + fieldConfig.name.split('___')[0] + '"]'), fieldConfig.zoomOptions, uFFw.defaults.zoomReturn, sufix );
+					this.start ( $('button[uf-zoom="' + fieldConfig.name+ '"]:last'), fieldConfig.zoomOptions, uFFw.defaults.zoomReturn, sufix );
 					
 				} else {
 					
 					
 					if ( typeof fieldConfig.zoomReturn.type == 'undefined' ||  fieldConfig.zoomReturn.type == 'default' ) {
 						
-						this.start ( $('button[uf-zoom="' + fieldConfig.name.split('___')[0] + '"]'), fieldConfig.zoomOptions, uFFw.defaults.zoomReturn, sufix );
+						this.start ( $('[name="' + fieldConfig.name + '"]:last').parent().find('button'), fieldConfig.zoomOptions, uFFw.defaults.zoomReturn, sufix );
 						
 					} else {
 						
 						if ( fieldConfig.zoomReturn.type == '1' ) {
 							
-							this.start ( $('button[uf-zoom="' + fieldConfig.name.split('___')[0] + '"]'), fieldConfig.zoomOptions,  uFFw.defaults.zoomFields, fieldConfig.zoomReturn.fields, sufix );
+							this.start ( $('[name="' + fieldConfig.name + '"]:last').parent().find('button'), fieldConfig.zoomOptions,  uFFw.defaults.zoomFields, fieldConfig.zoomReturn.fields, sufix );
 							
 						} else {
 							
 							
-							this.start ( $('button[uf-zoom="' + fieldConfig.name.split('___')[0] + '"]'), fieldConfig.zoomOptions, fieldConfig.fields );
+							this.start ( $('[name="' + fieldConfig.name + '"]:last').parent().find('button'), fieldConfig.zoomOptions, fieldConfig.fields );
 							
 						}
 						
@@ -384,6 +392,7 @@ var uFFw = {
 			},
 		
 			start: function ( $el, zoomOptions, zoomCallback, listFields, sufix ) {
+				
 				
 				$el.uFZoom({
                     loading: 'Aguarde, consultando cadastro de ' + zoomOptions.label + '...',
@@ -1346,13 +1355,19 @@ $.extend( $.validator.messages, {
 	time: "Por favor, forne&ccedil;a um hor&aacute;rio v&aacute;lido, no intervado de 00:00 e 23:59.",
 	time12h: "Por favor, forne&ccedil;a um hor&aacute;rio v&aacute;lido, no intervado de 01:00 e 12:59 am/pm.",
 	url2: "Por favor, fornece&ccedil;a uma URL v&aacute;lida.",
-	vinUS: "O n&uacute;mero de identifica&ccedil;&atilde;o de ve&iacute;culo informada (VIN) &eacute; inv&aacute;lido.",
+	vinUS: "O n&uacute;mero de iden" +
+			"tifica&ccedil;&atilde;o de ve&iacute;culo informada (VIN) &eacute; inv&aacute;lido.",
 	zipcodeUS: "Por favor, fornece&ccedil;a um c&oacute;digo postal americano v&aacute;lido.",
 	ziprange: "O c&oacute;digo postal deve estar entre 902xx-xxxx e 905xx-xxxx",
 	cpfBR: "Por favor, forne&ccedil;a um CPF v&aacute;lido."
 } );
 }));
 
+String.prototype.parseReais = function () {
+    // retira os pontos, depois troca a vírgula por ponto
+    var valor = this.replace(/\./g,"").replace(",",".");
+    return Number(valor.replace(/[^0-9\.]/g, ""));
+}
 
 $.validator.addMethod("isMaiorQueZero", function (value, element){
 	value = value.parseReais();

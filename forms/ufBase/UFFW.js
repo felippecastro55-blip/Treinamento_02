@@ -663,7 +663,7 @@ var uFFw = {
 				if( fieldConfig.validate.length > 0 ){
 					
 					
-					fieldConfig.validate.forEach( function ( tipoValidacao ) {
+					fieldConfig.validate.forEach( function ( typeValidation ) {
 						
 						if ( typeof fieldConfig.requiredConfig == 'undefined' ) {
 							
@@ -689,8 +689,10 @@ var uFFw = {
 			//inicia validação em um elemento
 			//parametros: elemento jquery do campo, configuração (padrão quando elemento é visivel)
 			start: function ( $el, typeValidation, config ) {
+				var objConfig = {}
+				objConfig[typeValidation] = config;
 				
-				$el.rules( 'add', { typeValidation: config } );
+				$el.rules( 'add',  objConfig);
 				
 			}
 			
@@ -1350,3 +1352,9 @@ $.extend( $.validator.messages, {
 	cpfBR: "Por favor, forne&ccedil;a um CPF v&aacute;lido."
 } );
 }));
+
+
+$.validator.addMethod("isMaiorQueZero", function (value, element){
+	value = value.parseReais();
+	return value > 0.00;
+}, "Valor maior que zero.");

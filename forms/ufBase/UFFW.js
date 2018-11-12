@@ -32,8 +32,6 @@ var uFFw = {
 				$('input[name="SOLICEMAIL"]').val( parent.WCMAPI.userEmail );		    	
 		    	
 		    };
-		    
-		    $validator.form();
 			
 		}
 		
@@ -78,9 +76,6 @@ var uFFw = {
 				}
 				
 			}
-			
-			$('form').trigger('change');
-			
 		} 
 		
 
@@ -96,6 +91,8 @@ var uFFw = {
 		this.sections.init ( numState, sectionsConfig );
 		this.tables.init ( numState, tablesConfig );
 		
+		
+		setTimeout(function(){ $('form').trigger('change') }, 100);
 	},
 	
 	tables: {
@@ -315,7 +312,6 @@ var uFFw = {
 		},
 
 		start: function (fieldConfig, sufix = null) {
-			
 			
 			//inicia rotina de adição de validação de campos
 			uFFw.utils.validate.init(fieldConfig);

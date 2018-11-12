@@ -186,7 +186,7 @@ $(document).ready(function() {
 var beforeMovementOptions = function(numState){
     console.info('VALIDAÇÃO', 'Atividade:', numState);
     
-	if ( !$validator.form() ) throw 'Não será possível enviar os dados pois há campos com erro.</br>Por favor, verifique os campos destacados de vermelho.</br>'+listaErros();
+	if ( !$validator.form() ) throw 'Não será possível enviar os dados pois há campos com erro.</br>Por favor, verifique os campos destacados de vermelho.</br>'+uFFw.utils.listaErros();
     
 };
 

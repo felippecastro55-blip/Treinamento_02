@@ -106,7 +106,7 @@ var uFFw = {
 				$( '[uf-addChild="' + tableConfig.id + '"]' ).on( 'click', function () {
 					
 					var linhaIdx = wdkAddChild(tableConfig.id);
-					
+					$('[name="'+tableConfig.id+'ID___'+linhaIdx+'"]').val(linhaIdx);
 					tableConfig.fields.forEach( function(fieldConfig){
 						
 						var prefix = fieldConfig.name.split('___')[0];

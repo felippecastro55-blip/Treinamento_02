@@ -584,27 +584,27 @@ var uFFw = {
 
 				//verifica Condições de exibição
 				if ( sectionConfig.visible ){
-					$('section.' + sectionConfig.id).show();
+					$('.' + sectionConfig.id).show();
 
 				}else{
 					//caso atividade atual esteja dentro da lista exibe a section
 					if ( uFFw.utils.verificaConteudo(numState, sectionConfig.visibleAtv) ) {
 
-						$('section.' + sectionConfig.id).show()
+						$('.' + sectionConfig.id).show()
 					}
 				};
 
 				//verifica Condições de edição
 				if( !sectionConfig.enabled ){
 
-					$('section.' + sectionConfig.id).setDisabled();
+					$('.' + sectionConfig.id).setDisabled();
 
 				}else{
 					
 					//caso atividade atual não esteja dentro da lista, aplica o setDisabled
 					if ( !uFFw.utils.verificaConteudo(numState, sectionConfig.enabledAtv) ) {
 
-						$('section.' + sectionConfig.id).setDisabled()
+						$('.' + sectionConfig.id).setDisabled()
 					}
 
 

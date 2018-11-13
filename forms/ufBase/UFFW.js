@@ -210,7 +210,7 @@ var uFFw = {
 				
 			})
 			
-			
+			$validator.form();
 			
 		}
 		
@@ -363,25 +363,25 @@ var uFFw = {
 				
 				if ( typeof fieldConfig.zoomReturn == 'undefined' ) {
 					
-					this.start ( $('button[uf-zoom="' + fieldConfig.name+ '"]:last'), fieldConfig.zoomOptions, uFFw.defaults.zoomReturn, sufix );
+					this.start ( $('button[uf-zoom="' + fieldConfig.name+ '"]:last').parent().find('button[uf-zoom]'), fieldConfig.zoomOptions, uFFw.defaults.zoomReturn, sufix );
 					
 				} else {
 					
 					
 					if ( typeof fieldConfig.zoomReturn.type == 'undefined' ||  fieldConfig.zoomReturn.type == 'default' ) {
 						
-						this.start ( $('[name="' + fieldConfig.name + '"]:last').parent().find('button'), fieldConfig.zoomOptions, uFFw.defaults.zoomReturn, sufix );
+						this.start ( $('[name="' + fieldConfig.name + '"]:last').parent().find('button[uf-zoom]'), fieldConfig.zoomOptions, uFFw.defaults.zoomReturn, sufix );
 						
 					} else {
 						
 						if ( fieldConfig.zoomReturn.type == '1' ) {
 							
-							this.start ( $('[name="' + fieldConfig.name + '"]:last').parent().find('button'), fieldConfig.zoomOptions,  uFFw.defaults.zoomFields, fieldConfig.zoomReturn.fields, sufix );
+							this.start ( $('[name="' + fieldConfig.name + '"]:last').parent().find('button[uf-zoom]'), fieldConfig.zoomOptions,  uFFw.defaults.zoomFields, fieldConfig.zoomReturn.fields, sufix );
 							
 						} else {
 							
 							
-							this.start ( $('[name="' + fieldConfig.name + '"]:last').parent().find('button'), fieldConfig.zoomOptions, fieldConfig.fields );
+							this.start ( $('[name="' + fieldConfig.name + '"]:last').parent().find('button[uf-zoom]'), fieldConfig.zoomOptions, fieldConfig.fields );
 							
 						}
 						
@@ -1372,4 +1372,4 @@ String.prototype.parseReais = function () {
 $.validator.addMethod("isMaiorQueZero", function (value, element){
 	value = value.parseReais();
 	return value > 0.00;
-}, "Valor maior que zero.");
+}, "Informe um valor maior que zero.");

@@ -730,29 +730,44 @@ var uFFw = {
 			
 			init: function( fieldConfig ) {
 				
-				if( fieldConfig.validate.length > 0 ){
+				if ( typeof fieldConfig.validate == 'undefined' ){
+					
+					//validação vazia
+					//não existe demanda para tal funcionabilidade
 					
 					
-					fieldConfig.validate.forEach( function ( typeValidation ) {
-						
-						if ( typeof fieldConfig.requiredConfig == 'undefined' ) {
-							
-							uFFw.utils.validate.start ( $('[name="' + fieldConfig.name + '"]'), typeValidation, uFFw.defaults.validOptions );
-							
-						} else {
-							
-							uFFw.utils.validate.start ( $('[name="' + fieldConfig.name + '"]'), typeValidation, fieldConfig.requiredConfig );
-							
-						}
+				} else {
+					
+					
+					if( fieldConfig.validate.length > 0 ){
 						
 						
-					})
-					
-					
-					
+						fieldConfig.validate.forEach( function ( typeValidation ) {
+							
+							if ( typeof fieldConfig.requiredConfig == 'undefined' ) {
+								
+								uFFw.utils.validate.start ( $('[name="' + fieldConfig.name + '"]'), typeValidation, uFFw.defaults.validOptions );
+								
+							} else {
+								
+								uFFw.utils.validate.start ( $('[name="' + fieldConfig.name + '"]'), typeValidation, fieldConfig.requiredConfig );
+								
+							}
+							
+							
+						})
+						
+						
+						
+						
+						
+					}
 					
 					
 				}
+				
+				
+				
 				
 			},
 			

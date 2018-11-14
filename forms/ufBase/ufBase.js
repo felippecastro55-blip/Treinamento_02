@@ -34,8 +34,6 @@ $(document).ready(function() {
 
 		}
 	},
-	
-	
 	{
 		state: {type: 'default', num: [0, 1]}, //type: LISTA DE ESTADO DO FORMULARIO (EX: ['VIEW']). DEFAULT = [MOD, ADD] || NUM = LISTA DE ATIVIDADES QUE TAL CONFIGURAÇÃO VAI AGIR. (EX: [1, 2]). NULL = TODAS 
 		name: 'MONETARIOEXEMPLO', //NOME DO CAMPO
@@ -177,8 +175,20 @@ $(document).ready(function() {
 		]
 	}];
 	
-	uFFw.init(modForm, WKNumState, fieldsConfig, sectionsConfig, tablesConfig);
+	
+	var customActionsConfig = [
+		{
+			state: {type: 'default', num: [0, 1]}, 
+			customActions: function( ) {//função para customização
+				console.log('testando custom action')
+			}
+		}
+	];
+	
+	
+	uFFw.init(modForm, WKNumState, fieldsConfig, sectionsConfig, tablesConfig, customActionsConfig);
     
+	
 });
 
 

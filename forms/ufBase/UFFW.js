@@ -83,17 +83,78 @@ var uFFw = {
 		
 	//Inicia procedimento do framework
 	//Parametros: numero da Atividade, configuração de campos, configuração de seções
-	init: function ( modForm, numState, fieldsConfig, sectionsConfig, tablesConfig ) {
+	init: function ( modForm, numState, fieldsConfig, sectionsConfig, tablesConfig, customActionsConfig ) {
 		
 		this.globalFunctions.init ( modForm );		
 		this.status.init ( );
 		this.fields.init ( modForm, numState, fieldsConfig );
 		this.sections.init ( numState, sectionsConfig );
 		this.tables.init ( numState, tablesConfig );
+		this.customActions.init ( modForm, numState, customActionsConfig );
 		
 		
 		setTimeout(function(){ $('form').trigger('change') }, 100);
 	},
+	
+	
+	customActions: {
+		
+		init: function ( modForm, numState, customActionsConfig ) {
+			
+			
+			customActionsConfig.forEach( function (customActionConfig) {
+				
+				if ( typeof customActionConfig.state.type == 'undefined' || customActionConfig.state.type == 'default' ||  customActionConfig.state.type == null){
+
+					if( modForm == 'ADD' || modForm == 'MOD' ) {
+						
+						
+						if (  typeof customActionConfig.state.num != 'undefined'  ) {
+							
+							
+							if( uFFw.utils.verificaConteudo(numState, customActionConfig.state.num) ) {
+
+								uFFw.customActions.start(customActionConfig.customActions);
+
+							}
+							
+						}
+
+					}
+
+				}else{
+
+					if ( uFFw.utils.verificaConteudo(modForm, customActionConfig.state.type) ) {
+
+						if (  typeof customActionConfig.state.num != 'undefined' ) {
+							
+							
+							if( uFFw.utils.verificaConteudo(numState, customActionConfig.state.num) ) {
+
+								uFFw.customActions.start(customActionConfig.customActions);
+
+							}
+							
+						}
+
+					}
+
+				}
+				
+				
+			})
+			
+		},
+		
+		start: function ( customAction ) {
+			
+			customAction();
+			
+			
+		}
+		
+	},
+	
 	
 	tables: {
 		

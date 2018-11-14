@@ -20,6 +20,13 @@ $(document).ready(function() {
 			useCurrent: false
 		},
 		customActions: function( $self ) { //função para customização
+			
+			$self.parent().find('.iconData').on('click', function(){
+				
+				$self.trigger('click');
+				
+			})
+		
 		}
 	},
 	{

@@ -190,12 +190,13 @@ var uFFw = {
 								// se respondeu para remover a linha
 								if (result) {
 									
-									
-									fnWdkRemoveChild(element);
 									if(typeof fieldConfig.customCallback != 'undefined'){
 										
 										fieldConfig.customCallback();
-									}
+									};
+									
+									fnWdkRemoveChild(element);
+									
 									
 									
 								}

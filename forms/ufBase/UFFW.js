@@ -718,6 +718,15 @@ var uFFw = {
 			
 		},
 		
+		
+		setTotalValue: function($QUANT, $VALOR, $TOTAL){
+			
+			var final = $QUANT.val().parseReais() * $VALOR.val().parseReais()
+			
+			$TOTAL.val(final.formatReais())
+		},
+		
+		
 		/**
 		 * Retorna a lista (string de html) de campos não validados e respectivas mensagem
 		 */
@@ -1435,6 +1444,27 @@ $.extend( $.validator.messages, {
 	cpfBR: "Por favor, forne&ccedil;a um CPF v&aacute;lido."
 } );
 }));
+
+
+/**
+ * Formata o número para exibir em Reais Brasileiros
+ */
+Number.prototype.formatReais = function() {
+	return 'R$ ' + Number(this).toLocaleString('pt-BR', {
+		minimumFractionDigits : 2,
+		maximumFractionDigits : 2
+	});
+};
+
+/**
+ * Formata o número para exibir em Reais Brasileiros
+ */
+Number.prototype.formatQuantidade = function() {
+	return '' + Number(this).toLocaleString('pt-BR', {
+		minimumFractionDigits : 2,
+		maximumFractionDigits : 2
+	});
+};
 
 String.prototype.parseReais = function () {
     // retira os pontos, depois troca a vírgula por ponto

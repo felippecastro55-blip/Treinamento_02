@@ -192,6 +192,12 @@ var uFFw = {
 									
 									
 									fnWdkRemoveChild(element);
+									if(typeof fieldConfig.customCallback != 'undefined'){
+										
+										fieldConfig.customCallback();
+									}
+									
+									
 								}
 
 							});					
@@ -419,8 +425,6 @@ var uFFw = {
 			//inicia aprovacao de formulario
 			//parametro: objeto de configuração do campo
 			init: function ( fieldConfig, sufix ) {
-				
-				console.log(fieldConfig)
 				
 				if ( typeof fieldConfig.zoomReturn == 'undefined' ) {
 					

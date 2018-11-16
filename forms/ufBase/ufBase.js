@@ -23,7 +23,7 @@ $(document).ready(function() {
 			
 			$self.parent().find('.iconData').on('click', function(){
 				
-				$self.trigger('click');
+				$self.trigger('click').focus();
 				
 			})
 		

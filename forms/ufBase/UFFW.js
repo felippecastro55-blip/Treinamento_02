@@ -719,6 +719,13 @@ var uFFw = {
 		},
 		
 		
+		getTotalValue: function(QUANT, VALOR){
+			
+			var final = QUANT.parseReais() * VALOR.parseReais()
+			
+			return final.formatReais()
+		},
+		
 		setTotalValue: function($QUANT, $VALOR, $TOTAL){
 			
 			var final = $QUANT.val().parseReais() * $VALOR.val().parseReais()

@@ -750,8 +750,15 @@ var uFFw = {
 		listaErros: function( ) {
 			var lstHtml = '</br>';
 			$.each($validator.errorList, function (id, campo) {
+				
+				
 				var label = $('label.control-label[for="' + campo.element.name + '"]').text();
-				lstHtml += '<strong>' + ((label != undefined)?label:campo.element.name) + '</strong>: ' + campo.message + '</br>'
+				
+				if(label != ''){
+					lstHtml += '<strong>' + ((label != undefined)?label:campo.element.name) + '</strong>: ' + campo.message + '</br>'
+					
+				}
+				
 			})
 			return lstHtml;
 		},

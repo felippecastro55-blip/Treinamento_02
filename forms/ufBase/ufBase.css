@@ -235,3 +235,8 @@
 .uF .secCondInicio .alert {
     margin-bottom: 20px;
 }
+.btn-default.ajuste.active {
+    color: #fff !important;
+    background-color: #ec971f !important;
+    border-color: #d58512 !important;
+}

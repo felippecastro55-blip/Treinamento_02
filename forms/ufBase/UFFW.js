@@ -677,6 +677,16 @@ var uFFw = {
 				};
 
 
+				if(typeof sectionConfig.customActions != 'undefined'){
+					
+					
+					sectionConfig.customActions($('.' + sectionConfig.id));
+					
+					
+				}
+				
+				
+				
 			})
 		},
 

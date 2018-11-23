@@ -158,85 +158,135 @@ var uFFw = {
 	
 	tables: {
 		
-		init: function ( numState, tablesConfig ) {
+		initEvents: function(tableConfig){
 			
+
+			$( '[uf-addChild="' + tableConfig.id + '"]' ).on( 'click', function () {
+				
+				var linhaIdx = wdkAddChild(tableConfig.id);
+				$('[name="'+tableConfig.id+'ID___'+linhaIdx+'"]').val(linhaIdx);
+				tableConfig.fields.forEach( function(fieldConfig){
+					
+					var prefix = fieldConfig.name.split('___')[0];
+					var sufix = '___' + linhaIdx;
+					
+					fieldConfig.name = prefix + sufix;
+					
+					$('[name="' + fieldConfig.name + '"]').parents('tr').find('[uf-removeChild="' + tableConfig.id + '"]').off().on('click', function(){
+						
+						var element = this;
+						
+						// exibe a mensagem de confirmação para o usuário
+						parent.FLUIGC.message.confirm({
+							message : 'Você realmente deseja remover o item da tabela?',
+							title : 'Remover linha da tabela',
+							labelYes : 'Remover',
+							labelNo : 'Cancelar'
+						}, function(result, el, ev) {
+							
+							// se respondeu para remover a linha
+							if (result) {
+								
+								if(typeof fieldConfig.customCallback != 'undefined'){
+									
+									fieldConfig.customCallback($(element
+											));
+								};
+								
+								fnWdkRemoveChild(element);
+								
+								
+								
+							}
+
+						});					
+					})
+					
+					
+					uFFw.fields.start ( fieldConfig, sufix );
+					
+					
+				})
+				
+				$validator.form();
+				
+			})
+			
+			
+		},
+		
+		init: function ( numState, tablesConfig ) {
 			
 			tablesConfig.forEach( function (tableConfig) {
 				
 				
-				$( '[uf-addChild="' + tableConfig.id + '"]' ).on( 'click', function () {
-					
-					var linhaIdx = wdkAddChild(tableConfig.id);
-					if(linhaIdx == 1){
-						$('[name="'+tableConfig.id+'ID___'+linhaIdx+'"]').val(linhaIdx);
-					}else{
-						console.log('tr')
+				if ( typeof tableConfig.state.type == 'undefined' || tableConfig.state.type == 'default' ||  tableConfig.state.type == null){
 
-						console.log($('[tablename="'+tableConfig.id+'"] tr:not(:last):last [name^="'+tableConfig.id+'ID___'+linhaIdx+'"]'))
-						$('[name="'+tableConfig.id+'ID___'+linhaIdx+'"]').val(Number($('[tablename="'+tableConfig.id+'"] tr:not(:last):last [name^="'+tableConfig.id+'ID___"]').val()) + 1)
-
-					}
-
-					tableConfig.fields.forEach( function(fieldConfig){
+					if( modForm == 'ADD' || modForm == 'MOD' ) {
 						
-						var prefix = fieldConfig.name.split('___')[0];
-						var sufix = '___' + linhaIdx;
 						
-						fieldConfig.name = prefix + sufix;
-						
-						$('[name="' + fieldConfig.name + '"]').parents('tr').find('[uf-removeChild="' + tableConfig.id + '"]').off().on('click', function(){
+						if (  typeof tableConfig.state.num != 'undefined'  ) {
 							
-							var element = this;
 							
-							// exibe a mensagem de confirmação para o usuário
-							parent.FLUIGC.message.confirm({
-								message : 'Você realmente deseja remover o item da tabela?',
-								title : 'Remover linha da tabela',
-								labelYes : 'Remover',
-								labelNo : 'Cancelar'
-							}, function(result, el, ev) {
+							if( uFFw.utils.verificaConteudo(numState, tableConfig.state.num) ) {
+
+								uFFw.tables.initEvents(tableConfig);
 								
-								// se respondeu para remover a linha
-								if (result) {
+								if ( typeof tableConfig.fields != 'undefined' ) {
 									
-									if(typeof fieldConfig.customCallback != 'undefined'){
+									if ( tableConfig.fields.length > 0 ) {
 										
-										fieldConfig.customCallback($(element));
-									};
-									
-									fnWdkRemoveChild(element);
-									
-									
+										
+										tableConfig.fields.forEach( function (fieldConfig){
+											
+											uFFw.tables.start ( tableConfig.id, fieldConfig )
+											
+										})
+										
+										
+									}
 									
 								}
 
-							});					
-						})
-						
-						
-						uFFw.fields.start ( fieldConfig, sufix );
-						
-						
-					})
-					
-					$validator.form();
-					
-				})
-				
-				if ( typeof tableConfig.fields != 'undefined' ) {
-					
-					if ( tableConfig.fields.length > 0 ) {
-						
-						
-						tableConfig.fields.forEach( function (fieldConfig){
+							}
 							
-							uFFw.tables.start ( tableConfig.id, fieldConfig )
-							
-						})
-						
-						
+						}
+
 					}
-					
+
+				}else{
+
+					if ( uFFw.utils.verificaConteudo(modForm, tableConfig.state.type) ) {
+
+						if (  typeof tableConfig.state.num != 'undefined' ) {
+							
+							
+							if( uFFw.utils.verificaConteudo(numState, tableConfig.state.num) ) {
+
+								uFFw.tables.initEvents(tableConfig);
+								
+								if ( typeof tableConfig.fields != 'undefined' ) {
+									
+									if ( tableConfig.fields.length > 0 ) {
+										
+										
+										tableConfig.fields.forEach( function (fieldConfig){
+											
+											uFFw.tables.start ( tableConfig.id, fieldConfig )
+											
+										})
+										
+										
+									}
+									
+								}
+
+							}
+							
+						}
+
+					}
+
 				}
 				
 				
@@ -245,14 +295,12 @@ var uFFw = {
 		},
 		
 		start: function ( tableName, fieldConfig ) {
-
-			var listaItens = []
 						
 			$('table[tablename="' + tableName + '"] tbody > tr:not(:first-child)').each( function(index, linha) {
-
 				$(linha).find('[uf-removeChild="' + tableName + '"]').off().on('click', function(){
 					
 					var element = this;
+					
 					// exibe a mensagem de confirmação para o usuário
 					parent.FLUIGC.message.confirm({
 						message : 'Você realmente deseja remover o item da tabela?',
@@ -260,9 +308,12 @@ var uFFw = {
 						labelYes : 'Remover',
 						labelNo : 'Cancelar'
 					}, function(result, el, ev) {
-						console.log(result)
+						
+						
+						
 						// se respondeu para remover a linha
 						if (result) {
+							
 							fnWdkRemoveChild(element);
 						}
 
@@ -272,8 +323,6 @@ var uFFw = {
 				
 				var prefix = fieldConfig.name.split('___')[0];
 				var sufix = '___' + $(linha).find( '[name^="' + prefix + '"]' ).prop('name').split('___')[1];
-
-				if(sufix == '___undefined') sufix = '';
 				
 				var obj = {};
 				
@@ -281,34 +330,14 @@ var uFFw = {
 				for(var key in fieldConfig){
 					obj[key] = fieldConfig[key];
 				};
+				
 				obj.name = prefix + sufix;
-				obj.sufix = sufix;
-
-
-				if(listaItens.length == 0){
-
-					listaItens.push(obj)
-
-				}else{
-
-					var achou = listaItens.find(function(a){
-						return a.name == obj.name
-					})
-
-					if(typeof achou == 'undefined'){
-
-						listaItens.push(obj)
-
-					}
-
-				}
+				
+				uFFw.fields.start ( obj, sufix );
+				
 			})
 			
-			listaItens.forEach(function(item){
-
-				uFFw.fields.start ( item, item.sufix );
-
-			})
+			
 			
 		}
 		

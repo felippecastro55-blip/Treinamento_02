@@ -167,7 +167,16 @@ var uFFw = {
 				$( '[uf-addChild="' + tableConfig.id + '"]' ).on( 'click', function () {
 					
 					var linhaIdx = wdkAddChild(tableConfig.id);
-					$('[name="'+tableConfig.id+'ID___'+linhaIdx+'"]').val(linhaIdx);
+					if(linhaIdx == 1){
+						$('[name="'+tableConfig.id+'ID___'+linhaIdx+'"]').val(linhaIdx);
+					}else{
+						console.log('tr')
+
+						console.log($('[tablename="'+tableConfig.id+'"] tr:not(:last):last [name^="'+tableConfig.id+'ID___'+linhaIdx+'"]'))
+						$('[name="'+tableConfig.id+'ID___'+linhaIdx+'"]').val(Number($('[tablename="'+tableConfig.id+'"] tr:not(:last):last [name^="'+tableConfig.id+'ID___"]').val()) + 1)
+
+					}
+
 					tableConfig.fields.forEach( function(fieldConfig){
 						
 						var prefix = fieldConfig.name.split('___')[0];
@@ -192,7 +201,7 @@ var uFFw = {
 									
 									if(typeof fieldConfig.customCallback != 'undefined'){
 										
-										fieldConfig.customCallback();
+										fieldConfig.customCallback($(element));
 									};
 									
 									fnWdkRemoveChild(element);
@@ -236,12 +245,14 @@ var uFFw = {
 		},
 		
 		start: function ( tableName, fieldConfig ) {
+
+			var listaItens = []
 						
 			$('table[tablename="' + tableName + '"] tbody > tr:not(:first-child)').each( function(index, linha) {
+
 				$(linha).find('[uf-removeChild="' + tableName + '"]').off().on('click', function(){
 					
-					var el = this;
-					
+					var element = this;
 					// exibe a mensagem de confirmação para o usuário
 					parent.FLUIGC.message.confirm({
 						message : 'Você realmente deseja remover o item da tabela?',
@@ -249,13 +260,10 @@ var uFFw = {
 						labelYes : 'Remover',
 						labelNo : 'Cancelar'
 					}, function(result, el, ev) {
-						
-						
-						
+						console.log(result)
 						// se respondeu para remover a linha
 						if (result) {
-							
-							fnWdkRemoveChild(el);
+							fnWdkRemoveChild(element);
 						}
 
 					});					
@@ -264,6 +272,8 @@ var uFFw = {
 				
 				var prefix = fieldConfig.name.split('___')[0];
 				var sufix = '___' + $(linha).find( '[name^="' + prefix + '"]' ).prop('name').split('___')[1];
+
+				if(sufix == '___undefined') sufix = '';
 				
 				var obj = {};
 				
@@ -271,14 +281,34 @@ var uFFw = {
 				for(var key in fieldConfig){
 					obj[key] = fieldConfig[key];
 				};
-				
 				obj.name = prefix + sufix;
-				
-				uFFw.fields.start ( obj, sufix );
-				
+				obj.sufix = sufix;
+
+
+				if(listaItens.length == 0){
+
+					listaItens.push(obj)
+
+				}else{
+
+					var achou = listaItens.find(function(a){
+						return a.name == obj.name
+					})
+
+					if(typeof achou == 'undefined'){
+
+						listaItens.push(obj)
+
+					}
+
+				}
 			})
 			
-			
+			listaItens.forEach(function(item){
+
+				uFFw.fields.start ( item, item.sufix );
+
+			})
 			
 		}
 		

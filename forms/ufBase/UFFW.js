@@ -506,7 +506,7 @@ var uFFw = {
 						} else {
 							
 							
-							this.start ( $('[name="' + fieldConfig.name + '"]:last').parent().find('button[uf-zoom]'), fieldConfig.zoomOptions, fieldConfig.fields );
+							this.start ( $('[name="' + fieldConfig.name + '"]:last').parent().find('button[uf-zoom]'), fieldConfig.zoomOptions, fieldConfig.zoomReturn.fields );
 							
 						}
 						

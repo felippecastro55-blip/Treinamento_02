@@ -1568,12 +1568,22 @@ Number.prototype.formatReais = function() {
 };
 
 /**
- * Formata o número para exibir em Reais Brasileiros
+ * Formata o número para exibir em Reais Brasileiros com 4 casas decimais no maximo
  */
 Number.prototype.formatQuantidade = function() {
 	return '' + Number(this).toLocaleString('pt-BR', {
 		minimumFractionDigits : 2,
 		maximumFractionDigits : 2
+	});
+};
+
+/**
+ * Formata o número para exibir em Reais Brasileiros
+ */
+Number.prototype.formatQuantidadeIntegracao = function() {
+	return '' + Number(this).toLocaleString('pt-BR', {
+		minimumFractionDigits : 2,
+		maximumFractionDigits : 4
 	});
 };
 

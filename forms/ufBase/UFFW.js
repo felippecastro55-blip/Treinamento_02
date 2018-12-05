@@ -1,3 +1,5 @@
+window.listaCalendar = [];
+
 var uFFw = {
 	
 	globalFunctions: {
@@ -31,7 +33,7 @@ var uFFw = {
 				$('input[name="SOLICNOME"]').val( parent.WCMAPI.user );
 				$('input[name="SOLICEMAIL"]').val( parent.WCMAPI.userEmail );		    	
 		    	
-		    };
+		    }
 			
 		}
 		
@@ -504,8 +506,6 @@ var uFFw = {
 							this.start ( $('[name="' + fieldConfig.name + '"]:last').parent().find('button[uf-zoom]'), fieldConfig.zoomOptions,  uFFw.defaults.zoomFields, fieldConfig.zoomReturn.fields, sufix );
 							
 						} else {
-							
-							
 							this.start ( $('[name="' + fieldConfig.name + '"]:last').parent().find('button[uf-zoom]'), fieldConfig.zoomOptions, fieldConfig.zoomReturn.fields );
 							
 						}
@@ -584,8 +584,15 @@ var uFFw = {
 		
 			start: function ( $el, options ) {
 				
-				FLUIGC.calendar ( $el, options );
 				
+				var calendario =  FLUIGC.calendar ( $el, options );
+				
+				
+				listaCalendar.push({
+					cmp: $el,
+					calendar: calendario
+					
+				})
 			}
 
 		},
@@ -633,6 +640,10 @@ var uFFw = {
 		                switch ( String(strSel) ) {
 			                case 'S': // aprovado
 
+			                	// Muda texto do botão de enviar
+			                	$(parent.$('.fixedTopBar').find('button')[0]).html('Enviar');
+			                	$(parent.$('#workflowview-header').find('button')[0]).html('Enviar');
+
 			                    // mensagem de aprovação
 			                    var msg = '<strong><i class="fa fa-check-circle" aria-hidden="true"></i> APROVADO!</strong> Aprovação realizada por '+nm+' em '+dt;
 			                    $elAprovMsg.removeClass('alert-danger').removeClass('alert-warning').addClass('alert-success').html( msg ).show();
@@ -640,14 +651,23 @@ var uFFw = {
 			                    break;
 			                case 'N': // reprovado
 
+			                	// Muda texto do botão de enviar
+			                	$(parent.$('.fixedTopBar').find('button')[0]).html('Reprovar');
+			                	$(parent.$('#workflowview-header').find('button')[0]).html('Reprovar');
+
 			                    // mensagem de reprovação
 			                    var msg = '<strong><i class="fa fa-times-circle" aria-hidden="true"></i> REPROVADO!</strong> Reprovação realizada por '+nm+' em '+dt;
 			                    $elAprovMsg.removeClass('alert-success').removeClass('alert-warning').addClass('alert-danger').html( msg ).show();
 
 			                    break;
 			                case 'A':
+
+			                	// Muda texto do botão de enviar
+			                	$(parent.$('.fixedTopBar').find('button')[0]).html('Ajuste');
+			                	$(parent.$('#workflowview-header').find('button')[0]).html('Ajuste');
+
 			                	// mensagem de Ajuste
-			                    var msg = '<strong><i class="fa fa-times-circle" aria-hidden="true"></i> PEDIDO PARA AJUSTE!</strong> Reprovação para que seja ajustado realizada por '+nm+' em '+dt;
+			                    var msg = '<strong><i class="fa fa-times-circle" aria-hidden="true"></i> PEDIDO PARA AJUSTE!</strong> Reprovação para que seja ajustado. Realizada por '+nm+' em '+dt;
 			                    $elAprovMsg.removeClass('alert-danger').removeClass('alert-success').addClass('alert-warning').html( msg ).show();
 			                	
 			                	break;
@@ -814,7 +834,7 @@ var uFFw = {
 				var label = $('label.control-label[for="' + campo.element.name + '"]').text();
 				
 				if(label != ''){
-					lstHtml += '<strong>' + ((label != undefined)?label:campo.element.name) + '</strong>: ' + campo.message + '</br>'
+					lstHtml += '<strong>' + ((label != undefined)?label:campo.element.name).toUpperCase() + '</strong>: ' + campo.message + '</br>'
 					
 				}
 				
@@ -889,66 +909,67 @@ var uFFw = {
 };
 
 
-
 /**
  * @desc   	Desabilita todos os campos colocando-os no formato de VIEW do Fluig
  * @version	2.3.0
  */
 $.fn.setDisabled = function () {
-    
+    console.info('DESABILITA', $(this), 'Desabilita os elementos.');
+
     var $el = $(this);  // resgata o elemento atual
-    
+
     // retira a(s) opção(es) de remover linha da(s) tabela(s)
     $el.find('tbody tr:not(:first-child) td.acoes-linha a.remove-linha').hide();
-    
+
     // oculta todos os botões zoom da seção
     $el.find('div.form-group button[uf-zoom]').hide();
-    
+
     // desabilita todos os botões
     $el.find('div.form-group button[type="button"]').attr('disabled', true);
-    
+
     // oculta os addons e botões agrupados aos campos
     $el.find('div.form-group div.input-group .input-group-addon').hide();
     $el.find('div.form-group div.input-group .input-group-btn').hide();
-    
+
     // retira a classe .input-group para melhor formatação do valor do campo
     $el.find('div.form-group div.input-group').attr('class', '');
 
     // oculta todos os help-block da seção
     $el.find('div.form-group p.help-block').hide();
-    
+
     // retira as mensagens indicadas para serem retiradas no modo view
     $el.find('[retirar-view]').hide();
-    
+
     // define a altura dos elementos para melhor visual da tela (principalmente para <textarea>)
     $el.find('span.form-control').css('height','auto');
-    
+
     // percorre todos os inputs do tipo radios que estão marcados
     $el.find('input[type="radio"]:checked').each(function() {
-        
+
         // resgata o valor que será exbido
         var conteudo = $(this).data('exibicao');
-        
+
         // resgata nome do campo
         var nm = $(this).attr('name');
-    
+
         // resgata o elemento pai de todos os radios
         var $pai = $(this).parents('div.btn-group');
         $pai.hide();    // oculta ele
-        
-        // adiciona um novo elemento com o valor do campo e seus atributos
-        $('<span>', {html: conteudo, 'data-idoriginal': nm}).addClass('form-control').insertAfter( $pai );
-        
+
+        if($pai.parent().find('.unicElementDisabled').length == 0){
+			// adiciona um novo elemento com o valor do campo e seus atributos
+        	$('<span>', {html: conteudo, 'data-idoriginal': nm}).addClass('form-control').addClass('unicElementDisabled').insertAfter( $pai )
+        }
     });
-    
+
     // percorre os radios não marcados e oculta o button
     $el.find('input[type="radio"]:not(:checked)').each(function () {
         $(this).parents('label').hide();
     });
-	
+
 	// retira os eventos do mouse dos campos checkbox
 	$el.find('div.checkbox').css('pointer-events', 'none');
-    
+
     // percorre todos os elementos com .form-control
     $el.find('.form-group:not(.uf-disabled) .form-control:not([type="hidden"])').each(function () {
         var el = $(this);
@@ -966,17 +987,17 @@ $.fn.setDisabled = function () {
         };
 
     });
-    
-    // função que cria um novo elemento e esconde o campo original 
+
+    // função que cria um novo elemento e esconde o campo original
     function desabilitar(elemento, valor, id) {
-        
+
         // resgata as classes aplicadas ao elemento
         var cls = elemento.attr('class');
-        
+
         // se houver input com a classe de código do zoom (codinput)
         var cod = elemento.parents('.ufZoom').find('input.codinput').val();
         if (cod) valor = cod +' - '+ valor;
-        
+
         // adiciona um novo elemento (logo após o original) com o valor do campo e seus atributos
         $('<span>', {html: valor, 'data-idoriginal': id}).addClass(cls).insertAfter(elemento);
 
@@ -984,11 +1005,10 @@ $.fn.setDisabled = function () {
         // para não desabilitar duas vezes quando for chamada
         // a função duas vezes no mesmo elemento
         elemento.parents('.form-group').addClass('uf-disabled');
-        
+
         // esconde o campo original do DOM
         elemento.hide();
     };
-    
 }
 
 
@@ -1128,6 +1148,13 @@ $.fn.uFZoom = function (zoomInfo, callback, listFields, sufix) {
 						case '4':	// se é uma variável global
                             filtros.push( DatasetFactory.createConstraint(this.field, eval(this.value), eval(this.value), ConstraintType.MUST) );
 							break;
+						case '5':   // se o valor é uma referência (sourceVal = 2), ou seja, vem de um campo do formulário
+                            var valor = $('form input[name="'+this.formField+'"]').val();
+                            filtros.push( DatasetFactory.createConstraint(this.field, valor, valor, ConstraintType.SHOULD) );                            
+                            break;
+						case '6':    // se o valor é fixo (sourceVal = 1), ou seja, passado direto pelo zoomInfo
+                            filtros.push( DatasetFactory.createConstraint(this.field, this.value, this.value, ConstraintType.SHOULD) );
+                            break;
                     };
 
                 });

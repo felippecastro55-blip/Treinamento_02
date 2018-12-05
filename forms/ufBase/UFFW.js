@@ -325,7 +325,7 @@ var uFFw = {
 				
 				var prefix = fieldConfig.name.split('___')[0];
 				var sufix = '___' + $(linha).find( '[name^="' + prefix + '"]' ).prop('name').split('___')[1];
-				
+				if(sufix == '___undefined') sufix = ''
 				var obj = {};
 				
 				

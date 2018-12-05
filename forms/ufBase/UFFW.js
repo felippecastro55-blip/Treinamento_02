@@ -527,6 +527,7 @@ var uFFw = {
                     CodQuery: zoomOptions.CodQuery, // dataserver | codsentenca | nome_dataset | array
                     constraints: zoomOptions.constraints,
                     columns: zoomOptions.columns,
+                    lstLocal: zoomOptions.lstLocal
                 }, zoomCallback, listFields, sufix);
 				
 			},

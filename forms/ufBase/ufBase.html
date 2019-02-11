@@ -245,6 +245,70 @@
             </section>
             <!-- FINAL: aprovação da solicitação -->
             
+            <section class="secAprovacaoRH" id="secAprovacaoRH" style="display:none;">
+                <!-- INÍCIO: título de cabeçalho -->
+                <div class="page-header">
+                    <h2><i class="far fa-calendar-check" aria-hidden="true"></i> Aprovação <small class="hidden-xs"></small></h2>
+                </div>
+                <!-- FINAL: título de cabeçalho -->
+
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-4">
+                        <div class="form-group">
+                            <label class="control-label" for="APROVADORH">Aprovado?</label>
+                            <div class="btn-group btn-group-justified opc_aprovacao" data-toggle="buttons">
+                                <label class="btn btn-default sim"><input type="radio" name="APROVADORH" data-exibicao="Sim, aprovado." id="Aprovado_S" value="S"><span class="fa fa-check-circle"></span> Sim</label>
+                                <label class="btn btn-default nao"><input type="radio" name="APROVADORH" data-exibicao="Não, reprovado para Ajuste." id="Aprovado_A" value="A"><span class="fa fa-times-circle"></span> Ajuste</label>
+                                <label class="btn btn-default nao"><input type="radio" name="APROVADORH" data-exibicao="Não, reprovado." id="Aprovado_N" value="N"><span class="fa fa-times-circle"></span> Não</label>
+                            </div>
+                            <label class="btn btn-default" style="display:none;"><input type="radio" name="APROVADORH" data-exibicao="N/A, sem resposta." id="Aprovado_NA" value="NA">Sem Resposta</label>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-8">
+                        <div class="form-group">
+                            <label class="control-label" for="APROVADOOBSRH">Observações da Aprovação</label>
+                            <textarea class="form-control" rows="1" name="APROVADOOBSRH"></textarea>
+                        </div>
+                    </div>
+                </div>    
+                <div class="row">	
+                    <div class="col-xs-12 msg-aprov">
+                        <div class="alert" role="alert" style="display:none;" view></div>
+                    </div>
+                    <div style="display:none;">
+                        <div class="col-xs-3">
+                            <div class="form-group">
+                            <label class="control-label" for="APROVADORIDRH">ID do Aprovador</label>
+                                <input type="text" class="form-control" name="APROVADORIDRH">
+                                <p class="help-block">Id do usuário responsável pela aprovação</p>
+                            </div>
+                        </div>
+                        <div class="col-xs-3">
+                            <div class="form-group">
+                            <label class="control-label" for="APROVADORNOMERH">Nome do Aprovador</label>
+                                <input type="text" class="form-control" name="APROVADORNOMERH">
+                                <p class="help-block">Nome do usuário responsável pela aprovação</p>
+                            </div>
+                        </div>
+                        <div class="col-xs-3">
+                            <div class="form-group">
+                            <label class="control-label" for="APROVADOREMAILRH">Email do Aprovador</label>
+                                <input type="text" class="form-control" name="APROVADOREMAILRH">
+                                <p class="help-block">Email do usuário responsável pela aprovação</p>
+                            </div>
+                        </div>
+                        <div class="col-xs-3">
+                            <div class="form-group">
+                            <label class="control-label" for="APROVADODATARH">Dta/Hra da Aprov/Reprov</label>
+                                <input type="text" class="form-control" name="APROVADODATARH">
+                                <p class="help-block">Data da aprovação/reprovação</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- FINAL: aprovação da solicitação -->
+            
             
 
             <!-- INÍCIO: rodapé do pedido -->

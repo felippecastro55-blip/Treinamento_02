@@ -75,6 +75,18 @@ var uFFw = {
 					
 					$('[name="' + nameField + '"]').val(info[key]).trigger('change');
 					
+				}else{
+					
+					fields.forEach(function(item){
+						
+						var sufix = sufix == null ? '' : sufix;
+						
+						var nameField = item.formField + sufix
+						
+						$('[name="' + nameField + '"]').val(info[item.data])
+						
+					})
+					
 				}
 				
 			}

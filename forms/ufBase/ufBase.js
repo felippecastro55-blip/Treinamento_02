@@ -10,12 +10,12 @@ $(document).ready(function() {
 	//Lista contendo objetos de configurações de campo
 	var fieldsConfig = [
 	{
-		state: {type: 'default', num: [0, 1]}, //type: LISTA DE ESTADO DO FORMULARIO (EX: ['VIEW']). DEFAULT = [MOD, ADD] || NUM = LISTA DE ATIVIDADES QUE TAL CONFIGURAÇÃO VAI AGIR. (EX: [1, 2]). NULL = TODAS 
 		name: 'DATAEXEMPLO', //NOME DO CAMPO
+		state: {type: ['MOD'], num: [0, 1]}, //type: LISTA DE ESTADO DO FORMULARIO (EX: ['VIEW']). DEFAULT = [MOD, ADD] || NUM = LISTA DE ATIVIDADES QUE TAL CONFIGURAÇÃO VAI AGIR. (EX: [1, 2]). NULL = TODAS 
+
 		fieldType: 'date', //TIPO DE CAMPO DATA
-		validate: [], 
+		validate: ['required'], 
 		fieldOptions: {
-			minDate: moment(),
 			maxDate: moment(),
 			useCurrent: false
 		},
@@ -31,7 +31,7 @@ $(document).ready(function() {
 	},
 	{
 		state: {type: 'default', num: [0, 1]}, //type: LISTA DE ESTADO DO FORMULARIO (EX: ['VIEW']). DEFAULT = [MOD, ADD] || NUM = LISTA DE ATIVIDADES QUE TAL CONFIGURAÇÃO VAI AGIR. (EX: [1, 2]). NULL = TODAS 
-		name: 'OBSERVACOES', //NOME DO CAMPO
+		name: 'SELECTTESTE', //NOME DO CAMPO
 		class: ['text-right'],
 		validate: [], 
 		requiredConfig: { depends: function(el) { return $(el).is(":visible") && $('[name="DATAEXEMPLO"]').val() != '' }, },
@@ -46,7 +46,7 @@ $(document).ready(function() {
 		name: 'MONETARIOEXEMPLO', //NOME DO CAMPO
 		class: ['text-right'],
 		fieldType: 'money', //TIPO DE CAMPO monetario
-		validate: [], 
+		validate: ['required'], 
 		requiredConfig: { depends: function(el) { return $(el).is(":visible") && $('[name="DATAEXEMPLO"]').val() != '' }, },
 		fieldOptions: {
 			prefix: 'R$ ', 
@@ -96,6 +96,15 @@ $(document).ready(function() {
 
 	//Lista contendo objeto de sections
 	var sectionsConfig = [
+		
+		
+		{
+			id: 'secRequisicao',
+			visible: false, //TRUE = SEMPRE VISIVEL || FALSE = VISIVEL APENAS NAS ATIVIDADES CONTIDAS EM VISIBLEATV
+			visibleAtv: [0, 1], //LISTA DE ATIVIDADES QUE ESSA SECTION É VISIVEL
+			enabled: true, //TRUE = TAL SECTION É ENABLED EM ALGUMA ATIVIDADE || FALSE = SEMPRE DISABLED
+			enabledAtv: [0, 1] //LISTA DE ATIVIDADES QUE ESSA SECTION NÃO ESTÁ DISABLED
+		},
 		{
 			id: 'secAprovacaoFINANCEIRO',
 			visible: false, //TRUE = SEMPRE VISIVEL || FALSE = VISIVEL APENAS NAS ATIVIDADES CONTIDAS EM VISIBLEATV
@@ -116,6 +125,7 @@ $(document).ready(function() {
 	//Lista contendo objeto de tables
 	var tablesConfig =  [
 		{
+			state: {type: 'default', num: [0, 1]},
 			id: 'tblDependentes',
 			fields: [
 			{
@@ -185,8 +195,9 @@ $(document).ready(function() {
 	
 	var customActionsConfig = [
 		{
-			state: {type: 'default', num: [0, 1]}, 
-			customActions: function( ) {//função para customização
+			state: {type: 'default', num: [0, 1, 2]}, 
+			customActions: function( ) {//função para customização7
+				
 				console.log('testando custom action')
 			}
 		}

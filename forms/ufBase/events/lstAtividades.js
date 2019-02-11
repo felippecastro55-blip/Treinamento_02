@@ -28,7 +28,7 @@ lstAtiv = {
         cfn: '#F5F5F5',
         ico: '<span class="fluigicon fluigicon-add-test"></span>',
     },
-    7: {
+    2: {
         tit: 'Em Execução',
         des: 'Atividade em andamento utilizando os materiais e mão-de-obra definidos.',
         cbk: '#2E7D32',

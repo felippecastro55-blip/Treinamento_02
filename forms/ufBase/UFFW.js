@@ -58,38 +58,20 @@ var uFFw = {
 			
 		},
 		zoomFields: function ( cmp, info, fields, sufix ) {
+						
+			fields.forEach(function(item){
+				
+				var fieldSufix = sufix == null ? '' : sufix;
+				
+				var nameField = item.formField + fieldSufix
+				console.log(nameField)
+				
+				$('[name="' + nameField + '"]').val(info[item.data]).trigger('change')
+				
+			})
 			
-			for (var key in info) {
-				
-				var field = fields.find ( function( elemento ) {
-					
-					return elemento.data == key
-					
-				});
-				
-				if ( typeof field != 'undefined'){
-					
-					var sufix = sufix == null ? '' : sufix;
-					
-					var nameField = field.formField + sufix
-					
-					$('[name="' + nameField + '"]').val(info[key]).trigger('change');
-					
-				}else{
-					
-					fields.forEach(function(item){
-						
-						var sufix = sufix == null ? '' : sufix;
-						
-						var nameField = item.formField + sufix
-						
-						$('[name="' + nameField + '"]').val(info[item.data])
-						
-					})
-					
-				}
-				
-			}
+			
+
 		} 
 		
 
@@ -203,8 +185,7 @@ var uFFw = {
 								
 								if(typeof fieldConfig.customCallback != 'undefined'){
 									
-									fieldConfig.customCallback($(element
-											));
+									fieldConfig.customCallback($(element));
 								};
 								
 								fnWdkRemoveChild(element);

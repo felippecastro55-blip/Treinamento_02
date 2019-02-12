@@ -85,7 +85,7 @@ $(document).ready(function() {
 	    			formField: 'COLIGADA'
 	    		},
 	    		{
-	    			data: 'CODCOLIGADA',
+	    			data: 'NOMEFANTASIA',
 	    			formField: 'COLIGADACOD'
 	    		},
 	    	]

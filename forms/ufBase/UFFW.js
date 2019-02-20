@@ -2,6 +2,12 @@ window.listaCalendar = [];
 
 var uFFw = {
 	
+	setDefaults: function(typeConfig, config){
+		
+		uFFw.defaults[typeConfig] = config
+		
+	},	
+	
 	globalFunctions: {
 		
 		init: function ( modForm ) {

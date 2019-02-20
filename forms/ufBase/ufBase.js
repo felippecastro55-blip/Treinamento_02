@@ -203,7 +203,10 @@ $(document).ready(function() {
 		}
 	];
 	
+	//função para determinar qual será a configuração padrao do validate dentro do framework
+	uFFw.setDefaults('validOptions', { depends: function(el) { return true }, })
 	
+	//inicia o framework
 	uFFw.init(modForm, WKNumState, fieldsConfig, sectionsConfig, tablesConfig, customActionsConfig);
     
 	

@@ -827,21 +827,20 @@ var uFFw = {
 		 * Retorna a lista (string de html) de campos não validados e respectivas mensagem
 		 */
 		listaErros: function( ) {
-			var lstHtml = '</br>';
+			var lstHtml = '<br/>';
 			$.each($validator.errorList, function (id, campo) {
-				
-				
-				var label = $('label.control-label[for="' + campo.element.name + '"]').text();
+				var label = $('label.control-label[for="' + campo.element.name + '"]').text().replace(/(\r\n|\n|\r)/gm, "").replaceAll('\t', '');;
 				
 				if(label != ''){
-					lstHtml += '<strong>' + ((label != undefined)?label:campo.element.name).toUpperCase() + '</strong>: ' + campo.message + '</br>'
-					
+					lstHtml += '<strong>' + ((label != undefined)?label:campo.element.name).toUpperCase() + '</strong>: ' + campo.message
+					lstHtml += '<br/>'
 				}
+				
+				
 				
 			})
 			return lstHtml;
 		},
-		
 		//objeto de tratativa de validação em campos
 		validate: {
 			

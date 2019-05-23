@@ -35,9 +35,9 @@ var uFFw = {
 		    if ( modForm == 'ADD') {
 		    	
 		    	$('input[name="SOLICDATA"]').val( moment().format('DD/MM/YYYY') );
-				$('input[name="SOLICCOD"]').val( parent.WCMAPI.userCode );
-				$('input[name="SOLICNOME"]').val( parent.WCMAPI.user );
-				$('input[name="SOLICEMAIL"]').val( parent.WCMAPI.userEmail );		    	
+				$('input[name="SOLICCOD"]').val( infoUserActive.code );
+				$('input[name="SOLICNOME"]').val( infoUserActive.name );
+				$('input[name="SOLICEMAIL"]').val( infoUserActive.mail );		    	
 		    	
 		    }
 			
@@ -695,9 +695,9 @@ var uFFw = {
 				$cmpAprov.on('change', function() {
 	                // atualiza a data no campo
 	                $cmpAprovDta.val( moment().format('DD/MM/YYYY HH:mm:ss') );
-	                $cmpAprovNom.val(parent.WCMAPI.user);
-	                $cmpAprovCod.val(parent.WCMAPI.userCode);
-	                $cmpAprovMail.val(parent.WCMAPI.userEmail);
+	                $cmpAprovNom.val(infoUserActive.name);
+	                $cmpAprovCod.val(infoUserActive.code);
+	                $cmpAprovMail.val(infoUserActive.mail);
 	                // exibe a mensagem no formulário
 	                exbMsgAprov( this.value, this.checked );
         		});

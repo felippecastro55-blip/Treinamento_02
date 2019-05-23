@@ -33,34 +33,21 @@ function displayFields(form, customHTML) {
     
     var NumState = parseInt(getValue('WKNumState'));
     
-    // executa uma ação de acordo com o modo do formulário
-    switch ( String(form.getFormMode()) ) {
-        case 'ADD':     // indicando modo de inclusão
-            
-            
-            break;
-        case 'MOD':     // indicando modo de edição
-            
-            // resgata informações do usuário logado
-            var filter = new java.util.HashMap();
-            filter.put('colleaguePK.colleagueId', getValue('WKUser'));
-            var usuario = getDatasetValues('colleague', filter);    // variável com dados do usuário logado
-            
-            // verifica as condições temporais do processo (apenas uma é atendida)
-            switch (true) {};
-            
-            
-            break;
-        case 'VIEW':    // indicando mode de visualização
-            
-            
-            break;
-        case 'NONE':    // indicando que não há comunicação com o formulário
-
-            break;
-        default:
-
-    };
+    var filter = new java.util.HashMap();
+    filter.put('colleaguePK.colleagueId', getValue('WKUser'));
+    var usuario = getDatasetValues('colleague', filter);    // variável com dados do usuário logado
+    
+    // resgata informações do usuário logado
+    var filter = new java.util.HashMap();
+    filter.put('colleaguePK.colleagueId', getValue('WKUser'));
+    var usuario = getDatasetValues('colleague', filter);    // variável com dados do usuário logado
+    
+    var userActive = "var infoUserActive = {";
+    userActive += "code:'"+usuario.get(0).get('colleaguePK.colleagueId')+"',";                    // Código do processo.
+    userActive += "name:'"+usuario.get(0).get('colleagueName')+"',";            // Versão do processo.        
+    userActive += "mail:'"+usuario.get(0).get('mail')+"',";        // Número da solicitação de processo.               
+    userActive += "};"
+    	customHTML.append("<script type='text/javascript'>"+userActive+"</script>");
     
     // leva as informações do status para o front-end
     var statusAtivAtual = lstAtiv[1];

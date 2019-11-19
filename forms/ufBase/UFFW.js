@@ -1454,10 +1454,12 @@ $.fn.uFZoom = function (zoomInfo, callback, listFields, sufix) {
 $.validator.setDefaults({	// opções comuns do validate()
     ignore: '',
 	highlight: function(element, errorClass, validClass) {
-	   $(element).closest('.form-group').removeClass('has-success').addClass('has-error');	  // resgata o elemento anterior e adiciona a classe de erro
+		
+		if($(element).is(":visible")) $(element).closest('.form-group').removeClass('has-success').addClass('has-error');	  // resgata o elemento anterior e adiciona a classe de erro
 	},
 	unhighlight: function(element, errorClass, validClass) {
-		$(element).closest('.form-group').removeClass('has-error').addClass('has-success');   // resgata o elemento anterior e adiciona a classe de sucesso
+		
+		if($(element).is(":visible")) $(element).closest('.form-group').removeClass('has-error').addClass('has-success');   // resgata o elemento anterior e adiciona a classe de sucesso
 	},
     errorPlacement: function(error, element) {  // proteção para feedback em campos do bootstrap
         var frmGrp = element.closest('div.form-group');  // tenta resgatar o form-group

@@ -1455,11 +1455,11 @@ $.validator.setDefaults({	// opções comuns do validate()
     ignore: '',
 	highlight: function(element, errorClass, validClass) {
 		
-		if($(element).is(":visible")) $(element).closest('.form-group').removeClass('has-success').addClass('has-error');	  // resgata o elemento anterior e adiciona a classe de erro
+		$(element).closest('.form-group').removeClass('has-success').addClass('has-error');	  // resgata o elemento anterior e adiciona a classe de erro
 	},
 	unhighlight: function(element, errorClass, validClass) {
 		
-		if($(element).is(":visible")) $(element).closest('.form-group').removeClass('has-error').addClass('has-success');   // resgata o elemento anterior e adiciona a classe de sucesso
+		$(element).closest('.form-group').removeClass('has-error').addClass('has-success');   // resgata o elemento anterior e adiciona a classe de sucesso
 	},
     errorPlacement: function(error, element) {  // proteção para feedback em campos do bootstrap
         var frmGrp = element.closest('div.form-group');  // tenta resgatar o form-group

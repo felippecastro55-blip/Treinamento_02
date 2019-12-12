@@ -702,6 +702,10 @@ var uFFw = {
 	                exbMsgAprov( this.value, this.checked );
         		});
 				
+				// Retira o check da seção de aprovação assim que a página é carregada
+				console.info('Seção a ser desmarcada: ', fieldConfig)
+				$('input[name="APROVADO' + fieldConfig.name + '"]:checked').prop('checked', false);
+
 				this.valid(fieldConfig, $cmpAprov, $cmpObs)
 				
 			},

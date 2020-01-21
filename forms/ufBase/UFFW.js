@@ -189,15 +189,17 @@ var uFFw = {
 							// se respondeu para remover a linha
 							if (result) {
 								
-								if(typeof fieldConfig.customCallback != 'undefined'){
-									
-									fieldConfig.customCallback($(element));
+								if(typeof fieldConfig.beforeRemoveCallback != 'undefined'){
+									// roda antes de excluir o item
+									fieldConfig.beforeRemoveCallback($(element));
 								};
 								
 								fnWdkRemoveChild(element);
 								
-								
-								
+								if(typeof fieldConfig.afterRemoveCallback != 'undefined'){
+									// roda depois de excluir o item OBS: Não tem $self pois a linha foi excluida.
+									fieldConfig.afterRemoveCallback();
+								};
 							}
 
 						});					
@@ -314,8 +316,18 @@ var uFFw = {
 						
 						// se respondeu para remover a linha
 						if (result) {
+								
+							if(typeof fieldConfig.beforeRemoveCallback != 'undefined'){
+								// roda antes de excluir o item
+								fieldConfig.beforeRemoveCallback($(element));
+							};
 							
 							fnWdkRemoveChild(element);
+							
+							if(typeof fieldConfig.afterRemoveCallback != 'undefined'){
+								// roda depois de excluir o item OBS: Não tem $self pois a linha foi excluida.
+								fieldConfig.afterRemoveCallback();
+							};
 						}
 
 					});					
@@ -1572,7 +1584,7 @@ Number.prototype.formatReais = function() {
 };
 
 /**
- * Formata o número para exibir em Reais Brasileiros com 4 casas decimais no maximo
+ * Formata o número para exibir a quantidade com até 2 casas decimais
  */
 Number.prototype.formatQuantidade = function() {
 	return '' + Number(this).toLocaleString('pt-BR', {
@@ -1582,7 +1594,7 @@ Number.prototype.formatQuantidade = function() {
 };
 
 /**
- * Formata o número para exibir em Reais Brasileiros
+ * Formata o número para exibir a quantidade com até 4 casas decimais
  */
 Number.prototype.formatQuantidadeIntegracao = function() {
 	return '' + Number(this).toLocaleString('pt-BR', {

@@ -189,16 +189,16 @@ var uFFw = {
 							// se respondeu para remover a linha
 							if (result) {
 								
-								if(typeof fieldConfig.beforeRemoveCallback != 'undefined'){
+								if(typeof tableConfig.beforeRemoveCallback != 'undefined'){
 									// roda antes de excluir o item
-									fieldConfig.beforeRemoveCallback($(element));
+									tableConfig.beforeRemoveCallback($(element));
 								};
 								
 								fnWdkRemoveChild(element);
 								
-								if(typeof fieldConfig.afterRemoveCallback != 'undefined'){
+								if(typeof tableConfig.afterRemoveCallback != 'undefined'){
 									// roda depois de excluir o item OBS: Não tem $self pois a linha foi excluida.
-									fieldConfig.afterRemoveCallback();
+									tableConfig.afterRemoveCallback();
 								};
 							}
 
@@ -242,7 +242,7 @@ var uFFw = {
 										
 										tableConfig.fields.forEach( function (fieldConfig){
 											
-											uFFw.tables.start ( tableConfig.id, fieldConfig )
+											uFFw.tables.start ( tableConfig, fieldConfig )
 											
 										})
 										
@@ -275,7 +275,7 @@ var uFFw = {
 										
 										tableConfig.fields.forEach( function (fieldConfig){
 											
-											uFFw.tables.start ( tableConfig.id, fieldConfig )
+											uFFw.tables.start ( tableConfig, fieldConfig )
 											
 										})
 										
@@ -297,10 +297,10 @@ var uFFw = {
 			
 		},
 		
-		start: function ( tableName, fieldConfig ) {
+		start: function ( tableConfig, fieldConfig ) {
 						
-			$('table[tablename="' + tableName + '"] tbody > tr:not(:first-child)').each( function(index, linha) {
-				$(linha).find('[uf-removeChild="' + tableName + '"]').off().on('click', function(){
+			$('table[tablename="' + tableConfig.id + '"] tbody > tr:not(:first-child)').each( function(index, linha) {
+				$(linha).find('[uf-removeChild="' + tableConfig.id + '"]').off().on('click', function(){
 					
 					var element = this;
 					
@@ -317,16 +317,16 @@ var uFFw = {
 						// se respondeu para remover a linha
 						if (result) {
 								
-							if(typeof fieldConfig.beforeRemoveCallback != 'undefined'){
+							if(typeof tableConfig.beforeRemoveCallback != 'undefined'){
 								// roda antes de excluir o item
-								fieldConfig.beforeRemoveCallback($(element));
+								tableConfig.beforeRemoveCallback($(element));
 							};
 							
 							fnWdkRemoveChild(element);
 							
-							if(typeof fieldConfig.afterRemoveCallback != 'undefined'){
+							if(typeof tableConfig.afterRemoveCallback != 'undefined'){
 								// roda depois de excluir o item OBS: Não tem $self pois a linha foi excluida.
-								fieldConfig.afterRemoveCallback();
+								tableConfig.afterRemoveCallback();
 							};
 						}
 

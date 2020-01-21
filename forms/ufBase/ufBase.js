@@ -189,7 +189,15 @@ $(document).ready(function() {
 			    	
 			    }
 			}
-		]
+			],
+			// Função que executa antes de deletar um ITEM da tabela.
+			beforeRemoveCallback: function($self){
+				console.info('Rodou antes de excluir a linha: ', $self)
+			},
+			// Função que executa após deletar um ITEM da tabela  OBS: Não retorna o $self pois a linha já foi excluida.
+			afterRemoveCallback: function(){
+				console.info('Rodou após excluir a linha.')
+			},
 	}];
 	
 	

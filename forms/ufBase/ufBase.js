@@ -198,6 +198,7 @@ $(document).ready(function() {
 			afterRemoveCallback: function(){
 				console.info('Rodou após excluir a linha.')
 			},
+			// Função que executa após adicionar um ITEM da tabela.
 			afterAddLine: function($self){
 				console.info('Rodou após adicionar uma linha.')
 			}

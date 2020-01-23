@@ -210,7 +210,10 @@ var uFFw = {
 					
 					
 				})
-				
+				if ( typeof tableConfig.afterAddLine != 'undefined' ) {
+						
+					tableConfig.afterAddLine($( '[tablename="' + tableConfig.id + '"] tr:last' ));
+				}
 				$validator.form();
 				
 			})

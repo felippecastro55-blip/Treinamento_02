@@ -198,6 +198,9 @@ $(document).ready(function() {
 			afterRemoveCallback: function(){
 				console.info('Rodou após excluir a linha.')
 			},
+			afterAddLine: function($self){
+				console.info('Rodou após adicionar uma linha.')
+			}
 	}];
 	
 	

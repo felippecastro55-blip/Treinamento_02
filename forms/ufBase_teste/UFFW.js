@@ -1240,7 +1240,7 @@ $.fn.uFZoomBETA = function(zoomInfo, callback, listFields, sufix){
 			//deferLoading: 20,
 			//deferLoading: [ 10, 20 ],
 			deferRender: true,
-			//searchDelay: 1000,  //milliseconds
+			//searchDelay: 1000,  //millisecondss
 			ajax: {
 				url: '/api/public/ecm/dataset/datasets/',
 				type: 'POST',

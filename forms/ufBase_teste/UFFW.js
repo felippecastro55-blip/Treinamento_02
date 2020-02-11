@@ -1,7 +1,7 @@
 window.listaCalendar = [];
 
 var uFFw = {
-	
+		
 	setDefaults: function(typeConfig, config){
 		
 		uFFw.defaults[typeConfig] = config
@@ -48,6 +48,7 @@ var uFFw = {
 	//objeto de configuração padrão para funcionamento de rotinas
 	defaults: {
 		
+		zoomBetaFields: null,
 		dateOptions: { useCurrent: false },
 		validOptions: { depends: function(el) { return $(el).is(":visible"); }, },
 		moneyOptions: { prefix: '', thousands: '', decimal: ',' },
@@ -97,7 +98,6 @@ var uFFw = {
 		
 		setTimeout(function(){ $('form').trigger('change') }, 100);
 	},
-	
 	
 	customActions: {
 		
@@ -156,7 +156,6 @@ var uFFw = {
 		}
 		
 	},
-	
 	
 	tables: {
 		
@@ -391,7 +390,6 @@ var uFFw = {
 
 	},
 
-	
 	fields: {
 		
 		customActions: {
@@ -500,7 +498,7 @@ var uFFw = {
 			
 			
 		},
-
+		//Objeto de configuração de elementos do tipo ZoomBeta
 		zoomBeta: {
 
 			init: function ( fieldConfig, sufix ) {
@@ -540,8 +538,7 @@ var uFFw = {
 						title: 'Cadastro de ' + zoomOptions.label,
 						CodQuery: zoomOptions.CodQuery, //nome_dataset
 						constraints: zoomOptions.constraints,	// filtros aplicados a consulta
-						columns: zoomOptions.columns,
-						lstLocal: zoomOptions.lstLocal
+						columns: zoomOptions.columns
 				},zoomCallback, listFields, sufix);
 
 			},
@@ -845,7 +842,6 @@ var uFFw = {
 
 	},
 
-
 	utils: {
 		
 		addClass: {
@@ -879,7 +875,6 @@ var uFFw = {
 			
 			
 		},
-		
 		
 		getTotalValue: function(QUANT, VALOR){
 			
@@ -1259,7 +1254,7 @@ $.fn.uFZoomBETA = function(zoomInfo, callback, listFields, sufix){
 					//console.info('data do ajax: ', d);
 					var objAPI = {
 						name: zoomInfo.CodQuery,
-						fields: null,
+						fields: typeof zoomInfo.fields == 'undefined' ? uFFw.defaults.zoomBetaFields : zoomInfo.fields,
 						constraints: processaConstraint(valor),
 						order: null
 					};

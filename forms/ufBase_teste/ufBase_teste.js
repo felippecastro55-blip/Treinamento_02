@@ -79,6 +79,7 @@ $(document).ready(function() {
 				sourceVal: '3', // 1 = Valor Fixo | 2 = Campo de Formulario | 3 = Valor do usuario
 				field: 'mail',
 			}],
+			fields: null,
 			columns: [
 				{ title: 'Nome', data: 'colleagueName', className: 'text-nowrap' },
 	            { title: 'Email', data: 'mail' },

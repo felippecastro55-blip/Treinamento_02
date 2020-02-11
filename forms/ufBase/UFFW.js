@@ -915,6 +915,7 @@ var uFFw = {
 
 		//verifica se o conteudo passado esta na lista
 		verificaConteudo: function( conteudo, lista ) {
+			if (lista == "all") return true
 			return lista.some( function( conteudoLoop ) {
 				return conteudo == conteudoLoop
 			});

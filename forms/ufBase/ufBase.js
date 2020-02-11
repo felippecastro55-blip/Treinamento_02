@@ -11,7 +11,7 @@ $(document).ready(function() {
 	var fieldsConfig = [
 	{
 		name: 'DATAEXEMPLO', //NOME DO CAMPO
-		state: {type: ['MOD'], num: [0, 1]}, //type: LISTA DE ESTADO DO FORMULARIO (EX: ['VIEW']). DEFAULT = [MOD, ADD] || NUM = LISTA DE ATIVIDADES QUE TAL CONFIGURAÇÃO VAI AGIR. (EX: [1, 2]). NULL = TODAS 
+		state: {type: 'default', num: [0, 1]}, //type: LISTA DE ESTADO DO FORMULARIO (EX: ['VIEW']). DEFAULT = [MOD, ADD] || NUM = LISTA DE ATIVIDADES QUE TAL CONFIGURAÇÃO VAI AGIR. (EX: [1, 2]). "all" = TODAS 
 
 		fieldType: 'date', //TIPO DE CAMPO DATA
 		validate: ['required'], 
@@ -30,7 +30,7 @@ $(document).ready(function() {
 		}
 	},
 	{
-		state: {type: 'default', num: [0, 1]}, //type: LISTA DE ESTADO DO FORMULARIO (EX: ['VIEW']). DEFAULT = [MOD, ADD] || NUM = LISTA DE ATIVIDADES QUE TAL CONFIGURAÇÃO VAI AGIR. (EX: [1, 2]). NULL = TODAS 
+		state: {type: 'default', num: [0, 1]}, //type: LISTA DE ESTADO DO FORMULARIO (EX: ['VIEW']). DEFAULT = [MOD, ADD] || NUM = LISTA DE ATIVIDADES QUE TAL CONFIGURAÇÃO VAI AGIR. (EX: [1, 2]). "all" = TODAS 
 		name: 'SELECTTESTE', //NOME DO CAMPO
 		class: ['text-right'],
 		validate: [], 
@@ -42,7 +42,7 @@ $(document).ready(function() {
 		}
 	},
 	{
-		state: {type: 'default', num: [0, 1]}, //type: LISTA DE ESTADO DO FORMULARIO (EX: ['VIEW']). DEFAULT = [MOD, ADD] || NUM = LISTA DE ATIVIDADES QUE TAL CONFIGURAÇÃO VAI AGIR. (EX: [1, 2]). NULL = TODAS 
+		state: {type: 'default', num: "all"}, //type: LISTA DE ESTADO DO FORMULARIO (EX: ['VIEW']). DEFAULT = [MOD, ADD] || NUM = LISTA DE ATIVIDADES QUE TAL CONFIGURAÇÃO VAI AGIR. (EX: [1, 2]). "all" = TODAS 
 		name: 'MONETARIOEXEMPLO', //NOME DO CAMPO
 		class: ['text-right'],
 		fieldType: 'money', //TIPO DE CAMPO monetario
@@ -101,9 +101,9 @@ $(document).ready(function() {
 		{
 			id: 'secRequisicao',
 			visible: false, //TRUE = SEMPRE VISIVEL || FALSE = VISIVEL APENAS NAS ATIVIDADES CONTIDAS EM VISIBLEATV
-			visibleAtv: [0, 1], //LISTA DE ATIVIDADES QUE ESSA SECTION É VISIVEL
+			visibleAtv: [0, 1], //LISTA DE ATIVIDADES QUE ESSA SECTION É VISIVEL. 
 			enabled: true, //TRUE = TAL SECTION É ENABLED EM ALGUMA ATIVIDADE || FALSE = SEMPRE DISABLED
-			enabledAtv: [0, 1] //LISTA DE ATIVIDADES QUE ESSA SECTION NÃO ESTÁ DISABLED
+			enabledAtv: [0, 1] //LISTA DE ATIVIDADES QUE ESSA SECTION NÃO ESTÁ DISABLED. "all" HABILITA TODAS AS ATIVIDADES
 		},
 		{
 			id: 'secAprovacaoFINANCEIRO',
@@ -129,7 +129,7 @@ $(document).ready(function() {
 			id: 'tblDependentes',
 			fields: [
 			{
-				state: {type: 'default', num: [0, 1]}, //type: LISTA DE ESTADO DO FORMULARIO (EX: ['VIEW']). DEFAULT = [MOD, ADD] || NUM = LISTA DE ATIVIDADES QUE TAL CONFIGURAÇÃO VAI AGIR. (EX: [1, 2]). NULL = TODAS 
+				state: {type: 'default', num: [0, 1]}, //type: LISTA DE ESTADO DO FORMULARIO (EX: ['VIEW']). DEFAULT = [MOD, ADD] || NUM = LISTA DE ATIVIDADES QUE TAL CONFIGURAÇÃO VAI AGIR. (EX: [1, 2]). "all" = TODAS 
 				name: 'DATAEXEMPLOTABLE', //NOME DO CAMPO
 				fieldType: 'date', //TIPO DE CAMPO DATA
 				validate: [], 
@@ -144,7 +144,7 @@ $(document).ready(function() {
 				}
 			},
 			{
-				state: {type: 'default', num: [0, 1]}, //type: LISTA DE ESTADO DO FORMULARIO (EX: ['VIEW']). DEFAULT = [MOD, ADD] || NUM = LISTA DE ATIVIDADES QUE TAL CONFIGURAÇÃO VAI AGIR. (EX: [1, 2]). NULL = TODAS 
+				state: {type: 'default', num: [0, 1]}, //type: LISTA DE ESTADO DO FORMULARIO (EX: ['VIEW']). DEFAULT = [MOD, ADD] || NUM = LISTA DE ATIVIDADES QUE TAL CONFIGURAÇÃO VAI AGIR. (EX: [1, 2]). "all" = TODAS 
 				name: 'MONETARIOEXEMPLOTABLE', //NOME DO CAMPO
 				class: ['text-right'],
 				fieldType: 'money', //TIPO DE CAMPO monetario

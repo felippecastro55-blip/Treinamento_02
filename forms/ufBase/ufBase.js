@@ -81,12 +81,12 @@ $(document).ready(function() {
 	    	type: '1', 
 	    	fields: [
 	    		{
-	    			data: 'NOMEFANTASIA',
-	    			formField: 'COLIGADA'
+	    			data: 'CODCOLIGADA',
+	    			formField: 'COLIGADACOD'
 	    		},
 	    		{
 	    			data: 'NOMEFANTASIA',
-	    			formField: 'COLIGADACOD'
+	    			formField: 'COLIGADA'
 	    		},
 	    	]
 	    	
@@ -124,6 +124,52 @@ $(document).ready(function() {
 
 	//Lista contendo objeto de tables
 	var tablesConfig =  [
+
+		{
+			state: {type: 'default', num: [0, 1]},
+			id: 'tabela_pf_produto',
+			
+			fields: [
+				{
+					state: {type: 'default', num: [0, 1]}, //type: LISTA DE ESTADO DO FORMULARIO (EX: ['VIEW']). DEFAULT = [MOD, ADD] || NUM = LISTA DE ATIVIDADES QUE TAL CONFIGURAÇÃO VAI AGIR. (EX: [1, 2]). NULL = TODAS 
+					name: 'COLIGADA_EXEMPLO', //NOME DO CAMPO
+					validate: [],
+					fieldType: 'zoom', 
+					customActions: function( $self ) { //função para customização
+						console.log('Teste Execução Custom')
+						console.log($self)
+			
+					},
+					zoomOptions: {
+						label: 'Coligada',
+						uFZommType: '3',	// 1=DataServer | 2=Consulta | 3=Dataset | 4=query 
+						CodQuery: 'colleague', // dataserver | codsentenca | nome_dataset | array
+						constraints:[],
+						columns: [
+							{ title: 'Nome', data: 'CODCOLIGADA2', className: 'text-nowrap' },
+			
+						],
+					},
+					zoomReturn: {
+						//DEFAULT = RETORNO DO DATASET DIRETO PARA CAMPOS DO FORM
+						//1 = UTILIZA 'DE PARA' do fields
+						//2 = UTILIZA 'FUNÇÃO' do fields
+						type: '1', 
+						fields: [
+							{
+								data: 'colleagueName',
+								formField: 'COLIGADA_EXEMPLO'
+							}
+							
+						]
+						
+					}
+
+				
+				}
+			]
+
+		},
 		{
 			state: {type: 'default', num: [0, 1]},
 			id: 'tblDependentes',
@@ -188,6 +234,53 @@ $(document).ready(function() {
 			    	]
 			    	
 			    }
+			},
+			{
+				state: {type: 'default', num: [0, 1]}, //type: LISTA DE ESTADO DO FORMULARIO (EX: ['VIEW']). DEFAULT = [MOD, ADD] || NUM = LISTA DE ATIVIDADES QUE TAL CONFIGURAÇÃO VAI AGIR. (EX: [1, 2]). NULL = TODAS 
+				name: 'COLIGADA_EXEMPLO', //NOME DO CAMPO
+				validate: [],
+				fieldType: 'zoomBeta', 
+				customActions: function( $self ) { //função para customização
+					console.log('Teste Execução Custom')
+					console.log($self)
+		
+				},
+				zoomOptions: {
+					label: 'Coligada',
+					CodQuery: 'colleague', // Nome do Dataset -> Por enquanto só funciona para dataset
+					/**
+					 * @sourceVal -> {string}
+					 * 	se sourceVal = '1', o valor da constraint eh fixo e eh necessario passar a chave valor 
+					 *  com o valor desejado
+					 *  se sourceVal = '2', o valor da constraint vem de um campo de formulario e eh necesario
+					 *  passar a chave formField com o nome do campo
+					 *  se sourceVal = '3', o usuario ira inserir o valor da constraint no filtro do modal do zoom
+					 */
+					constraints:[{
+						sourceVal: '3', // 1 = Valor Fixo | 2 = Campo de Formulario | 3 = Valor do usuario
+						field: 'mail',
+					}],
+					columns: [
+						{ title: 'Nome', data: 'colleagueName', className: 'text-nowrap' },
+		
+					],
+				},
+				zoomReturn: {
+					//DEFAULT = RETORNO DO DATASET DIRETO PARA CAMPOS DO FORM
+					//1 = UTILIZA 'DE PARA' do fields
+					//2 = UTILIZA 'FUNÇÃO' do fields
+					type: '1', 
+					fields: [
+						{
+							data: 'colleagueName',
+							formField: 'COLIGADA_EXEMPLO'
+						}
+						
+					]
+					
+				}
+
+			
 			}
 			],
 			// Função que executa antes de deletar um ITEM da tabela.

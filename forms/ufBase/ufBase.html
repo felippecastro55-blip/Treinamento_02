@@ -107,6 +107,7 @@
                         </div>
 					</div>
                 </div>
+                
             </section>
             
             <section class="secDependentes" id="secDependentes" style="display:none;">
@@ -163,7 +164,21 @@
 								                            <input type="hidden" class="form-control codinput" name="COLIGADACODTABLE" readonly>
 								                        </div>
 													</div>
-								                </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group ufZoom">
+                                                            <label class="control-label" for="COLIGADA_EXEMPLO">COLIGADA EXEMPLO</label>
+                                                            <div class="input-group">
+                                                                <input type="text" class="form-control" name="COLIGADA_EXEMPLO" placeholder="Selecione..." readonly>
+                                                                <span class="input-group-btn">
+                                                                    <button uf-zoom="COLIGADA_EXEMPLO" class="btn btn-default" type="button" data-loading-text="<i class=&quot;fa fa-circle-o-notch fa-spin&quot;></i>"><span class="fluigicon fluigicon-search-test"></span></button>
+                                                                </span>
+                                                            </div>
+                                                            <input type="hidden" class="form-control codinput" name="COLIGADACOD2" readonly>
+                                                        </div>
+                                                    </div>
+                                                </div>
 		                                    </td>
 		                                    <td class="acoes-linha">
 		                                        <a href="javascript:;" class="remove-linha" uf-removeChild="tblDependentes" data-toggle="tooltip" title="Remover Item"><span class="fluigicon fluigicon-remove-circle fluigicon-sm"></span></a>

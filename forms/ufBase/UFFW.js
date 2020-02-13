@@ -1,7 +1,7 @@
 window.listaCalendar = [];
 
 var uFFw = {
-	
+		
 	setDefaults: function(typeConfig, config){
 		
 		uFFw.defaults[typeConfig] = config
@@ -48,6 +48,8 @@ var uFFw = {
 	//objeto de configuração padrão para funcionamento de rotinas
 	defaults: {
 		
+		zoomBetaConstraints: null,
+		zoomBetaFields: null,
 		dateOptions: { useCurrent: false },
 		validOptions: { depends: function(el) { return $(el).is(":visible"); }, },
 		moneyOptions: { prefix: '', thousands: '', decimal: ',' },
@@ -97,7 +99,6 @@ var uFFw = {
 		
 		setTimeout(function(){ $('form').trigger('change') }, 100);
 	},
-	
 	
 	customActions: {
 		
@@ -156,7 +157,6 @@ var uFFw = {
 		}
 		
 	},
-	
 	
 	tables: {
 		
@@ -391,7 +391,6 @@ var uFFw = {
 
 	},
 
-	
 	fields: {
 		
 		customActions: {
@@ -485,6 +484,11 @@ var uFFw = {
 				//inicia rotina de tipo de campo ZOOM
 				uFFw.fields.zoom.init(fieldConfig, sufix);
 				
+			} else if ( fieldConfig.fieldType == 'zoomBeta' ) {
+				
+				//inicia rotina de tipo de campo ZOOM BETA
+				uFFw.fields.zoomBeta.init(fieldConfig, sufix);
+				
 			}
 			
 			//inicia rotina de adição de classes
@@ -495,7 +499,54 @@ var uFFw = {
 			
 			
 		},
-		
+		//Objeto de configuração de elementos do tipo ZoomBeta
+		zoomBeta: {
+
+			init: function ( fieldConfig, sufix ) {
+				
+				if ( typeof fieldConfig.zoomReturn == 'undefined' ) {
+					
+					this.start ( $('button[uf-zoom^="' + fieldConfig.name+ '"]:last').parent().find('button[uf-zoom]'), fieldConfig.zoomOptions, uFFw.defaults.zoomReturn, sufix);
+					
+				} else {
+					
+					
+					if ( typeof fieldConfig.zoomReturn.type == 'undefined' ||  fieldConfig.zoomReturn.type == 'default' ) {
+						
+						this.start ( $('[name^="' + fieldConfig.name + '"]:last').parent().find('button[uf-zoom]'), fieldConfig.zoomOptions, uFFw.defaults.zoomReturn, sufix);
+						
+					} else {
+						
+						if ( fieldConfig.zoomReturn.type == '1' ) {
+							
+							this.start ( $('[name^="' + fieldConfig.name + '"]:last').parent().find('button[uf-zoom]'), fieldConfig.zoomOptions,  uFFw.defaults.zoomFields, fieldConfig.zoomReturn.fields, sufix);
+							
+						} else {
+							this.start ( $('[name^="' + fieldConfig.name + '"]:last').parent().find('button[uf-zoom]'), fieldConfig.zoomOptions, fieldConfig.zoomReturn.fields);
+							
+						}
+						
+					}
+					
+				}
+
+			},		
+			
+			start: function ( $el, zoomOptions, zoomCallback, listFields, sufix) {
+				$el.uFZoomBETA({
+						loading: 'Aguarde, consultando cadastro de ' + zoomOptions.label + '...',
+						label: zoomOptions.label,
+						title: 'Cadastro de ' + zoomOptions.label,
+						CodQuery: zoomOptions.CodQuery, //nome_dataset
+						constraints: zoomOptions.constraints,	// filtros aplicados a consulta
+						columns: zoomOptions.columns,
+				},zoomCallback, listFields, sufix);
+
+			},
+
+			
+		},
+
 		zoom: {
 
 			//inicia aprovacao de formulario
@@ -504,23 +555,23 @@ var uFFw = {
 				
 				if ( typeof fieldConfig.zoomReturn == 'undefined' ) {
 					
-					this.start ( $('button[uf-zoom="' + fieldConfig.name+ '"]:last').parent().find('button[uf-zoom]'), fieldConfig.zoomOptions, uFFw.defaults.zoomReturn, sufix );
+					this.start ( $('button[uf-zoom="' + fieldConfig.name+ '"]:last').parent().find('button[uf-zoom]'), fieldConfig.zoomOptions, uFFw.defaults.zoomReturn, sufix);
 					
 				} else {
 					
 					
 					if ( typeof fieldConfig.zoomReturn.type == 'undefined' ||  fieldConfig.zoomReturn.type == 'default' ) {
 						
-						this.start ( $('[name="' + fieldConfig.name + '"]:last').parent().find('button[uf-zoom]'), fieldConfig.zoomOptions, uFFw.defaults.zoomReturn, sufix );
+						this.start ( $('[name="' + fieldConfig.name + '"]:last').parent().find('button[uf-zoom]'), fieldConfig.zoomOptions, uFFw.defaults.zoomReturn, sufix);
 						
 					} else {
 						
 						if ( fieldConfig.zoomReturn.type == '1' ) {
 							
-							this.start ( $('[name="' + fieldConfig.name + '"]:last').parent().find('button[uf-zoom]'), fieldConfig.zoomOptions,  uFFw.defaults.zoomFields, fieldConfig.zoomReturn.fields, sufix );
+							this.start ( $('[name="' + fieldConfig.name + '"]:last').parent().find('button[uf-zoom]'), fieldConfig.zoomOptions,  uFFw.defaults.zoomFields, fieldConfig.zoomReturn.fields, sufix);
 							
 						} else {
-							this.start ( $('[name="' + fieldConfig.name + '"]:last').parent().find('button[uf-zoom]'), fieldConfig.zoomOptions, fieldConfig.zoomReturn.fields );
+							this.start ( $('[name="' + fieldConfig.name + '"]:last').parent().find('button[uf-zoom]'), fieldConfig.zoomOptions, fieldConfig.zoomReturn.fields);
 							
 						}
 						
@@ -530,20 +581,21 @@ var uFFw = {
 
 			},
 		
-			start: function ( $el, zoomOptions, zoomCallback, listFields, sufix ) {
+			start: function ( $el, zoomOptions, zoomCallback, listFields, sufix) {
 				
 				
 				$el.uFZoom({
-                    loading: 'Aguarde, consultando cadastro de ' + zoomOptions.label + '...',
-                    label: zoomOptions.label,
-                    title: 'Cadastro de ' + zoomOptions.label,
-                    uFZommType: zoomOptions.uFZommType,	// 1=DataServer | 2=Consulta | 3=Dataset | 4=query | 5=array
-                    CodQuery: zoomOptions.CodQuery, // dataserver | codsentenca | nome_dataset | array
-                    constraints: zoomOptions.constraints,
-                    columns: zoomOptions.columns,
-                    lstLocal: zoomOptions.lstLocal
-                }, zoomCallback, listFields, sufix);
-				
+					loading: 'Aguarde, consultando cadastro de ' + zoomOptions.label + '...',
+					label: zoomOptions.label,
+					title: 'Cadastro de ' + zoomOptions.label,
+					uFZommType: zoomOptions.uFZommType,	// 1=DataServer | 2=Consulta | 3=Dataset | 4=query | 5=array
+					CodQuery: zoomOptions.CodQuery, // dataserver | codsentenca | nome_dataset | array
+					constraints: zoomOptions.constraints,
+					columns: zoomOptions.columns,
+					lstLocal: zoomOptions.lstLocal
+				}, zoomCallback, listFields, sufix);
+	
+		
 			},
 
 		},
@@ -791,7 +843,6 @@ var uFFw = {
 
 	},
 
-
 	utils: {
 		
 		addClass: {
@@ -825,7 +876,6 @@ var uFFw = {
 			
 			
 		},
-		
 		
 		getTotalValue: function(QUANT, VALOR){
 			
@@ -1036,6 +1086,298 @@ $.fn.setDisabled = function () {
  * @desc   	Inicializa o zoom no campo de acordo com as opções
  * @since   1.0.0
  */
+
+$.fn.uFZoomBETA = function(zoomInfo, callback, listFields, sufix){
+	var $elZoom = $(this);
+
+	// verifica se há o atributo de loading do bootstrap em todos os button do zoom
+	// se já tiver, não adiciona novamente
+	if ( !$elZoom.attr('data-loading-text') ) $elZoom.attr('data-loading-text', '<i class="fa fa-circle-o-notch fa-spin"></i>');
+
+	// remove todos os eventos 'click' dos zooms já criados
+	// para não dar incompatibilidade com a nova inicialização        
+	// ao clicar em qualquer elemento para abrir o zoom
+	$elZoom.off('click').on('click', function() {
+		console.log(zoomInfo)
+		// este selZomm
+		var $this = $(this);
+		var tplContent = '';
+		tplContent += '<div class="row">';
+		tplContent += '<div class="col-xs-6"><caption>Utilize a pesquisa para encontrar o cadastro</caption></div>';
+		tplContent += '<div class="col-xs-6">';
+		tplContent += '<div class="form-group">';
+		tplContent += '<div class="input-group">';
+		tplContent += '<input type="search" class="form-control" placeholder="Pesquisar...">';
+		tplContent += '<div class="input-group-btn"><button class="btn btn-default" type="button"><span class="fluigicon fluigicon-search"></span></button></div>';
+		tplContent += '</div>';
+		tplContent += '<p class="help-block small">Digite 3 ou mais caracteres e pressione "Enter" ou clique na lupa para filtrar a lista</p>';
+		tplContent += '</div>';
+		tplContent += '</div>';
+		tplContent += '</div>';
+		tplContent += '<div class="row">';
+		tplContent += '<div class="col-xs-12">';
+		tplContent += '<table class="table">';
+		tplContent += '<thead></thead>';
+		tplContent += '<tbody></tbody>';
+		tplContent += '</table>';
+		tplContent += '</div>';
+		tplContent += '</div>';
+
+		var zoomModal = FLUIGC.modal({
+			title: zoomInfo.title,
+			size: ((zoomInfo.size)?zoomInfo.size:'large'),  // full, large, small'
+			content: tplContent,
+			id: 'zoomModal',
+			actions: [{
+				label: 'Cancelar',
+				autoClose: true,
+				classType: 'btn btn-default',
+			},{
+				label: 'INSERIR >',
+				bind: 'data-inserirselecaozoom',
+				classType: 'btn btn-primary',
+			}]
+		}, function (err, data) {
+			if (err) {
+				exbErro('Ocorreu um erro ao exibir o modal. Por favor, tente novamente.');
+				console.error('Erro no FLUIGC.modal()', err);
+				return; // cancela da função de zoom
+			}
+		});
+		
+		var msgLoading = FLUIGC.loading('#zoomModal', {
+			textMessage: zoomInfo.loading,
+			overlayCSS: {
+				backgroundColor: '#fff',
+				"border-radius": '6px',
+				opacity: 0.6,
+				cursor: 'wait'
+			},
+			baseZ: 1000,
+			fadeIn: 200,
+			fadeOut: 400,
+			timeout: 0,
+		});
+
+		// resgata o input referente a este zoom
+		var $cmp = $this.parents('.input-group').find('input');
+
+		// oculta a barra padrão do Fluig
+		parent.$('#workflowview-header').hide();
+		
+		// adiciona o informativo no rodapé
+		$('#zoomModal .modal-footer').append( $('<small>', {class:'info pull-left', html:"<i class='fa fa-search' aria-hidden='true'></i> Inicie a pesquisa para localizar um "+zoomInfo.label}) );
+		$('#zoomModal .modal-body').css('max-height','70%')
+
+		/**
+		 * @params
+		 * 		@inputUsuario {string} : valor que o usuario digitou no campo de filtro
+		 * @description
+		 * 		funcao responsavel por pegar as constraints passsadas nas opcoes do zoom
+		 * 		e transforma-las no formato para o AJAX
+		 */
+		var processaConstraint = function(inputUsuario){
+			// se há filtro na consulta, inicia a montagem das constraints
+			if (zoomInfo.constraints.length > 0) {
+				// objeto de constraint padrao
+				var defaultConstraint = {
+					_field: "",
+					_initialValue: '',
+					_finalValue: '',
+					_type: 1,	// type 1 significa constraint MUST
+					_likeSearch: true
+				}
+				return zoomInfo.constraints.map(function(e,i){
+					// verifica a origem do valor do filtro
+					switch ( String(e.sourceVal) ) {
+						case '1':    // se o valor é fixo (sourceVal = 1), ou seja, passado direto pelo zoomInfo
+							defaultConstraint['_field'] 		= e.field
+							defaultConstraint['_initialValue'] 	= e.value
+							defaultConstraint['_finalValue'] 	= e.value
+						break;
+						case '2':   // se o valor é uma referência (sourceVal = 2), ou seja, vem de um campo do formulário
+							defaultConstraint['_field'] 		= e.field
+							defaultConstraint['_initialValue'] 	= $('[name="'+e.formField+'"]').val()
+							defaultConstraint['_finalValue'] 	= $('[name="'+e.formField+'"]').val()
+						break;
+						case '3':	// se o usuario informa o valor (sourceVal = 3), ou seja, vem do filtro
+							defaultConstraint['_field'] 		= e.field
+							defaultConstraint['_initialValue'] 	= inputUsuario
+							defaultConstraint['_finalValue'] 	= inputUsuario 
+						break;
+					};
+					return defaultConstraint
+				});
+
+			};
+			return []
+		}
+
+
+		// a inicialização do plugin DataTable deve ser feita
+		// depois que o modal já está renderizado no DOM
+		var dtZoom = $('#zoomModal').find('table').DataTable({
+			dom: "<'row'<'col-xs-12't>><'row tabela-rodape'<'col-xs-12 col-md-5'i><'col-xs-12 col-md-7'p>>",
+			language: {
+				thousands: ".",
+				zeroRecords: "<i class='fa fa-exclamation-circle' aria-hidden='true'></i> Nenhum item localizado",
+				emptyTable: "<i class='fa fa-search' aria-hidden='true'></i> Inicie a pesquisa para localizar um(a) "+zoomInfo.label,
+				info: "", //info: "Exibindo TOTAL itens",
+				infoEmpty: "",
+				infoFiltered: "",    //infoFiltered: "(filtro de um total de MAX itens)",
+				paginate: {
+					first: "Primeira",
+					previous: "Anterior",
+					next: "Próxima",
+					last: "Última"
+				},
+			   loadingRecords: "Pesquisando cadastro ...",
+			   processing: "Pesquisando ...",
+			},
+			columns: zoomInfo.columns,
+			//data: listaZoom,
+			paging: false,
+			ordering: false,
+			processing: true,
+			serverSide: true,
+			//deferLoading: 20,
+			//deferLoading: [ 10, 20 ],
+			deferRender: true,
+			//searchDelay: 1000,  //millisecondss
+			ajax: {
+				url: '/api/public/ecm/dataset/datasets/',
+				type: 'POST',
+				dataType: 'json',
+				headers: { "Content-Type": "application/json" },
+				dataSrc: 'content.values',
+					data: function (d) {
+						// valor pesquisado no campos
+						var valor = d.search.value;
+						if(valor == '') valor = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+						//console.info('data do ajax: ', d);
+						var objAPI = {
+							name: zoomInfo.CodQuery,
+							fields: null,
+							constraints: processaConstraint(valor),
+							order: null
+						};
+						return JSON.stringify(objAPI);
+					}
+				
+			},
+			createdRow: function (row, data, index) { // callback de adição de linha
+
+				// ao clicar na linha (clique simples apenas para selecionar)
+				$(row).on('click', function () {
+
+					// se for a linha de tabela vazia, sai da function
+					if ($(this).find('td').hasClass('dataTables_empty')) return; 
+
+					// se já estiver selecionada
+					if ($(this).hasClass('selected')) {
+						$(this).removeClass('selected');    // remove a classe de seleção
+					} else {    // se ainda não estiver selecionada
+						dtZoom.$('tr.selected').removeClass('selected'); // remove a seleção de todas as linhas
+						$(this).addClass('selected');
+					}
+				});
+				
+				// ao da um duplo clique em uma das linhas
+				$(row).on('dblclick', function () {
+
+					// se for a linha de tabela vazia, sai da function
+					if ($(this).find('td').hasClass('dataTables_empty')) return;
+
+					// faz chamada para preenchimento do formulário
+					//callback( $cmp, dtZoom.row(this).data() );
+					callback( $cmp, data, listFields, sufix );
+
+					zoomModal.remove(); // fecha o modal do Fluig
+					$('#zoomModal').remove(); // remove o modal do DOM
+
+				});
+				
+			},
+			drawCallback: function( settings ) {
+				console.log('drawCallback()', settings);
+				
+				// atualiza o informativo
+				//var qtd = dtZoom.rows().count();
+				var qtd = $(this).DataTable().rows().count();
+				if (qtd == 0) {
+					$('#zoomModal .modal-footer .info').html("<i class='fa fa-search' aria-hidden='true'></i> Inicie a pesquisa para localizar um registro");                    
+				} else if (qtd == 1) {
+					$('#zoomModal .modal-footer .info').html('Exibindo '+qtd+' de registros');
+				} else {
+					$('#zoomModal .modal-footer .info').html('Exibindo '+qtd+' de registros');
+				}
+				
+				msgLoading.hide();
+			},
+		});
+		
+		// define ação de pesquisa e foca no campo de busca          
+		$('#zoomModal input[type="search"]').keyup(function(e) {
+			var code = e.which; // recommended to use e.which, it's normalized across browsers
+
+			if ( this.value == '' ) {
+				//dtZoom.search("ABCDEFGHIJKLMNOPQRSTUVXYWZ").draw() ;
+			} else if (e.which == 13 && this.value.length < 3) {
+				parent.FLUIGC.toast({ title: 'Pesquisa!', message: 'Digite pelo menos 3 caracteres para buscar um registro.', type: 'warning', timeout: 3000 });
+			} else if (e.which == 13 && this.value.length >=3) {
+				msgLoading.show();
+				dtZoom.search(this.value).draw() ;  
+			}
+			
+			//dtZoom.search($(this).val()).draw() ;
+		}).focus();
+		
+		// ao clicar no botão
+		$('#zoomModal button[type="button"]').on('click', function() {
+			var val = String($('#zoomModal input[type="search"]').val());
+			if ( val == '' ) {
+				//dtZoom.search("ABCDEFGHIJKLMNOPQRSTUVXYWZ").draw() ;
+			} else if (val.length < 3) {
+				parent.FLUIGC.toast({ title: 'Pesquisa!', message: 'Digite pelo menos 3 caracteres para buscar um registro.', type: 'warning', timeout: 3000 });
+			} else if (val.length >= 3) {
+				msgLoading.show();
+				dtZoom.search(val).draw() ;   
+			}
+			
+			$('#zoomModal input[type="search"]').focus();
+		});
+
+		// ao fechar o modal
+		$('#zoomModal').on('hide.bs.modal', function() {
+			// exibe novamente a barra do fluig
+			parent.$('#workflowview-header').show();
+		});
+
+		// evento click do botão de inserir do modal
+		$('#zoomModal [data-inserirselecaozoom]').on('click', function() {
+
+			// localiza a linha selecionada
+			var $lin = $('#zoomModal table tbody tr.selected');
+
+			// se não tiver linha selecionada, sai da funciton
+			if (!$lin.length) return; 
+
+			// faz chamada para preenchimento do formulário
+			callback( $cmp, dtZoom.rows('.selected').data()[0],listFields, sufix );
+
+			zoomModal.remove(); // fecha o modal do Fluig
+			$('#zoomModal').remove(); // remove o modal do DOM
+		});
+		
+		// função que exibe o erro para o usuário
+		function exbErro(msg) {
+			// exibe mensagem para o usuário
+			parent.FLUIGC.toast({ title: 'Erro!', message: msg, type: 'danger', timeout: 4000 });
+		};
+})
+}
+
+
 $.fn.uFZoom = function (zoomInfo, callback, listFields, sufix) {
     
     var $elZoom = $(this);

@@ -48,6 +48,7 @@ var uFFw = {
 	//objeto de configuração padrão para funcionamento de rotinas
 	defaults: {
 		
+		zoomBetaConstraints: null,
 		zoomBetaFields: null,
 		dateOptions: { useCurrent: false },
 		validOptions: { depends: function(el) { return $(el).is(":visible"); }, },
@@ -505,23 +506,23 @@ var uFFw = {
 				
 				if ( typeof fieldConfig.zoomReturn == 'undefined' ) {
 					
-					this.start ( $('button[uf-zoom="' + fieldConfig.name+ '"]:last').parent().find('button[uf-zoom]'), fieldConfig.zoomOptions, uFFw.defaults.zoomReturn, sufix);
+					this.start ( $('button[uf-zoom^="' + fieldConfig.name+ '"]:last').parent().find('button[uf-zoom]'), fieldConfig.zoomOptions, uFFw.defaults.zoomReturn, sufix);
 					
 				} else {
 					
 					
 					if ( typeof fieldConfig.zoomReturn.type == 'undefined' ||  fieldConfig.zoomReturn.type == 'default' ) {
 						
-						this.start ( $('[name="' + fieldConfig.name + '"]:last').parent().find('button[uf-zoom]'), fieldConfig.zoomOptions, uFFw.defaults.zoomReturn, sufix);
+						this.start ( $('[name^="' + fieldConfig.name + '"]:last').parent().find('button[uf-zoom]'), fieldConfig.zoomOptions, uFFw.defaults.zoomReturn, sufix);
 						
 					} else {
 						
 						if ( fieldConfig.zoomReturn.type == '1' ) {
 							
-							this.start ( $('[name="' + fieldConfig.name + '"]:last').parent().find('button[uf-zoom]'), fieldConfig.zoomOptions,  uFFw.defaults.zoomFields, fieldConfig.zoomReturn.fields, sufix);
+							this.start ( $('[name^="' + fieldConfig.name + '"]:last').parent().find('button[uf-zoom]'), fieldConfig.zoomOptions,  uFFw.defaults.zoomFields, fieldConfig.zoomReturn.fields, sufix);
 							
 						} else {
-							this.start ( $('[name="' + fieldConfig.name + '"]:last').parent().find('button[uf-zoom]'), fieldConfig.zoomOptions, fieldConfig.zoomReturn.fields);
+							this.start ( $('[name^="' + fieldConfig.name + '"]:last').parent().find('button[uf-zoom]'), fieldConfig.zoomOptions, fieldConfig.zoomReturn.fields);
 							
 						}
 						
@@ -538,7 +539,7 @@ var uFFw = {
 						title: 'Cadastro de ' + zoomOptions.label,
 						CodQuery: zoomOptions.CodQuery, //nome_dataset
 						constraints: zoomOptions.constraints,	// filtros aplicados a consulta
-						columns: zoomOptions.columns
+						columns: zoomOptions.columns,
 				},zoomCallback, listFields, sufix);
 
 			},
@@ -1211,6 +1212,7 @@ $.fn.uFZoomBETA = function(zoomInfo, callback, listFields, sufix){
 			return []
 		}
 
+
 		// a inicialização do plugin DataTable deve ser feita
 		// depois que o modal já está renderizado no DOM
 		var dtZoom = $('#zoomModal').find('table').DataTable({
@@ -1247,19 +1249,20 @@ $.fn.uFZoomBETA = function(zoomInfo, callback, listFields, sufix){
 				dataType: 'json',
 				headers: { "Content-Type": "application/json" },
 				dataSrc: 'content.values',
-				data: function (d) {
-					// valor pesquisado no campos
-					var valor = d.search.value;
-					if(valor == '') valor = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-					//console.info('data do ajax: ', d);
-					var objAPI = {
-						name: zoomInfo.CodQuery,
-						fields: typeof zoomInfo.fields == 'undefined' ? uFFw.defaults.zoomBetaFields : zoomInfo.fields,
-						constraints: processaConstraint(valor),
-						order: null
-					};
-					return JSON.stringify(objAPI);
-				},
+					data: function (d) {
+						// valor pesquisado no campos
+						var valor = d.search.value;
+						if(valor == '') valor = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+						//console.info('data do ajax: ', d);
+						var objAPI = {
+							name: zoomInfo.CodQuery,
+							fields: null,
+							constraints: processaConstraint(valor),
+							order: null
+						};
+						return JSON.stringify(objAPI);
+					}
+				
 			},
 			createdRow: function (row, data, index) { // callback de adição de linha
 

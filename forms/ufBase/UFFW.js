@@ -965,7 +965,6 @@ var uFFw = {
 
 		//verifica se o conteudo passado esta na lista
 		verificaConteudo: function( conteudo, lista ) {
-			if (lista == "all") return true
 			return lista.some( function( conteudoLoop ) {
 				return conteudo == conteudoLoop
 			});
@@ -1210,7 +1209,7 @@ $.fn.uFZoomBETA = function(zoomInfo, callback, listFields, sufix){
 				});
 
 			};
-			return []
+			return 'undefined'
 		}
 
 
@@ -1257,8 +1256,8 @@ $.fn.uFZoomBETA = function(zoomInfo, callback, listFields, sufix){
 						//console.info('data do ajax: ', d);
 						var objAPI = {
 							name: zoomInfo.CodQuery,
-							fields: null,
-							constraints: processaConstraint(valor),
+							fields: zoomInfo.fields == 'undefined' ? uFFw.defaults.zoomBetaFields : zoomInfo.fields,
+							constraints: processaConstraint(valor) == 'undefined' ? uFFw.defaults.zoomBetaConstraints : processaConstraint(valor),
 							order: null
 						};
 						return JSON.stringify(objAPI);

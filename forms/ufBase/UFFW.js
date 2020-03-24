@@ -898,7 +898,7 @@ var uFFw = {
 		listaErros: function( ) {
 			var lstHtml = '<br/>';
 			$.each($validator.errorList, function (id, campo) {
-				var label = $('label.control-label[for="' + campo.element.name + '"]').text().replace(/(\r\n|\n|\r)/gm, "").replaceAll('\t', '');;
+				var label = $('label.control-label[for="' + campo.element.name + '"]').text().replace(/(\r\n|\n|\r)/gm, "").replace('/\t/g', '');;
 				
 				if(label != ''){
 					lstHtml += '<strong>' + ((label != undefined)?label:campo.element.name).toUpperCase() + '</strong>: ' + campo.message
@@ -1185,7 +1185,7 @@ $.fn.uFZoomBETA = function(zoomInfo, callback, listFields, sufix){
 						_field: "",
 						_initialValue: '',
 						_finalValue: '',
-						_type: 1,	// type 1 significa constraint MUST
+						_type: 2,	// type 2 significa constraint SHOULD
 						_likeSearch: true
 					}
 					// verifica a origem do valor do filtro

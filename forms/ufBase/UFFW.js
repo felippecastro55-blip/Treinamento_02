@@ -1179,15 +1179,15 @@ $.fn.uFZoomBETA = function(zoomInfo, callback, listFields, sufix){
 		var processaConstraint = function(inputUsuario){
 			// se há filtro na consulta, inicia a montagem das constraints
 			if (zoomInfo.constraints.length > 0) {
-				// objeto de constraint padrao
-				var defaultConstraint = {
-					_field: "",
-					_initialValue: '',
-					_finalValue: '',
-					_type: 1,	// type 1 significa constraint MUST
-					_likeSearch: true
-				}
 				return zoomInfo.constraints.map(function(e,i){
+					// objeto de constraint padrao
+					var defaultConstraint = {
+						_field: "",
+						_initialValue: '',
+						_finalValue: '',
+						_type: 1,	// type 1 significa constraint MUST
+						_likeSearch: true
+					}
 					// verifica a origem do valor do filtro
 					switch ( String(e.sourceVal) ) {
 						case '1':    // se o valor é fixo (sourceVal = 1), ou seja, passado direto pelo zoomInfo

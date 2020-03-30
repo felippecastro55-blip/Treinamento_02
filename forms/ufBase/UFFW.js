@@ -587,6 +587,7 @@ var uFFw = {
 				$el.uFZoom({
 					loading: 'Aguarde, consultando cadastro de ' + zoomOptions.label + '...',
 					label: zoomOptions.label,
+					clear: zoomOptions.clear,
 					title: 'Cadastro de ' + zoomOptions.label,
 					uFZommType: zoomOptions.uFZommType,	// 1=DataServer | 2=Consulta | 3=Dataset | 4=query | 5=array
 					CodQuery: zoomOptions.CodQuery, // dataserver | codsentenca | nome_dataset | array
@@ -1385,6 +1386,28 @@ $.fn.uFZoom = function (zoomInfo, callback, listFields, sufix) {
     // verifica se há o atributo de loading do bootstrap em todos os button do zoom
     // se já tiver, não adiciona novamente
     if ( !$elZoom.attr('data-loading-text') ) $elZoom.attr('data-loading-text', '<i class="fas fa-spinner fa-pulse"></i>');
+    
+    // verifica se eh desejado a opcao de limpar os campos do zoom
+    // caso sim, adiciona o botao de limpar e limpa os campos de acordo com o array passado
+    if(zoomInfo.clear && zoomInfo.clear.length){
+    	var $btnClear = $('<button>',{
+    		type:'button',
+    		class:"btn btn-default",
+    		html: '<span class="fluigicon fluigicon-remove-circle"></span>'
+    	})
+    	$btnClear.on('click',function(){
+    		console.log($elZoom)
+	    	zoomInfo.clear.forEach(function(e){
+	    		var $elemento = $(`[name="${e.name}"]`)
+    			$elemento.val('')
+    			if(e.trigger)
+    				$elemento.trigger(e.trigger)
+				if(e.afterClear)
+					e.afterClear($elemento)
+	    	})
+    	})
+    	$elZoom.after($btnClear)
+    }
     
     // remove todos os eventos 'click' dos zooms já criados
     // para não dar incompatibilidade com a nova inicialização        

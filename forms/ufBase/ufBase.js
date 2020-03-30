@@ -30,18 +30,6 @@ $(document).ready(function() {
 		}
 	},
 	{
-		state: {type: 'default', num: [0, 1]}, //type: LISTA DE ESTADO DO FORMULARIO (EX: ['VIEW']). DEFAULT = [MOD, ADD] || NUM = LISTA DE ATIVIDADES QUE TAL CONFIGURAÇÃO VAI AGIR. (EX: [1, 2]). "all" = TODAS 
-		name: 'SELECTTESTE', //NOME DO CAMPO
-		class: ['text-right'],
-		validate: [], 
-		requiredConfig: { depends: function(el) { return $(el).is(":visible") && $('[name="DATAEXEMPLO"]').val() != '' }, },
-		customActions: function( $self ) { //função para customização
-			console.log('Teste Execução Custom')
-			console.log($self)
-
-		}
-	},
-	{
 		state: {type: 'default', num: "all"}, //type: LISTA DE ESTADO DO FORMULARIO (EX: ['VIEW']). DEFAULT = [MOD, ADD] || NUM = LISTA DE ATIVIDADES QUE TAL CONFIGURAÇÃO VAI AGIR. (EX: [1, 2]). "all" = TODAS 
 		name: 'MONETARIOEXEMPLO', //NOME DO CAMPO
 		class: ['text-right'],
@@ -52,7 +40,7 @@ $(document).ready(function() {
 			prefix: 'R$ ', 
 			thousands: '', 
 			decimal: ','
-		}
+		},
 	},
 	{
 		state: {type: 'default', num: [2]}, 
@@ -96,8 +84,6 @@ $(document).ready(function() {
 
 	//Lista contendo objeto de sections
 	var sectionsConfig = [
-		
-		
 		{
 			id: 'secRequisicao',
 			visible: false, //TRUE = SEMPRE VISIVEL || FALSE = VISIVEL APENAS NAS ATIVIDADES CONTIDAS EM VISIBLEATV
@@ -124,7 +110,6 @@ $(document).ready(function() {
 
 	//Lista contendo objeto de tables
 	var tablesConfig =  [
-
 		{
 			state: {type: 'default', num: [0, 1]},
 			id: 'tabela_pf_produto',
@@ -209,6 +194,16 @@ $(document).ready(function() {
 				validate: [], 
 				zoomOptions: {
 					label: 'Coligada',
+					// array opcional com o name do campo a ser limpo, o evento para dar trigger e um callback
+					clear: [{	
+						name: 'COLIGADACOD'
+					},{
+						name:'DATAEXEMPLO',
+						trigger:'blur',
+						afterClear: function($self){
+							console.log('depois de limpar eu dei esse console aqui =)',$self)
+						}
+					}],
 			        uFZommType: '2',	// 1=DataServer | 2=Consulta | 3=Dataset | 4=query 
 			        CodQuery: 'FLUIG.EXEMPLO', // dataserver | codsentenca | nome_dataset | array
 			        constraints:[],

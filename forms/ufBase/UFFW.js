@@ -1398,7 +1398,11 @@ $.fn.uFZoom = function (zoomInfo, callback, listFields, sufix) {
     	$btnClear.on('click',function(){
     		console.log($elZoom)
 	    	zoomInfo.clear.forEach(function(e){
-	    		var $elemento = $(`[name="${e.name}"]`)
+				var $elemento = $(`[name="${e.name}"]`)
+				var linha = $elZoom.parents('tr')
+				// significa que eh um pai filho
+	    		if(linha.length && linha.find(`[name^="${e.name}_"]`).length)	
+	    			var $elemento = $elZoom.parents('tr').find(`[name^="${e.name}_"]`)
     			$elemento.val('')
     			if(e.trigger)
     				$elemento.trigger(e.trigger)

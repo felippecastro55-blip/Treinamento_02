@@ -55,6 +55,9 @@ $(document).ready(function() {
 		zoomOptions: {
 			label: 'Coligada',
 	        uFZommType: '2',	// 1=DataServer | 2=Consulta | 3=Dataset | 4=query 
+	        clear: [{
+	        	name:'DATAEXEMPLO',
+	        }],
 	        CodQuery: 'FLUIG.EXEMPLO', // dataserver | codsentenca | nome_dataset | array
 	        constraints:[],
 	        columns: [
@@ -123,7 +126,6 @@ $(document).ready(function() {
 					customActions: function( $self ) { //função para customização
 						console.log('Teste Execução Custom')
 						console.log($self)
-			
 					},
 					zoomOptions: {
 						label: 'Coligada',
@@ -196,7 +198,7 @@ $(document).ready(function() {
 					label: 'Coligada',
 					// array opcional com o name do campo a ser limpo, o evento para dar trigger e um callback
 					clear: [{	
-						name: 'COLIGADACOD'
+						name: 'COLIGADATABLE'
 					},{
 						name:'DATAEXEMPLO',
 						trigger:'blur',

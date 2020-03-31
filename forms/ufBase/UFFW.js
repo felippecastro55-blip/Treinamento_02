@@ -1389,28 +1389,32 @@ $.fn.uFZoom = function (zoomInfo, callback, listFields, sufix) {
     
     // verifica se eh desejado a opcao de limpar os campos do zoom
     // caso sim, adiciona o botao de limpar e limpa os campos de acordo com o array passado
-    if(zoomInfo.clear && zoomInfo.clear.length){
-    	var $btnClear = $('<button>',{
-    		type:'button',
-    		class:"btn btn-default",
-    		html: '<span class="fluigicon fluigicon-remove-circle"></span>'
-    	})
-    	$btnClear.on('click',function(){
-	    	zoomInfo.clear.forEach(function(e){
-				var $elemento = $(`[name="${e.name}"]`)
-				var linha = $elZoom.parents('tr')
-				// significa que eh um pai filho
-	    		if(linha.length && linha.find(`[name^="${e.name}_"]`).length)	
-	    			var $elemento = $elZoom.parents('tr').find(`[name^="${e.name}_"]`)
-    			$elemento.val('')
-    			if(e.trigger)
-    				$elemento.trigger(e.trigger)
-				if(e.afterClear)
-					e.afterClear($elemento)
-	    	})
-    	})
-    	// adiciona o botao apos o botao do zoom
-    	$elZoom.after($btnClear)
+    try{
+        if(zoomInfo.clear && zoomInfo.clear.length){
+        	var $btnClear = $('<button>',{
+        		type:'button',
+        		class:"btn btn-default",
+        		html: '<span class="fluigicon fluigicon-remove-circle"></span>'
+        	})
+        	$btnClear.on('click',function(){
+    	    	zoomInfo.clear.forEach(function(e){
+    				var $elemento = $(`[name="${e.name}"]`)
+    				var linha = $elZoom.parents('tr')
+    				// significa que eh um pai filho
+    	    		if(linha.length && linha.find(`[name^="${e.name}_"]`).length)	
+    	    			var $elemento = $elZoom.parents('tr').find(`[name^="${e.name}_"]`)
+        			$elemento.val('')
+        			if(e.trigger)
+        				$elemento.trigger(e.trigger)
+    				if(e.afterClear)
+    					e.afterClear($elemento)
+    	    	})
+        	})
+        	// adiciona o botao apos o botao do zoom
+        	$elZoom.after($btnClear)
+        }
+    }catch(e){
+    	console.error('Ocorreu um erro na criacao do botao de limpar o zoom:',e)
     }
     
     // remove todos os eventos 'click' dos zooms já criados

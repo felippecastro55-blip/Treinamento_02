@@ -56,7 +56,7 @@ $(document).ready(function() {
 			label: 'Coligada',
 	        uFZommType: '2',	// 1=DataServer | 2=Consulta | 3=Dataset | 4=query 
 	        clear: [{
-	        	name:'DATAEXEMPLO',
+	        	name:'COLIGADA',
 	        }],
 	        CodQuery: 'FLUIG.EXEMPLO', // dataserver | codsentenca | nome_dataset | array
 	        constraints:[],
@@ -198,11 +198,12 @@ $(document).ready(function() {
 					label: 'Coligada',
 					// array opcional com o name do campo a ser limpo, o evento para dar trigger e um callback
 					clear: [{	
-						name: 'COLIGADATABLE'
+						name: 'DATAEXEMPLO',
+						trigger:'change'
 					},{
-						name:'DATAEXEMPLO',
-						trigger:'blur',
-						afterClear: function($self){
+						name:'COLIGADATABLE',	// Se estiver em um pai filho, vai procurar um campo com esse name + ___idx
+						trigger:'blur',	// evento do jquery apos limpar o campo
+						afterClear: function($self){	//callback ao limpar campo
 							console.log('depois de limpar eu dei esse console aqui =)',$self)
 						}
 					}],

@@ -1396,7 +1396,6 @@ $.fn.uFZoom = function (zoomInfo, callback, listFields, sufix) {
     		html: '<span class="fluigicon fluigicon-remove-circle"></span>'
     	})
     	$btnClear.on('click',function(){
-    		console.log($elZoom)
 	    	zoomInfo.clear.forEach(function(e){
 				var $elemento = $(`[name="${e.name}"]`)
 				var linha = $elZoom.parents('tr')
@@ -1410,6 +1409,7 @@ $.fn.uFZoom = function (zoomInfo, callback, listFields, sufix) {
 					e.afterClear($elemento)
 	    	})
     	})
+    	// adiciona o botao apos o botao do zoom
     	$elZoom.after($btnClear)
     }
     

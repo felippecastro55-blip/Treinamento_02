@@ -43,6 +43,13 @@ const bind = function(){
 	$(document).on('keydown', function(evt){
 		if(evt.keyCode === 121){
 			CodeEditor.sendRequest();
+		}else if(evt.keyCode === 118){
+			if($('#block').hasClass('block')){
+				$('#block').removeClass('block')
+			}else{
+				$('#block').addClass('block')
+			}
+			
 		}
 	})
 }

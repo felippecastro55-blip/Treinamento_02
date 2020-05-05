@@ -1,3 +1,13 @@
+.block{
+	background-color: white;
+    position: fixed;
+    height: 150vh;
+    width: 100vw;
+    top: -33px;
+    left: 20px;
+    z-index: 100;
+}
+
 #enviar:hover{
 	padding: 0;
 	border-radius: 360px;

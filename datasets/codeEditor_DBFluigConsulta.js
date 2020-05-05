@@ -16,7 +16,7 @@ function createDataset(fields, constraints, sortFields) {
 	log.info('uf-log | Chamada do DataSet codeEditor_DBFluigConsulta.js');
 
 	// nome do datasource cadastrado no standalone.xml do Fluig
-	var DATASOURCE = "jdbc/FluigDSRO";
+	var DATASOURCE = fields[1];
 
 	var QUERY = ""; // variável da query que será executada
 	var CODSENTENCA = ""; // código de sentença que localiza a query
@@ -243,7 +243,7 @@ var lstConsulta = {
 			tipo: 'SELECT',
 			desc: 'SELECT GENÉRICO',
 			query: function(filtros, cmpFiltro) {
-				var parametros = JSON.parse(cmpFiltro[1]);
+				var parametros = JSON.parse(cmpFiltro[2]);
 				var query = parametros.QUERY;
 		        return String(query).replace(/\s{2,}/g, ' ');
 

@@ -1,25 +1,16 @@
-/**
- *
- * CADASTRO DE ANIVERSARIANTES
- *
- * @desc        Script padrão do widget
- * @copyright   2017 upFlow.me
- * @version     1.0.0
- * @author      Helbert Campos <helbert@upflow.me>
- *
- */
-
 var UF_CodeEditor = SuperWidget.extend({
     
     widgetId: null,
-	
+    
     //método iniciado quando a widget é carregada
     init: function() {
         console.info('INÍCIO | Script da widget:', this.instanceId, 'repositório:', this.reposi, 'versao:', this.versao, 'widgetId:', this.widgetId, 'preferences:', this.preferences);
     	$('span#ufrepname').html(this.reposi); $('span#ufrepversion').html(this.versao);
     	
+    	const DATASOURCE = this.preferences.DATASOURCE?this.preferences.DATASOURCE:'jdbc/FluigDSRO';
+
     	CodeEditor.init(); 
-    	bind();
+    	bind(DATASOURCE);
     },
   
     //BIND de eventos
@@ -30,19 +21,36 @@ var UF_CodeEditor = SuperWidget.extend({
         global: {}
     },
     
-    savePreferences: function () {},
+    savePreferences: function () {
+        var preferences = {
+        		DATASOURCE: new String($('input[name="DATASOURCE"]').val())
+        };
+        WCMSpaceAPI.PageService.UPDATEPREFERENCES(
+            {
+                async: true,
+                success: function (data) {
+                    FLUIGC.toast({ title: data.message, message: '', type: 'success' });
+                },
+                fail: function (xhr, message, errorData) {
+                    console.error('fail', xhr, message, errorData);
+                    FLUIGC.toast({ title: '', message: message, type: 'error' });
+                }
+            }, this.widgetId, preferences
+        );
+	},
     
 });
 
 
-const bind = function(){
+
+const bind = function(DATASOURCE){
 	$('#enviar').on('click', function(){
-		CodeEditor.sendRequest();
+		CodeEditor.sendRequest(DATASOURCE);
 	})
 	
 	$(document).on('keydown', function(evt){
 		if(evt.keyCode === 121){
-			CodeEditor.sendRequest();
+			CodeEditor.sendRequest(DATASOURCE);
 		}else if(evt.keyCode === 118){
 			if($('#block').hasClass('block')){
 				$('#block').removeClass('block')
@@ -65,13 +73,13 @@ var CodeEditor = {
 			    theme: "material-darker"
 			 });
 		},
-		sendRequest: function(){
+		sendRequest: function(DATASOURCE){
 			var self = this;
 			
 			//verifica se tem algo selecionado
 			var selecao = window.getSelection().toString()
 			
-			let parametros = ['1', JSON.stringify({QUERY: selecao||this.editor.getValue()})];
+			let parametros = ['1', DATASOURCE, JSON.stringify({QUERY: selecao||this.editor.getValue()})];
 			
 			var loading = FLUIGC.loading(window, {textMessage: 'Carregando Dados...'});
 			loading.show();

@@ -37,7 +37,7 @@ function createDataset(fields, constraints, sortFields) {
 
 	}
 	catch (e) {
-		return exibeErro('Erro ao criar filtros (linha: ' + e.lineNumber + '): ' + e.message); // faz a chamada da função que exibe o erro
+		return exibeErro('Erro ao criar filtros (linha: ' + e.lineNumber + '): ', e.message); // faz a chamada da função que exibe o erro
 	}
 
 	try {
@@ -55,7 +55,7 @@ function createDataset(fields, constraints, sortFields) {
 
 	}
 	catch (e) {
-		return exibeErro('Erro nos parâmetros passados através do fields do DataSet: ' + e); // faz a chamada da função que exibe o erro
+		return exibeErro('Erro nos parâmetros passados através do fields do DataSet: ', e); // faz a chamada da função que exibe o erro
 	}
 
 	// cria a query de acordo com o filtro informado
@@ -69,7 +69,7 @@ function createDataset(fields, constraints, sortFields) {
 
 	}
 	catch (e) {
-		return exibeErro('Erro ao criar query (linha: ' + e.lineNumber + '): ' + e.message); // faz a chamada da função que exibe o erro
+		return exibeErro('Erro ao criar query (linha: ' + e.lineNumber + '): ', e.message); // faz a chamada da função que exibe o erro
 	}
 	;
 
@@ -82,7 +82,7 @@ function createDataset(fields, constraints, sortFields) {
 
 	}
 	catch (e) {
-		return exibeErro('Erro ao criar acessar base (linha: ' + e.lineNumber + '): ' + e.message); // faz a chamada da função que exibe o erro
+		return exibeErro('Erro ao criar acessar base (linha: ' + e.lineNumber + '): ', e.message); // faz a chamada da função que exibe o erro
 	}
 
 	try {
@@ -211,7 +211,7 @@ function createDataset(fields, constraints, sortFields) {
 	
 					break;
 			default:
-				return exibeErro('Erro ao criar acessar base (linha: ' + e.lineNumber + '): ' + e.message); // faz a chamada da função que exibe o erro
+				return exibeErro('Erro ao criar acessar base (linha: ' + e.lineNumber + '): ', e.message); // faz a chamada da função que exibe o erro
 		}
 
 		// informativo do resultado da consulta
@@ -221,7 +221,7 @@ function createDataset(fields, constraints, sortFields) {
 
 	}
 	catch (e) {
-		return exibeErro('Erro ao executar a query (linha: ' + e.lineNumber + '): ' + e.message); // faz a chamada da função que exibe o erro
+		return exibeErro('Erro ao executar a query (linha: ' + e.lineNumber + '): ', e.message); // faz a chamada da função que exibe o erro
 	}
 	finally {
 		if (stmt != null)

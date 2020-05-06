@@ -1,25 +1,16 @@
-/**
- *
- * CADASTRO DE ANIVERSARIANTES
- *
- * @desc        Script padrão do widget
- * @copyright   2017 upFlow.me
- * @version     1.0.0
- * @author      Helbert Campos <helbert@upflow.me>
- *
- */
-
 var UF_CodeEditor = SuperWidget.extend({
     
     widgetId: null,
-	
+    
     //método iniciado quando a widget é carregada
     init: function() {
         console.info('INÍCIO | Script da widget:', this.instanceId, 'repositório:', this.reposi, 'versao:', this.versao, 'widgetId:', this.widgetId, 'preferences:', this.preferences);
     	$('span#ufrepname').html(this.reposi); $('span#ufrepversion').html(this.versao);
     	
+    	const DATASOURCE = this.preferences.DATASOURCE?this.preferences.DATASOURCE:'jdbc/FluigDSRO';
+
     	CodeEditor.init(); 
-    	bind();
+    	bind(DATASOURCE);
     },
   
     //BIND de eventos
@@ -30,19 +21,36 @@ var UF_CodeEditor = SuperWidget.extend({
         global: {}
     },
     
-    savePreferences: function () {},
+    savePreferences: function () {
+        var preferences = {
+        		DATASOURCE: new String($('input[name="DATASOURCE"]').val())
+        };
+        WCMSpaceAPI.PageService.UPDATEPREFERENCES(
+            {
+                async: true,
+                success: function (data) {
+                    FLUIGC.toast({ title: data.message, message: '', type: 'success' });
+                },
+                fail: function (xhr, message, errorData) {
+                    console.error('fail', xhr, message, errorData);
+                    FLUIGC.toast({ title: '', message: message, type: 'error' });
+                }
+            }, this.widgetId, preferences
+        );
+	},
     
 });
 
 
-const bind = function(){
+
+const bind = function(DATASOURCE){
 	$('#enviar').on('click', function(){
-		CodeEditor.sendRequest();
+		CodeEditor.sendRequest(DATASOURCE);
 	})
 	
 	$(document).on('keydown', function(evt){
 		if(evt.keyCode === 121){
-			CodeEditor.sendRequest();
+			CodeEditor.sendRequest(DATASOURCE);
 		}else if(evt.keyCode === 118){
 			if($('#block').hasClass('block')){
 				$('#block').removeClass('block')
@@ -65,13 +73,13 @@ var CodeEditor = {
 			    theme: "material-darker"
 			 });
 		},
-		sendRequest: function(){
+		sendRequest: function(DATASOURCE){
 			var self = this;
 			
 			//verifica se tem algo selecionado
 			var selecao = window.getSelection().toString()
 			
-			let parametros = ['1', JSON.stringify({QUERY: selecao||this.editor.getValue()})];
+			let parametros = ['1', DATASOURCE, JSON.stringify({QUERY: selecao||this.editor.getValue()})];
 			
 			var loading = FLUIGC.loading(window, {textMessage: 'Carregando Dados...'});
 			loading.show();
@@ -79,7 +87,7 @@ var CodeEditor = {
 			uFAPI.sendRequest(parametros, function(error, msg, detalhes, resultado){
 				if(error == 0){
 					console.log(resultado)
-					self.createTable(resultado)
+					self.createTable(self.trataRetorno(resultado))
 					loading.hide();
 				}else{
 					console.error(msg)
@@ -98,8 +106,22 @@ var CodeEditor = {
 				}
 			})
 		},
+		
+		trataRetorno: function(data){
+			if(data.values.length === 0){
+				
+			return	{
+					columns: [''],
+					values: []
+				}
+			}
+			
+			return data;
+			
+		},
 		createTable: function(data){
 			
+		
 			let columns = data.columns.map(item => (
 					{
 						title: item, 
@@ -107,52 +129,51 @@ var CodeEditor = {
 						width: '1%',
 						className: 'text-nowrap'
 					}
-					))
+				))
 			
-			if ( $.fn.DataTable.isDataTable('#containerTableResult table#tableResult') ) {
-			  $('#containerTableResult table#tableResult').DataTable().destroy();
-			  $('table#tableResult thead').empty();
-			  $('table#tableResult tbody').empty();
-			}
 			
-			this.dt = $(`#containerTableResult table#tableResult`).DataTable( {
-		        data: data.values,
-		        pageLength: 15,
-				language: {
-					thousands: ".",
-					zeroRecords: "<i class='fa fa-exclamation-circle' aria-hidden='true'></i> Nenhum item localizado",
-					emptyTable: "<i class='fa fa-exclamation-circle' aria-hidden='true'></i> Nenhum item localizado",
-					info: "Exibindo _TOTAL_ itens",
-					infoEmpty: "Nenhum item localizado",
-					infoFiltered: "(filtro de um total de _MAX_ itens)",
-					paginate: {
-						first: "Primeira",
-						previous: "Anterior",
-						next: "Próxima",
-						last: "Última"
+				if ( $.fn.DataTable.isDataTable('#containerTableResult table#tableResult') ) {
+				  $('#containerTableResult table#tableResult').DataTable().destroy();
+				  $('table#tableResult thead').empty();
+				  $('table#tableResult tbody').empty();
+				}
+				
+				this.dt = $(`#containerTableResult table#tableResult`).DataTable( {
+			        data: data.values,
+			        pageLength: 15,
+					language: {
+						thousands: ".",
+						zeroRecords: "<i class='fa fa-exclamation-circle' aria-hidden='true'></i> Nenhum item localizado",
+						emptyTable: "<i class='fa fa-exclamation-circle' aria-hidden='true'></i> Nenhum item localizado",
+						info: "Exibindo _TOTAL_ itens",
+						infoEmpty: "Nenhum item localizado",
+						infoFiltered: "(filtro de um total de _MAX_ itens)",
+						paginate: {
+							first: "Primeira",
+							previous: "Anterior",
+							next: "Próxima",
+							last: "Última"
+						},
+						aria: {
+							sortAscending: "Classificar na ordem crescente",
+							sortDescending: "Classificar na ordem decrescente"
+						},
+						buttons: {
+							copyTitle: 'Copiado para Área de Transferência',
+							copyKeys: 'Pressione <i>Ctrl</i> ou <i>\u2318</i> + <i>C</i> para copiar os dados da tabela para a Área de Transferência.</br>Para cancelar, clique sobre esta mensagem ou pressione a tecla Esc.',
+							copySuccess: {
+								_: '%d linhas copiadas',
+								1: '1 linha copiada'
+							}
+						},
 					},
-					aria: {
-						sortAscending: "Classificar na ordem crescente",
-						sortDescending: "Classificar na ordem decrescente"
-					},
-					buttons: {
-						copyTitle: 'Copiado para Área de Transferência',
-						copyKeys: 'Pressione <i>Ctrl</i> ou <i>\u2318</i> + <i>C</i> para copiar os dados da tabela para a Área de Transferência.</br>Para cancelar, clique sobre esta mensagem ou pressione a tecla Esc.',
-						copySuccess: {
-							_: '%d linhas copiadas',
-							1: '1 linha copiada'
-						}
-					},
-				},
-				ordering: false,
-				scrollX: true,
-		        searching: false,
-		        lengthChange: false,
-		        columns: columns,
-		      
-	    })
-		
-			
+					ordering: false,
+					scrollX: true,
+			        searching: false,
+			        lengthChange: false,
+			        columns: columns,
+			      
+		    })
 		
 	}
 }

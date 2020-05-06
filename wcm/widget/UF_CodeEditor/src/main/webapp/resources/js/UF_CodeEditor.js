@@ -87,7 +87,7 @@ var CodeEditor = {
 			uFAPI.sendRequest(parametros, function(error, msg, detalhes, resultado){
 				if(error == 0){
 					console.log(resultado)
-					self.createTable(resultado)
+					self.createTable(self.trataRetorno(resultado))
 					loading.hide();
 				}else{
 					console.error(msg)
@@ -106,8 +106,22 @@ var CodeEditor = {
 				}
 			})
 		},
+		
+		trataRetorno: function(data){
+			if(data.values.length === 0){
+				
+			return	{
+					columns: [''],
+					values: []
+				}
+			}
+			
+			return data;
+			
+		},
 		createTable: function(data){
 			
+		
 			let columns = data.columns.map(item => (
 					{
 						title: item, 
@@ -115,52 +129,51 @@ var CodeEditor = {
 						width: '1%',
 						className: 'text-nowrap'
 					}
-					))
+				))
 			
-			if ( $.fn.DataTable.isDataTable('#containerTableResult table#tableResult') ) {
-			  $('#containerTableResult table#tableResult').DataTable().destroy();
-			  $('table#tableResult thead').empty();
-			  $('table#tableResult tbody').empty();
-			}
 			
-			this.dt = $(`#containerTableResult table#tableResult`).DataTable( {
-		        data: data.values,
-		        pageLength: 15,
-				language: {
-					thousands: ".",
-					zeroRecords: "<i class='fa fa-exclamation-circle' aria-hidden='true'></i> Nenhum item localizado",
-					emptyTable: "<i class='fa fa-exclamation-circle' aria-hidden='true'></i> Nenhum item localizado",
-					info: "Exibindo _TOTAL_ itens",
-					infoEmpty: "Nenhum item localizado",
-					infoFiltered: "(filtro de um total de _MAX_ itens)",
-					paginate: {
-						first: "Primeira",
-						previous: "Anterior",
-						next: "Próxima",
-						last: "Última"
+				if ( $.fn.DataTable.isDataTable('#containerTableResult table#tableResult') ) {
+				  $('#containerTableResult table#tableResult').DataTable().destroy();
+				  $('table#tableResult thead').empty();
+				  $('table#tableResult tbody').empty();
+				}
+				
+				this.dt = $(`#containerTableResult table#tableResult`).DataTable( {
+			        data: data.values,
+			        pageLength: 15,
+					language: {
+						thousands: ".",
+						zeroRecords: "<i class='fa fa-exclamation-circle' aria-hidden='true'></i> Nenhum item localizado",
+						emptyTable: "<i class='fa fa-exclamation-circle' aria-hidden='true'></i> Nenhum item localizado",
+						info: "Exibindo _TOTAL_ itens",
+						infoEmpty: "Nenhum item localizado",
+						infoFiltered: "(filtro de um total de _MAX_ itens)",
+						paginate: {
+							first: "Primeira",
+							previous: "Anterior",
+							next: "Próxima",
+							last: "Última"
+						},
+						aria: {
+							sortAscending: "Classificar na ordem crescente",
+							sortDescending: "Classificar na ordem decrescente"
+						},
+						buttons: {
+							copyTitle: 'Copiado para Área de Transferência',
+							copyKeys: 'Pressione <i>Ctrl</i> ou <i>\u2318</i> + <i>C</i> para copiar os dados da tabela para a Área de Transferência.</br>Para cancelar, clique sobre esta mensagem ou pressione a tecla Esc.',
+							copySuccess: {
+								_: '%d linhas copiadas',
+								1: '1 linha copiada'
+							}
+						},
 					},
-					aria: {
-						sortAscending: "Classificar na ordem crescente",
-						sortDescending: "Classificar na ordem decrescente"
-					},
-					buttons: {
-						copyTitle: 'Copiado para Área de Transferência',
-						copyKeys: 'Pressione <i>Ctrl</i> ou <i>\u2318</i> + <i>C</i> para copiar os dados da tabela para a Área de Transferência.</br>Para cancelar, clique sobre esta mensagem ou pressione a tecla Esc.',
-						copySuccess: {
-							_: '%d linhas copiadas',
-							1: '1 linha copiada'
-						}
-					},
-				},
-				ordering: false,
-				scrollX: true,
-		        searching: false,
-		        lengthChange: false,
-		        columns: columns,
-		      
-	    })
-		
-			
+					ordering: false,
+					scrollX: true,
+			        searching: false,
+			        lengthChange: false,
+			        columns: columns,
+			      
+		    })
 		
 	}
 }

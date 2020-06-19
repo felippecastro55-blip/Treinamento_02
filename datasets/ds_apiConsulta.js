@@ -8,7 +8,7 @@ function createDataset(fields, constraints, sortFields) {
 	var info = undefined
 	try{
 		//define os parametros
-		var info = JSON.parse(fields[0])
+		info = JSON.parse(fields[0])
 		var type = (info.type || info.TYPE || info.method || info.METHOD).toUpperCase()
 		var headers = (info.headers || info.HEADERS || {})
 		var data = info.data || info.DATA	// body da requisicao

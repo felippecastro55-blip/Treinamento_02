@@ -14,7 +14,7 @@ $(document).ready(function() {
 		state: {type: 'default', num: [0, 1]}, //type: LISTA DE ESTADO DO FORMULARIO (EX: ['VIEW']). DEFAULT = [MOD, ADD] || NUM = LISTA DE ATIVIDADES QUE TAL CONFIGURAÇÃO VAI AGIR. (EX: [1, 2]). "all" = TODAS 
 
 		fieldType: 'date', //TIPO DE CAMPO DATA
-		validate: ['required'], 
+		validate: ['required', function(){console.log("JONAS DE DATA")}], 
 		fieldOptions: {
 			maxDate: moment(),
 			useCurrent: false

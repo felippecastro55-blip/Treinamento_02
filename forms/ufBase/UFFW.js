@@ -953,8 +953,13 @@ var uFFw = {
 			//parametros: elemento jquery do campo, configuração (padrão quando elemento é visivel)
 			start: function ( $el, typeValidation, config ) {
 				var objConfig = {}
-				objConfig[typeValidation] = config;
-				
+
+				if(typeof typeValidation == "function"){
+					objConfig["callback"] = typeValidation
+				}else{
+					objConfig[typeValidation] = config;
+				}
+
 				$el.rules( 'add',  objConfig);
 				
 			}

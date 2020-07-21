@@ -15,10 +15,10 @@ $(document).ready(function() {
 
 		fieldType: 'date', //TIPO DE CAMPO DATA
 		validate: ['required'],
-		successCallBack: function ( $self ) {
+		successValidation: function ( $self ) {
 			console.log(`${$self.attr('name')} validado`)
 		},
-		errorCallBack: function ( $self ) {
+		errorValidation: function ( $self ) {
 			console.log(`${$self.attr('name')} NÂO validado`)
 		}, 
 		fieldOptions: {
@@ -42,10 +42,10 @@ $(document).ready(function() {
 		fieldType: 'money', //TIPO DE CAMPO monetario
 		validate: ['required'], 
 		requiredConfig: { depends: function(el) { return $(el).is(":visible") && $('[name="DATAEXEMPLO"]').val() != '' }, },
-		successCallBack: function ( $self ) {
+		successValidation: function ( $self ) {
 			console.log(`${$self.attr('name')} validado`)
 		},
-		errorCallBack: function ( $self ) {
+		errorValidation: function ( $self ) {
 			console.log(`${$self.attr('name')} NÂO validado`)
 		},
 		fieldOptions: {
@@ -178,10 +178,10 @@ $(document).ready(function() {
 				name: 'DATAEXEMPLOTABLE', //NOME DO CAMPO
 				fieldType: 'date', //TIPO DE CAMPO DATA
 				validate: ['required'],
-				successCallBack: function ( $self ) {
+				successValidation: function ( $self ) {
 					console.log(`${$self.attr('name')} validado`)
 				},
-				errorCallBack: function ( $self ) {
+				errorValidation: function ( $self ) {
 					console.log(`${$self.attr('name')} NÂO validado`)
 				},
 				fieldOptions: {
@@ -201,10 +201,10 @@ $(document).ready(function() {
 				fieldType: 'money', //TIPO DE CAMPO monetario
 				validate: ['required'], 
 				requiredConfig: { depends: function(el) { return $(el).is(":visible") && $('[name="DATAEXEMPLO"]').val() != '' }, },
-				successCallBack: function ( $self ) {
+				successValidation: function ( $self ) {
 					console.log(`${$self.attr('name')} validado`)
 				},
-				errorCallBack: function ( $self ) {
+				errorValidation: function ( $self ) {
 					console.log(`${$self.attr('name')} NÂO validado`)
 				},
 				fieldOptions: {
@@ -261,8 +261,8 @@ $(document).ready(function() {
 				state: {type: 'default', num: [0, 1]}, //type: LISTA DE ESTADO DO FORMULARIO (EX: ['VIEW']). DEFAULT = [MOD, ADD] || NUM = LISTA DE ATIVIDADES QUE TAL CONFIGURAÇÃO VAI AGIR. (EX: [1, 2]). NULL = TODAS 
 				name: 'COLIGADA_EXEMPLO', //NOME DO CAMPO
 				validate: [],
-				successCallBack: function () {},
-				errorCallBack: function () {},
+				successValidation: function () {},
+				errorValidation: function () {},
 				fieldType: 'zoomBeta', 
 				customActions: function( $self ) { //função para customização
 					console.log('Teste Execução Custom')

@@ -400,8 +400,8 @@ var uFFw = {
 		listErrorCallBack: {},
 
 		addCallBack: function ( fieldConfig ) {
-			if (fieldConfig.successCallBack) uFFw.fields.listSuccessCallBack[fieldConfig.name] = fieldConfig.successCallBack
-			if (fieldConfig.errorCallBack) uFFw.fields.listErrorCallBack[fieldConfig.name] = fieldConfig.errorCallBack
+			if (fieldConfig.successValidation) uFFw.fields.listSuccessCallBack[fieldConfig.name] = fieldConfig.successValidation
+			if (fieldConfig.errorValidation) uFFw.fields.listErrorCallBack[fieldConfig.name] = fieldConfig.errorValidation
 		},
 		
 		customActions: {

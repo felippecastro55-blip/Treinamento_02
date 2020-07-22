@@ -159,7 +159,7 @@ var uFFw = {
 	},
 	
 	tables: {
-		
+
 		initEvents: function(tableConfig){
 			
 
@@ -207,7 +207,7 @@ var uFFw = {
 					
 					
 					uFFw.fields.start ( fieldConfig, sufix );
-					
+					uFFw.fields.addCallBack(fieldConfig)
 					
 				})
 				if ( typeof tableConfig.afterAddLine != 'undefined' ) {
@@ -246,7 +246,8 @@ var uFFw = {
 										tableConfig.fields.forEach( function (fieldConfig){
 											
 											uFFw.tables.start ( tableConfig, fieldConfig )
-											
+											uFFw.fields.addCallBack(fieldConfig)
+
 										})
 										
 										
@@ -279,6 +280,7 @@ var uFFw = {
 										tableConfig.fields.forEach( function (fieldConfig){
 											
 											uFFw.tables.start ( tableConfig, fieldConfig )
+											uFFw.fields.addCallBack(fieldConfig)
 											
 										})
 										
@@ -392,6 +394,15 @@ var uFFw = {
 	},
 
 	fields: {
+
+		listSuccessCallBack: {},
+
+		listErrorCallBack: {},
+
+		addCallBack: function ( fieldConfig ) {
+			if (fieldConfig.successValidation) uFFw.fields.listSuccessCallBack[fieldConfig.name] = fieldConfig.successValidation
+			if (fieldConfig.errorValidation) uFFw.fields.listErrorCallBack[fieldConfig.name] = fieldConfig.errorValidation
+		},
 		
 		customActions: {
 			
@@ -417,8 +428,8 @@ var uFFw = {
 		//parametros: numero da atividade, configuração de campos
 		init: function (modForm, numState, fieldsConfig) {
 			//verifica se campo tem ação em tal atividade e em tal modo
-			fieldsConfig.forEach( function(fieldConfig) {
 
+			fieldsConfig.forEach( function(fieldConfig) {
 				if ( typeof fieldConfig.state.type == 'undefined' || fieldConfig.state.type == 'default' ||  fieldConfig.state.type == null){
 
 					if( modForm == 'ADD' || modForm == 'MOD' ) {
@@ -430,7 +441,7 @@ var uFFw = {
 							if( uFFw.utils.verificaConteudo(numState, fieldConfig.state.num) ) {
 
 								uFFw.fields.start(fieldConfig);
-
+								uFFw.fields.addCallBack(fieldConfig)
 							}
 							
 						}
@@ -447,6 +458,7 @@ var uFFw = {
 							if( uFFw.utils.verificaConteudo(numState, fieldConfig.state.num) ) {
 
 								uFFw.fields.start(fieldConfig);
+								uFFw.fields.addCallBack(fieldConfig);
 
 							}
 							
@@ -457,6 +469,7 @@ var uFFw = {
 				}
 
 			});
+
 		},
 
 		start: function (fieldConfig, sufix = null) {
@@ -927,7 +940,6 @@ var uFFw = {
 					
 					if( fieldConfig.validate.length > 0 ){
 						
-						
 						fieldConfig.validate.forEach( function ( typeValidation ) {
 							
 							if ( typeof fieldConfig.requiredConfig == 'undefined' ) {
@@ -939,7 +951,6 @@ var uFFw = {
 								uFFw.utils.validate.start ( $('[name="' + fieldConfig.name + '"]'), typeValidation, fieldConfig.requiredConfig );
 								
 							}
-							
 							
 						})
 						
@@ -953,12 +964,18 @@ var uFFw = {
 			//parametros: elemento jquery do campo, configuração (padrão quando elemento é visivel)
 			start: function ( $el, typeValidation, config ) {
 				var objConfig = {}
-				objConfig[typeValidation] = config;
-				
+
+				if(typeof typeValidation == "function"){
+					objConfig["callback"] = typeValidation
+				}else{
+					objConfig[typeValidation] = config;
+				}
+
 				$el.rules( 'add',  objConfig);
 				
 			}
 			
+
 			
 		},
 		
@@ -1847,12 +1864,16 @@ $.fn.uFZoom = function (zoomInfo, callback, listFields, sufix) {
 $.validator.setDefaults({	// opções comuns do validate()
     ignore: '',
 	highlight: function(element, errorClass, validClass) {
-		
+
 		$(element).closest('.form-group').removeClass('has-success').addClass('has-error');	  // resgata o elemento anterior e adiciona a classe de erro
+		const name = $(element).attr('name')
+		if ( uFFw.fields.listErrorCallBack[name] ) uFFw.fields.listErrorCallBack[name]( $(element) )
 	},
 	unhighlight: function(element, errorClass, validClass) {
-		
+
 		$(element).closest('.form-group').removeClass('has-error').addClass('has-success');   // resgata o elemento anterior e adiciona a classe de sucesso
+		const name = $(element).attr('name')
+		if ( uFFw.fields.listSuccessCallBack[name] ) uFFw.fields.listSuccessCallBack[name]( $(element) )
 	},
     errorPlacement: function(error, element) {  // proteção para feedback em campos do bootstrap
         var frmGrp = element.closest('div.form-group');  // tenta resgatar o form-group

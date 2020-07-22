@@ -14,7 +14,13 @@ $(document).ready(function() {
 		state: {type: 'default', num: [0, 1]}, //type: LISTA DE ESTADO DO FORMULARIO (EX: ['VIEW']). DEFAULT = [MOD, ADD] || NUM = LISTA DE ATIVIDADES QUE TAL CONFIGURAÇÃO VAI AGIR. (EX: [1, 2]). "all" = TODAS 
 
 		fieldType: 'date', //TIPO DE CAMPO DATA
-		validate: ['required'], 
+		validate: ['required'],
+		successValidation: function ( $self ) {
+			console.log(`${$self.attr('name')} validado`)
+		},
+		errorValidation: function ( $self ) {
+			console.log(`${$self.attr('name')} NÂO validado`)
+		}, 
 		fieldOptions: {
 			maxDate: moment(),
 			useCurrent: false
@@ -36,6 +42,12 @@ $(document).ready(function() {
 		fieldType: 'money', //TIPO DE CAMPO monetario
 		validate: ['required'], 
 		requiredConfig: { depends: function(el) { return $(el).is(":visible") && $('[name="DATAEXEMPLO"]').val() != '' }, },
+		successValidation: function ( $self ) {
+			console.log(`${$self.attr('name')} validado`)
+		},
+		errorValidation: function ( $self ) {
+			console.log(`${$self.attr('name')} NÂO validado`)
+		},
 		fieldOptions: {
 			prefix: 'R$ ', 
 			thousands: '', 
@@ -165,7 +177,13 @@ $(document).ready(function() {
 				state: {type: 'default', num: [0, 1]}, //type: LISTA DE ESTADO DO FORMULARIO (EX: ['VIEW']). DEFAULT = [MOD, ADD] || NUM = LISTA DE ATIVIDADES QUE TAL CONFIGURAÇÃO VAI AGIR. (EX: [1, 2]). "all" = TODAS 
 				name: 'DATAEXEMPLOTABLE', //NOME DO CAMPO
 				fieldType: 'date', //TIPO DE CAMPO DATA
-				validate: [], 
+				validate: ['required'],
+				successValidation: function ( $self ) {
+					console.log(`${$self.attr('name')} validado`)
+				},
+				errorValidation: function ( $self ) {
+					console.log(`${$self.attr('name')} NÂO validado`)
+				},
 				fieldOptions: {
 					minDate: moment(),
 					useCurrent: false
@@ -181,8 +199,14 @@ $(document).ready(function() {
 				name: 'MONETARIOEXEMPLOTABLE', //NOME DO CAMPO
 				class: ['text-right'],
 				fieldType: 'money', //TIPO DE CAMPO monetario
-				validate: [], 
+				validate: ['required'], 
 				requiredConfig: { depends: function(el) { return $(el).is(":visible") && $('[name="DATAEXEMPLO"]').val() != '' }, },
+				successValidation: function ( $self ) {
+					console.log(`${$self.attr('name')} validado`)
+				},
+				errorValidation: function ( $self ) {
+					console.log(`${$self.attr('name')} NÂO validado`)
+				},
 				fieldOptions: {
 					prefix: 'R$ ', 
 					thousands: '', 
@@ -237,6 +261,8 @@ $(document).ready(function() {
 				state: {type: 'default', num: [0, 1]}, //type: LISTA DE ESTADO DO FORMULARIO (EX: ['VIEW']). DEFAULT = [MOD, ADD] || NUM = LISTA DE ATIVIDADES QUE TAL CONFIGURAÇÃO VAI AGIR. (EX: [1, 2]). NULL = TODAS 
 				name: 'COLIGADA_EXEMPLO', //NOME DO CAMPO
 				validate: [],
+				successValidation: function () {},
+				errorValidation: function () {},
 				fieldType: 'zoomBeta', 
 				customActions: function( $self ) { //função para customização
 					console.log('Teste Execução Custom')

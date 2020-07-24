@@ -15,12 +15,19 @@ $(document).ready(function() {
 
 		fieldType: 'date', //TIPO DE CAMPO DATA
 		validate: ['required'],
+		validationCascade: {
+			eventToValidate: 'change',
+			fieldsToValidate: [
+				'MONETARIOEXEMPLO',
+			]
+		},
 		successValidation: function ( $self ) {
 			console.log(`${$self.attr('name')} validado`)
 		},
 		errorValidation: function ( $self ) {
 			console.log(`${$self.attr('name')} NÂO validado`)
-		}, 
+		},
+
 		fieldOptions: {
 			maxDate: moment(),
 			useCurrent: false
@@ -40,7 +47,12 @@ $(document).ready(function() {
 		name: 'MONETARIOEXEMPLO', //NOME DO CAMPO
 		class: ['text-right'],
 		fieldType: 'money', //TIPO DE CAMPO monetario
-		validate: ['required'], 
+		validate: ['required'],
+		validationCascade: {
+			fieldsToValidate: [
+				'COLIGADA',
+			]
+		},
 		requiredConfig: { depends: function(el) { return $(el).is(":visible") && $('[name="DATAEXEMPLO"]').val() != '' }, },
 		successValidation: function ( $self ) {
 			console.log(`${$self.attr('name')} validado`)
@@ -63,7 +75,17 @@ $(document).ready(function() {
 		state: {type: 'default', num: [0, 1]}, 
 		fieldType: 'zoom', //TIPO DE CAMPO APROVACAO
 		name: 'COLIGADA', //STRING CHAVE PARA INICIAR APROVACAO
-		validate: [], 
+		validate: ['required'],
+		validationCascade: {
+			eventToValidate: 'click',
+		},
+		requiredConfig: { depends: function(el) { return $(el).is(":visible") && $('[name="DATAEXEMPLO"]').val() != '' }, },
+		successValidation: function ( $self ) {
+			console.log(`${$self.attr('name')} validado`)
+		},
+		errorValidation: function ( $self ) {
+			console.log(`${$self.attr('name')} NÂO validado`)
+		}, 
 		zoomOptions: {
 			label: 'Coligada',
 	        uFZommType: '2',	// 1=DataServer | 2=Consulta | 3=Dataset | 4=query 
@@ -177,12 +199,15 @@ $(document).ready(function() {
 				state: {type: 'default', num: [0, 1]}, //type: LISTA DE ESTADO DO FORMULARIO (EX: ['VIEW']). DEFAULT = [MOD, ADD] || NUM = LISTA DE ATIVIDADES QUE TAL CONFIGURAÇÃO VAI AGIR. (EX: [1, 2]). "all" = TODAS 
 				name: 'DATAEXEMPLOTABLE', //NOME DO CAMPO
 				fieldType: 'date', //TIPO DE CAMPO DATA
+				validationCascade: {
+					eventToValidate: 'change'
+				},
 				validate: ['required'],
 				successValidation: function ( $self ) {
 					console.log(`${$self.attr('name')} validado`)
 				},
 				errorValidation: function ( $self ) {
-					console.log(`${$self.attr('name')} NÂO validado`)
+					console.log(`${$self.attr('name')} NÃO validado`)
 				},
 				fieldOptions: {
 					minDate: moment(),
@@ -337,7 +362,7 @@ $(document).ready(function() {
 	
 	//inicia o framework
 	uFFw.init(modForm, WKNumState, fieldsConfig, sectionsConfig, tablesConfig, customActionsConfig);
-    
+    $validator.form()
 	
 });
 
@@ -377,5 +402,7 @@ var beforeSendValidate = function (numState, nextState) {
 	
 		return false;
 	}
+
+	return true
     
 };

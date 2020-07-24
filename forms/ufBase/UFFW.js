@@ -26,11 +26,12 @@ var uFFw = {
 			
 			// dispara quando altera qualquer campo do formulário
 			window.$validator = $('form').validate();
-		    $('form').on('change', function () {
-		        // efetua a validação total do formulário
-		        $validator.form();
+			$validator.form();
+		    // $('form').on('change', function () {
+		    //     // efetua a validação total do formulário
+		    //     $validator.form();
 		        
-		    });
+		    // });
 		    
 		    if ( modForm == 'ADD') {
 		    	
@@ -207,7 +208,6 @@ var uFFw = {
 					
 					
 					uFFw.fields.start ( fieldConfig, sufix );
-					uFFw.fields.addCallBack(fieldConfig)
 					
 				})
 				if ( typeof tableConfig.afterAddLine != 'undefined' ) {
@@ -246,7 +246,6 @@ var uFFw = {
 										tableConfig.fields.forEach( function (fieldConfig){
 											
 											uFFw.tables.start ( tableConfig, fieldConfig )
-											uFFw.fields.addCallBack(fieldConfig)
 
 										})
 										
@@ -280,7 +279,6 @@ var uFFw = {
 										tableConfig.fields.forEach( function (fieldConfig){
 											
 											uFFw.tables.start ( tableConfig, fieldConfig )
-											uFFw.fields.addCallBack(fieldConfig)
 											
 										})
 										
@@ -400,8 +398,9 @@ var uFFw = {
 		listErrorCallBack: {},
 
 		addCallBack: function ( fieldConfig ) {
-			if (fieldConfig.successValidation) uFFw.fields.listSuccessCallBack[fieldConfig.name] = fieldConfig.successValidation
-			if (fieldConfig.errorValidation) uFFw.fields.listErrorCallBack[fieldConfig.name] = fieldConfig.errorValidation
+			const { name, successValidation = undefined, errorValidation = undefined } = fieldConfig
+			if (successValidation) this.listSuccessCallBack[name] = successValidation
+			if (errorValidation) this.listErrorCallBack[name] = errorValidation
 		},
 		
 		customActions: {
@@ -441,7 +440,6 @@ var uFFw = {
 							if( uFFw.utils.verificaConteudo(numState, fieldConfig.state.num) ) {
 
 								uFFw.fields.start(fieldConfig);
-								uFFw.fields.addCallBack(fieldConfig)
 							}
 							
 						}
@@ -458,7 +456,6 @@ var uFFw = {
 							if( uFFw.utils.verificaConteudo(numState, fieldConfig.state.num) ) {
 
 								uFFw.fields.start(fieldConfig);
-								uFFw.fields.addCallBack(fieldConfig);
 
 							}
 							
@@ -509,6 +506,9 @@ var uFFw = {
 			
 			//inicia rotina de adição de funções customizadas
 			uFFw.fields.customActions.init(fieldConfig);
+
+			//adiciona callbacks de sucesso e de error para a validação de cada campo
+			uFFw.fields.addCallBack(fieldConfig)
 			
 			
 		},
@@ -944,11 +944,11 @@ var uFFw = {
 							
 							if ( typeof fieldConfig.requiredConfig == 'undefined' ) {
 								
-								uFFw.utils.validate.start ( $('[name="' + fieldConfig.name + '"]'), typeValidation, uFFw.defaults.validOptions );
+								uFFw.utils.validate.start ( $('[name="' + fieldConfig.name + '"]'), typeValidation, uFFw.defaults.validOptions, fieldConfig.validationCascade );
 								
 							} else {
 								
-								uFFw.utils.validate.start ( $('[name="' + fieldConfig.name + '"]'), typeValidation, fieldConfig.requiredConfig );
+								uFFw.utils.validate.start ( $('[name="' + fieldConfig.name + '"]'), typeValidation, fieldConfig.requiredConfig, fieldConfig.validationCascade );
 								
 							}
 							
@@ -962,9 +962,8 @@ var uFFw = {
 			
 			//inicia validação em um elemento
 			//parametros: elemento jquery do campo, configuração (padrão quando elemento é visivel)
-			start: function ( $el, typeValidation, config ) {
+			start: function ( $el, typeValidation, config, validationCascade ) {
 				var objConfig = {}
-
 				if(typeof typeValidation == "function"){
 					objConfig["callback"] = typeValidation
 				}else{
@@ -972,11 +971,21 @@ var uFFw = {
 				}
 
 				$el.rules( 'add',  objConfig);
+
+				if ( validationCascade ) {
+					const { eventToValidate = 'change', fieldsToValidate = undefined } = validationCascade
+					$el.parents('.form-group').on( eventToValidate, function () {
+						$el.valid()
+						if ( fieldsToValidate ) {
+							fieldsToValidate.forEach( function ( fieldName ) {
+								$(`[name="${fieldName}"]`).valid()
+							})
+						}
+						console.log(fieldsToValidate)
+					})
+				}
 				
 			}
-			
-
-			
 		},
 		
 		
@@ -1864,14 +1873,14 @@ $.fn.uFZoom = function (zoomInfo, callback, listFields, sufix) {
 $.validator.setDefaults({	// opções comuns do validate()
     ignore: '',
 	highlight: function(element, errorClass, validClass) {
-
 		$(element).closest('.form-group').removeClass('has-success').addClass('has-error');	  // resgata o elemento anterior e adiciona a classe de erro
 		const name = $(element).attr('name')
 		if ( uFFw.fields.listErrorCallBack[name] ) uFFw.fields.listErrorCallBack[name]( $(element) )
 	},
 	unhighlight: function(element, errorClass, validClass) {
-
 		$(element).closest('.form-group').removeClass('has-error').addClass('has-success');   // resgata o elemento anterior e adiciona a classe de sucesso
+	},
+	success: function (label, element){
 		const name = $(element).attr('name')
 		if ( uFFw.fields.listSuccessCallBack[name] ) uFFw.fields.listSuccessCallBack[name]( $(element) )
 	},
@@ -1882,7 +1891,8 @@ $.validator.setDefaults({	// opções comuns do validate()
         }
         else {
             error.insertAfter( element );   // adiciona o elemento de erro após o campo (ação padrão)  
-        }
+		}
+		
     }
 });
 

@@ -502,6 +502,11 @@ var uFFw = {
 				//inicia rotina de tipo de campo ZOOM BETA
 				uFFw.fields.zoomBeta.init(fieldConfig, sufix);
 				
+			} else if ( fieldConfig.fieldType == 'zoomFluig' ) {
+				
+				//inicia rotina de tipo de campo ZOOM BETA
+				uFFw.fields.zoomFluig.init(fieldConfig, sufix);
+				
 			}
 			
 			//inicia rotina de adição de classes
@@ -641,6 +646,43 @@ var uFFw = {
 
 		},
 		
+		//Objeto de configuração de elementos de zoom do Fluig
+		zoomFluig: {
+
+			//inicia aprovacao de formulario
+			//parametro: objeto de configuração do campo
+			init: function ( fieldConfig ) {
+
+				this.start ( fieldConfig, fieldConfig.configs, fieldConfig.callbacks );
+
+			},
+		
+			start: function ( fieldConfig, options, callbacks ) {
+				var jsonOptions = JSON.stringify(options)
+				var elName = '[name="' + fieldConfig.name + '"]'
+
+				$(elName).data('zoom', jsonOptions)
+
+				function removedZoomItem(removedItem) {
+					console.log(removedItem.inputName)
+				}
+
+				if(callbacks){
+					if(callbacks.onAdd){
+						function setSelectedZoomItem(selectedItem) {   
+							if(selectedItem.inputName == fieldConfig.name){
+								console.log('3 if')
+								console.log(selectedItem)
+	
+								callbacks.onAdd(selectedItem)           
+							}
+						}
+					}
+				}
+				
+			}
+
+		},
 		
 		//Objeto de configuração de elementos de data
 		date: {

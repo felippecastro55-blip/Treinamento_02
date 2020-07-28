@@ -68,43 +68,71 @@ $(document).ready(function() {
 			label: 'Coligada',
 	        uFZommType: '2',	// 1=DataServer | 2=Consulta | 3=Dataset | 4=query 
 	        clear: [{
-	        	name:'COLIGADA',
+				name:'COLIGADA',
 	        }],
 	        CodQuery: 'FLUIG.EXEMPLO', // dataserver | codsentenca | nome_dataset | array
 	        constraints:[],
 	        columns: [
-	            { title: 'Código', data: 'CODCOLIGADA', className: 'text-nowrap' },
+				{ title: 'Código', data: 'CODCOLIGADA', className: 'text-nowrap' },
 	            { title: 'Nome', data: 'NOMEFANTASIA' },
 	        ],
 	    },
 	    zoomReturn: {
-	    	//DEFAULT = RETORNO DO DATASET DIRETO PARA CAMPOS DO FORM
+			//DEFAULT = RETORNO DO DATASET DIRETO PARA CAMPOS DO FORM
 	    	//1 = UTILIZA 'DE PARA' do fields
 	    	//2 = UTILIZA 'FUNÇÃO' do fields
 	    	type: '1', 
 	    	fields: [
-	    		{
-	    			data: 'CODCOLIGADA',
+				{
+					data: 'CODCOLIGADA',
 	    			formField: 'COLIGADACOD'
 	    		},
 	    		{
-	    			data: 'NOMEFANTASIA',
+					data: 'NOMEFANTASIA',
 	    			formField: 'COLIGADA'
 	    		},
 	    	]
 	    	
 	    }
+	},
+	{
+		state: {type: 'default', num: [0, 1, 2]}, 
+		fieldType: 'zoomFluig', //TIPO DE CAMPO APROVACAO
+		name: 'ZOOMFLUIGEXEMPLO', //STRING CHAVE PARA INICIAR APROVACAO
+		validate: [], 
+		configs: {
+			displayKey: 'colleagueName',
+			datasetId: 'colleague',
+			fields:[
+				{
+				   field: 'mail',
+				   label: 'EMAIL'
+				},{
+				  field: 'colleagueName',
+				  label: 'Nome',
+				  standard: 'true'
+				},{
+				  field:'login',
+				  label:'Login'
+				}
+			] 
+		},
+		callbacks: {
+			onAdd: function(item){
+				console.log(item.inputName)
+			}
+		}
 	}
-	];
+];
 
-	//Lista contendo objeto de sections
-	var sectionsConfig = [
-		{
-			id: 'secRequisicao',
-			visible: false, //TRUE = SEMPRE VISIVEL || FALSE = VISIVEL APENAS NAS ATIVIDADES CONTIDAS EM VISIBLEATV
-			visibleAtv: [0, 1], //LISTA DE ATIVIDADES QUE ESSA SECTION É VISIVEL. 
-			enabled: true, //TRUE = TAL SECTION É ENABLED EM ALGUMA ATIVIDADE || FALSE = SEMPRE DISABLED
-			enabledAtv: [0, 1] //LISTA DE ATIVIDADES QUE ESSA SECTION NÃO ESTÁ DISABLED. "all" HABILITA TODAS AS ATIVIDADES
+//Lista contendo objeto de sections
+var sectionsConfig = [
+	{
+		id: 'secRequisicao',
+		visible: false, //TRUE = SEMPRE VISIVEL || FALSE = VISIVEL APENAS NAS ATIVIDADES CONTIDAS EM VISIBLEATV
+		visibleAtv: [0, 1], //LISTA DE ATIVIDADES QUE ESSA SECTION É VISIVEL. 
+		enabled: true, //TRUE = TAL SECTION É ENABLED EM ALGUMA ATIVIDADE || FALSE = SEMPRE DISABLED
+		enabledAtv: [0, 1] //LISTA DE ATIVIDADES QUE ESSA SECTION NÃO ESTÁ DISABLED. "all" HABILITA TODAS AS ATIVIDADES
 		},
 		{
 			id: 'secAprovacaoFINANCEIRO',
@@ -379,3 +407,8 @@ var beforeSendValidate = function (numState, nextState) {
 	}
     
 };
+
+
+
+
+

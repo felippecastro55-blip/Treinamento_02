@@ -103,6 +103,7 @@ $(document).ready(function() {
 		configs: {
 			displayKey: 'colleagueName',
 			datasetId: 'colleague',
+			maximumSelectionLength: '3',
 			fields:[
 				{
 				   field: 'mail',
@@ -117,10 +118,86 @@ $(document).ready(function() {
 				}
 			] 
 		},
+		constraints: [{
+			field: 'login',
+			value: 'teste'
+		},
+		{
+			field: 'colleagueName',
+			value: 'User Teste 00'
+		}],
 		callbacks: {
-			onAdd: function(item){
-				console.log(item.inputName)
+			onAdd: function(self, item){
+				console.log(item)
+				console.log(self)
+				enableZoomField('ZOOMFLUIGEXEMPLO2')
+			},
+			onRemove: function(self, item){
+				console.log(item)
+				console.log(self)
+				disableZoomField('ZOOMFLUIGEXEMPLO2')
+			},
+		}
+	},
+	{
+		state: {type: 'default', num: [0, 1, 2]}, 
+		fieldType: 'zoomFluig', //TIPO DE CAMPO APROVACAO
+		name: 'ZOOMFLUIGEXEMPLO2', //STRING CHAVE PARA INICIAR APROVACAO
+		validate: [], 
+		configs: {
+			displayKey: 'colleagueName',
+			datasetId: 'colleague',
+			fields:[
+				{
+				  field: 'colleagueName',
+				  label: 'Nome',
+				  standard: 'true'
+				},{
+				  field:'login',
+				  label:'Login'
+				}
+			] 
+		},
+		callbacks: {
+			onAdd: function(self, item){
+				console.log(item)
+				console.log(self)
+				disableZoomField(self)
 			}
+		}
+	},
+	{
+		state: {type: 'default', num: [0, 1, 2]}, 
+		fieldType: 'zoomFluig', //TIPO DE CAMPO APROVACAO
+		name: 'ZOOMFLUIG_EXEMPLO', //STRING CHAVE PARA INICIAR APROVACAO
+		validate: [], 
+		configs: {
+			displayKey: 'colleagueName',
+			datasetId: 'colleague',
+			fields:[
+				{
+				   field: 'mail',
+				   label: 'EMAIL'
+				},{
+				  field: 'colleagueName',
+				  label: 'Nome',
+				  standard: 'true'
+				},{
+				  field:'login',
+				  label:'Login'
+				}
+			]
+		},
+		callbacks: {
+			onAdd: function(self, item){
+				console.log(item)
+				console.log(self)
+				//disableZoomField(self)
+			},
+			onRemove: function(self, item){
+				console.log(item)
+				console.log(self)
+			},
 		}
 	}
 ];

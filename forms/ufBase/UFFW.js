@@ -1,3 +1,4 @@
+
 window.listaCalendar = [];
 
 var uFFw = {
@@ -169,6 +170,10 @@ var uFFw = {
 				$('[name="'+tableConfig.id+'ID___'+linhaIdx+'"]').val(linhaIdx);
 				tableConfig.fields.forEach( function(fieldConfig){
 					
+					if(fieldConfig.type == "zoom"){
+						window.loadZoom()
+					} //jonas
+
 					var prefix = fieldConfig.name.split('___')[0];
 					var sufix = '___' + linhaIdx;
 					
@@ -653,34 +658,43 @@ var uFFw = {
 			//parametro: objeto de configuração do campo
 			init: function ( fieldConfig ) {
 
-				this.start ( fieldConfig, fieldConfig.configs, fieldConfig.callbacks );
+				this.start ( fieldConfig, fieldConfig.configs );
 
 			},
 		
-			start: function ( fieldConfig, options, callbacks ) {
+			start: function ( fieldConfig, options ) {
 				var jsonOptions = JSON.stringify(options)
 				var elName = '[name="' + fieldConfig.name + '"]'
 
 				$(elName).data('zoom', jsonOptions)
 
-				function removedZoomItem(removedItem) {
-					console.log(removedItem.inputName)
-				}
-
-				if(callbacks){
-					if(callbacks.onAdd){
-						function setSelectedZoomItem(selectedItem) {   
-							if(selectedItem.inputName == fieldConfig.name){
-								console.log('3 if')
-								console.log(selectedItem)
-	
-								callbacks.onAdd(selectedItem)           
-							}
-						}
+				if(fieldConfig.callbacks){
+					if(fieldConfig.callbacks.onAdd){
+						uFFw.fields.zoomFluig.add[fieldConfig.name] = fieldConfig.callbacks.onAdd
+					}
+					if(fieldConfig.callbacks.onRemove){
+						uFFw.fields.zoomFluig.remove[fieldConfig.name] = fieldConfig.callbacks.onRemove
 					}
 				}
 				
-			}
+				if(fieldConfig.constraints){
+					var constraints = fieldConfig.constraints.reduce(function(elAcumulador, elAtual){
+						elAcumulador += elAtual.field + ',' + elAtual.value + ','
+						return elAcumulador
+					},
+					""
+					)
+					constraints = constraints.substr(0, constraints.length - 1)
+					reloadZoomFilterValues(fieldConfig.name, constraints)
+				}
+
+
+				
+				
+			},
+
+			add: {},
+			remove: {},
 
 		},
 		
@@ -2053,3 +2067,23 @@ $.validator.addMethod("isMaiorQueZero", function (value, element){
 	value = value.parseReais();
 	return value > 0.00;
 }, "Informe um valor maior que zero.");
+
+function disableZoomField(field){
+	window[field].disable(true)
+}
+
+function enableZoomField(field){
+	window[field].disable(false)
+}
+
+function setSelectedZoomItem(selectedItem) {   
+	if(uFFw.fields.zoomFluig.add[selectedItem.inputName]){
+		uFFw.fields.zoomFluig.add[selectedItem.inputName](selectedItem.inputName, selectedItem)
+	}				
+}
+
+function removedZoomItem(removedItem) {   
+	if(uFFw.fields.zoomFluig.remove[removedItem.inputName]){
+		uFFw.fields.zoomFluig.remove[removedItem.inputName](removedItem.inputName, removedItem)
+	}				
+}

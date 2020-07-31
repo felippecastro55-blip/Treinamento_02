@@ -170,15 +170,18 @@ var uFFw = {
 				$('[name="'+tableConfig.id+'ID___'+linhaIdx+'"]').val(linhaIdx);
 				tableConfig.fields.forEach( function(fieldConfig){
 					
-					if(fieldConfig.type == "zoom"){
-						window.loadZoom()
-					} //jonas
-
+					
 					var prefix = fieldConfig.name.split('___')[0];
 					var sufix = '___' + linhaIdx;
 					
 					fieldConfig.name = prefix + sufix;
 					
+					if(fieldConfig.fieldType == "zoomFluig"){
+						$("[name="+ fieldConfig.name +"]").attr('type', 'zoom')
+						uFFw.fields.zoomFluig.init(fieldConfig, sufix);
+						window.loadZoom(fieldConfig.name)
+					}
+
 					$('[name="' + fieldConfig.name + '"]').parents('tr').find('[uf-removeChild="' + tableConfig.id + '"]').off().on('click', function(){
 						
 						var element = this;
@@ -2070,10 +2073,12 @@ $.validator.addMethod("isMaiorQueZero", function (value, element){
 
 function disableZoomField(field){
 	window[field].disable(true)
+	$('[name='+ field +']').parent().find('.select2-search__field').attr('readonly', true)
 }
 
 function enableZoomField(field){
 	window[field].disable(false)
+	$('[name='+ field +']').parent().find('.select2-search__field').attr('readonly', false)
 }
 
 function setSelectedZoomItem(selectedItem) {   

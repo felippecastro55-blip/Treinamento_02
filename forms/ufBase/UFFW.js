@@ -663,36 +663,11 @@ var uFFw = {
 
 				this.start ( fieldConfig, fieldConfig.configs );
 
-			},
+			},	
 		
 			start: function ( fieldConfig, options ) {
-				var jsonOptions = JSON.stringify(options)
-				var elName = '[name="' + fieldConfig.name + '"]'
 
-				$(elName).data('zoom', jsonOptions)
-
-				if(fieldConfig.callbacks){
-					if(fieldConfig.callbacks.onAdd){
-						uFFw.fields.zoomFluig.add[fieldConfig.name] = fieldConfig.callbacks.onAdd
-					}
-					if(fieldConfig.callbacks.onRemove){
-						uFFw.fields.zoomFluig.remove[fieldConfig.name] = fieldConfig.callbacks.onRemove
-					}
-				}
-				
-				if(fieldConfig.constraints){
-					var constraints = fieldConfig.constraints.reduce(function(elAcumulador, elAtual){
-						elAcumulador += elAtual.field + ',' + elAtual.value + ','
-						return elAcumulador
-					},
-					""
-					)
-					constraints = constraints.substr(0, constraints.length - 1)
-					reloadZoomFilterValues(fieldConfig.name, constraints)
-				}
-
-
-				
+				$('[name="' + fieldConfig.name + '"]').fluigZoomConfig( fieldConfig, options )
 				
 			},
 
@@ -1059,6 +1034,34 @@ var uFFw = {
  * @desc   	Desabilita todos os campos colocando-os no formato de VIEW do Fluig
  * @version	2.3.0
  */
+$.fn.fluigZoomConfig = function( fieldConfig, options ) {
+	var jsonOptions = JSON.stringify(options)
+	var elName = '[name="' + fieldConfig.name + '"]'
+
+	$(elName).data('zoom', jsonOptions)
+
+	if(fieldConfig.callbacks){
+		if(fieldConfig.callbacks.onAdd){
+			uFFw.fields.zoomFluig.add[fieldConfig.name] = fieldConfig.callbacks.onAdd
+		}
+		if(fieldConfig.callbacks.onRemove){
+			uFFw.fields.zoomFluig.remove[fieldConfig.name] = fieldConfig.callbacks.onRemove
+		}
+	}
+	
+	if(fieldConfig.constraints){
+		var constraints = fieldConfig.constraints.reduce(function(elAcumulador, elAtual){
+			elAcumulador += elAtual.field + ',' + elAtual.value + ','
+			return elAcumulador
+		},
+		""
+		)
+		constraints = constraints.substr(0, constraints.length - 1)
+		reloadZoomFilterValues(fieldConfig.name, constraints)
+	}	
+	
+}
+
 $.fn.setDisabled = function () {
     console.info('DESABILITA', $(this), 'Desabilita os elementos.');
 
@@ -2074,21 +2077,23 @@ $.validator.addMethod("isMaiorQueZero", function (value, element){
 function disableZoomField(field){
 	window[field].disable(true)
 	$('[name='+ field +']').parent().find('.select2-search__field').attr('readonly', true)
+	$('[name='+ field +']').parent().find('.select2-search__field').attr('tabindex', -1)
 }
 
 function enableZoomField(field){
 	window[field].disable(false)
 	$('[name='+ field +']').parent().find('.select2-search__field').attr('readonly', false)
+	$('[name='+ field +']').parent().find('.select2-search__field').attr('tabindex', 0)
 }
 
-function setSelectedZoomItem(selectedItem) {   
+function setSelectedZoomItem(selectedItem) {
 	if(uFFw.fields.zoomFluig.add[selectedItem.inputName]){
-		uFFw.fields.zoomFluig.add[selectedItem.inputName](selectedItem.inputName, selectedItem)
+		uFFw.fields.zoomFluig.add[selectedItem.inputName]($('[name='+selectedItem.inputName+ ']'), selectedItem , selectedItem.inputName)
 	}				
 }
 
 function removedZoomItem(removedItem) {   
 	if(uFFw.fields.zoomFluig.remove[removedItem.inputName]){
-		uFFw.fields.zoomFluig.remove[removedItem.inputName](removedItem.inputName, removedItem)
+		uFFw.fields.zoomFluig.remove[removedItem.inputName]($('[name='+removedItem.inputName+ ']'), removedItem, removedItem.inputName)
 	}				
 }

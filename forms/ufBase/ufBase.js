@@ -99,9 +99,9 @@ $(document).ready(function() {
 		state: {type: 'default', num: [0, 1, 2]}, 
 		fieldType: 'zoomFluig', //TIPO DE CAMPO APROVACAO
 		name: 'ZOOMFLUIGEXEMPLO', //STRING CHAVE PARA INICIAR APROVACAO
-		validate: [], 
+		validate: ['required'], 
 		configs: {
-			displayKey: 'colleagueName',
+			displayKey: 'colleagueId',
 			datasetId: 'colleague',
 			maximumSelectionLength: '3',
 			fields:[
@@ -115,26 +115,31 @@ $(document).ready(function() {
 				},{
 				  field:'login',
 				  label:'Login'
+				},{
+				  field:'colleagueId',
+				  label:'colleagueID'
 				}
 			] 
 		},
-		constraints: [{
-			field: 'login',
-			value: 'teste'
-		},
-		{
-			field: 'colleagueName',
-			value: 'User Teste 00'
-		}],
+		// constraints: [{
+		// 	field: 'login',
+		// 	value: 'teste'
+		// },
+		// {
+		// 	field: 'colleagueName',
+		// 	value: 'User Teste 00'
+		// }],
 		callbacks: {
-			onAdd: function(self, item){
+			onAdd: function($self, item, name){
 				console.log(item)
-				console.log(self)
+				console.log($self)
+				console.log(name)
 				enableZoomField('ZOOMFLUIGEXEMPLO2')
 			},
-			onRemove: function(self, item){
+			onRemove: function($self, item, name){
 				console.log(item)
-				console.log(self)
+				console.log($self)
+				console.log(name)
 				disableZoomField('ZOOMFLUIGEXEMPLO2')
 			},
 		}
@@ -143,7 +148,7 @@ $(document).ready(function() {
 		state: {type: 'default', num: [0, 1, 2]}, 
 		fieldType: 'zoomFluig', //TIPO DE CAMPO APROVACAO
 		name: 'ZOOMFLUIGEXEMPLO2', //STRING CHAVE PARA INICIAR APROVACAO
-		validate: [], 
+		validate: ['required'], 
 		configs: {
 			displayKey: 'colleagueName',
 			datasetId: 'colleague',
@@ -159,11 +164,12 @@ $(document).ready(function() {
 			] 
 		},
 		callbacks: {
-			onAdd: function(self, item){
+			onAdd: function($self, item, name){
 				console.log(item)
-				console.log(self)
-				disableZoomField(self)
-			}
+				console.log($self)
+				console.log(name)
+				disableZoomField(name)
+			},
 		}
 	}
 ];
@@ -269,7 +275,7 @@ var sectionsConfig = [
 				state: {type: 'default', num: [0, 1, 2]}, 
 				fieldType: 'zoomFluig', //TIPO DE CAMPO APROVACAO
 				name: 'ZOOMFLUIGPAIEXEMPLO', //STRING CHAVE PARA INICIAR APROVACAO
-				validate: [], 
+				validate: ['required'], 
 				configs: {
 					displayKey: 'colleagueName',
 					datasetId: 'colleague',

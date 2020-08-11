@@ -1,3 +1,4 @@
+
 window.listaCalendar = [];
 
 var uFFw = {
@@ -170,11 +171,18 @@ var uFFw = {
 				$('[name="'+tableConfig.id+'ID___'+linhaIdx+'"]').val(linhaIdx);
 				tableConfig.fields.forEach( function(fieldConfig){
 					
+					
 					var prefix = fieldConfig.name.split('___')[0];
 					var sufix = '___' + linhaIdx;
 					
 					fieldConfig.name = prefix + sufix;
 					
+					if(fieldConfig.fieldType == "zoomFluig"){
+						$("[name="+ fieldConfig.name +"]").attr('type', 'zoom')
+						uFFw.fields.zoomFluig.init(fieldConfig, sufix);
+						window.loadZoom(fieldConfig.name)
+					}
+
 					$('[name="' + fieldConfig.name + '"]').parents('tr').find('[uf-removeChild="' + tableConfig.id + '"]').off().on('click', function(){
 						
 						var element = this;
@@ -499,6 +507,11 @@ var uFFw = {
 				//inicia rotina de tipo de campo ZOOM BETA
 				uFFw.fields.zoomBeta.init(fieldConfig, sufix);
 				
+			} else if ( fieldConfig.fieldType == 'zoomFluig' ) {
+				
+				//inicia rotina de tipo de campo ZOOM BETA
+				uFFw.fields.zoomFluig.init(fieldConfig, sufix);
+				
 			}
 			
 			//inicia rotina de adição de classes
@@ -641,6 +654,27 @@ var uFFw = {
 
 		},
 		
+		//Objeto de configuração de elementos de zoom do Fluig
+		zoomFluig: {
+
+			//inicia aprovacao de formulario
+			//parametro: objeto de configuração do campo
+			init: function ( fieldConfig ) {
+
+				this.start ( fieldConfig, fieldConfig.configs );
+
+			},	
+		
+			start: function ( fieldConfig, options ) {
+
+				$('[name="' + fieldConfig.name + '"]').fluigZoomConfig( fieldConfig, options )
+				
+			},
+
+			add: {},
+			remove: {},
+
+		},
 		
 		//Objeto de configuração de elementos de data
 		date: {
@@ -962,7 +996,7 @@ var uFFw = {
 			
 			//inicia validação em um elemento
 			//parametros: elemento jquery do campo, configuração (padrão quando elemento é visivel)
-			start: function ( $el, typeValidation, config, validationCascade ) {
+			start: function ( $el, typeValidation, config, validationCascade = {} ) {
 				var objConfig = {}
 				if(typeof typeValidation == "function"){
 					objConfig["callback"] = typeValidation
@@ -971,19 +1005,17 @@ var uFFw = {
 				}
 
 				$el.rules( 'add',  objConfig);
-
-				if ( validationCascade ) {
-					const { eventToValidate = 'change', fieldsToValidate = undefined } = validationCascade
-					$el.parents('.form-group').on( eventToValidate, function () {
-						$el.valid()
-						if ( fieldsToValidate ) {
-							fieldsToValidate.forEach( function ( fieldName ) {
-								$(`[name="${fieldName}"]`).valid()
-							})
-						}
-						console.log(fieldsToValidate)
-					})
-				}
+				
+				const { eventToValidate = 'change', fieldsToValidate = undefined } = validationCascade
+				$el.parents('.form-group').on( eventToValidate, function () {
+					$(`[name="${$el.attr('name')}"]`).valid()
+					if ( fieldsToValidate ) {
+						fieldsToValidate.forEach( function ( fieldName ) {
+							$(`[name="${fieldName}"]`).valid()
+						})
+					}
+					
+				})
 				
 			}
 		},
@@ -1009,6 +1041,34 @@ var uFFw = {
  * @desc   	Desabilita todos os campos colocando-os no formato de VIEW do Fluig
  * @version	2.3.0
  */
+$.fn.fluigZoomConfig = function( fieldConfig, options ) {
+	var jsonOptions = JSON.stringify(options)
+	var elName = '[name="' + fieldConfig.name + '"]'
+
+	$(elName).data('zoom', jsonOptions)
+
+	if(fieldConfig.callbacks){
+		if(fieldConfig.callbacks.onAdd){
+			uFFw.fields.zoomFluig.add[fieldConfig.name] = fieldConfig.callbacks.onAdd
+		}
+		if(fieldConfig.callbacks.onRemove){
+			uFFw.fields.zoomFluig.remove[fieldConfig.name] = fieldConfig.callbacks.onRemove
+		}
+	}
+	
+	if(fieldConfig.constraints){
+		var constraints = fieldConfig.constraints.reduce(function(elAcumulador, elAtual){
+			elAcumulador += elAtual.field + ',' + elAtual.value + ','
+			return elAcumulador
+		},
+		""
+		)
+		constraints = constraints.substr(0, constraints.length - 1)
+		reloadZoomFilterValues(fieldConfig.name, constraints)
+	}	
+	
+}
+
 $.fn.setDisabled = function () {
     console.info('DESABILITA', $(this), 'Desabilita os elementos.');
 
@@ -2021,3 +2081,27 @@ $.validator.addMethod("isMaiorQueZero", function (value, element){
 	value = value.parseReais();
 	return value > 0.00;
 }, "Informe um valor maior que zero.");
+
+function disableZoomField(field){
+	window[field].disable(true)
+	$('[name='+ field +']').parent().find('.select2-search__field').attr('readonly', true)
+	$('[name='+ field +']').parent().find('.select2-search__field').attr('tabindex', -1)
+}
+
+function enableZoomField(field){
+	window[field].disable(false)
+	$('[name='+ field +']').parent().find('.select2-search__field').attr('readonly', false)
+	$('[name='+ field +']').parent().find('.select2-search__field').attr('tabindex', 0)
+}
+
+function setSelectedZoomItem(selectedItem) {
+	if(uFFw.fields.zoomFluig.add[selectedItem.inputName]){
+		uFFw.fields.zoomFluig.add[selectedItem.inputName]($('[name='+selectedItem.inputName+ ']'), selectedItem , selectedItem.inputName)
+	}				
+}
+
+function removedZoomItem(removedItem) {   
+	if(uFFw.fields.zoomFluig.remove[removedItem.inputName]){
+		uFFw.fields.zoomFluig.remove[removedItem.inputName]($('[name='+removedItem.inputName+ ']'), removedItem, removedItem.inputName)
+	}				
+}

@@ -240,3 +240,21 @@
     background-color: #ec971f !important;
     border-color: #d58512 !important;
 }
+
+.has-error .select2-custom-theme.select2-container .select2-selection--single, .has-error .select2-custom-theme.select2-container .select2-selection--multiple {
+    background-image: linear-gradient(to left,#a94442,#c5312f),linear-gradient(to left,#a94442,#c5312f) !important;
+}
+
+.has-success .select2-custom-theme.select2-container .select2-selection--single, .has-success .select2-custom-theme.select2-container .select2-selection--multiple {
+    background-image: linear-gradient(to left,#3c763d,#36af38),linear-gradient(to left,#3c763d,#36af38) !important;
+}
+
+.has-error .select2-custom-theme .select2-fluigicon-zoom{
+    background-color: #a94442 !important;
+    border-color: #a94442 !important;
+}
+
+.has-success .select2-custom-theme .select2-fluigicon-zoom{
+    background-color: #3c763d !important;
+    border-color: #3c763d !important;
+}

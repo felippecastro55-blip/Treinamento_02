@@ -512,7 +512,12 @@ var uFFw = {
 				//inicia rotina de tipo de campo ZOOM BETA
 				uFFw.fields.zoomFluig.init(fieldConfig, sufix);
 				
-			}
+			} else if (fieldConfig.fieldType == 'cep') {
+
+                //inicia rotina de tipo de campo cep
+                uFFw.fields.cep.init(fieldConfig);
+
+            }
 			
 			//inicia rotina de adição de classes
 			uFFw.utils.addClass.init(fieldConfig);
@@ -832,8 +837,91 @@ var uFFw = {
 				
 			}
 
-		}
+		},
 
+		//Objeto de configuração de elementos de data
+        cep: {
+
+            //parametro: objeto de configuração do campo
+            init: function(fieldConfig) {
+
+                $('[name="' + fieldConfig.name + '"]').mask("00.000-000"); //coloca mascara de cep
+
+                this.start(fieldConfig);
+
+            },
+
+            start: function(fieldConfig) {
+
+                $('[name="' + fieldConfig.name + '"]').blur(function() {
+
+                    //Nova variável "CEP" somente com digitos
+                    var CEP = $('[name="' + fieldConfig.name + '"]').val().replace(/\D/g, '');
+
+                    //Verifica se campo CEP possui valor informado.
+                    if (CEP != "") {
+
+                        //Expressão regular para validar o CEP.
+                        var validaCEP = /^[0-9]{8}$/;
+                        //Valida o formato do CEP.
+                        if (validaCEP.test(CEP)) {
+
+                            //Preenche os campos com "..." enquanto consulta webservice.
+                            $('[name="RUA' + fieldConfig.name + '"]').val("...");
+                            $('[name="BAIRRO' + fieldConfig.name + '"]').val("...");
+                            $('[name="CIDADE' + fieldConfig.name + '"]').val("...");
+                            $('[name="UF' + fieldConfig.name + '"]').val("...");
+
+                            var request = new XMLHttpRequest();
+                            request.open('GET', 'http://viacep.com.br/ws/' + CEP + '/json/');
+                            request.responseType = 'json';
+                            request.send();
+
+                            request.onload = function() {
+
+                                if (!("erro" in request.response)) {
+
+                                    $('[name="RUA' + fieldConfig.name + '"]').val(request.response.logradouro);
+                                    $('[name="BAIRRO' + fieldConfig.name + '"]').val(request.response.bairro);
+                                    $('[name="CIDADE' + fieldConfig.name + '"]').val(request.response.localidade);
+                                    $('[name="UF' + fieldConfig.name + '"]').val(request.response.uf);
+
+                                } else {
+                                    //CEP não Encontrado.
+                                    clearForm(fieldConfig.name);
+                                    FLUIGC.toast({
+                                        title: 'Erro!',
+                                        message: 'CEP não encontrado!',
+                                        type: 'warning'
+                                    });
+                                    $('[name="' + fieldConfig.name + '"]').val("");
+
+                                }
+
+                            }
+
+                        } //end if.
+                        else {
+                            //CEP envalido
+                            clearForm(fieldConfig.name);
+                            FLUIGC.toast({
+                                title: 'Erro!',
+                                message: 'Formato de CEP inválido!',
+                                type: 'warning'
+                            });
+                            $('[name="' + fieldConfig.name + '"]').val("");
+                        }
+                    } //end if.
+                    else {
+                        //CEP sem valor, limpa formulario.
+                        clearForm(fieldConfig.name);
+                    }
+
+                });
+
+            }
+
+        }
 
 	},
 
@@ -2104,4 +2192,14 @@ function removedZoomItem(removedItem) {
 	if(uFFw.fields.zoomFluig.remove[removedItem.inputName]){
 		uFFw.fields.zoomFluig.remove[removedItem.inputName]($('[name='+removedItem.inputName+ ']'), removedItem, removedItem.inputName)
 	}				
+}
+
+//funções relacionadas
+function clearForm(fieldConfigName) {
+
+    $('[name="RUA' + fieldConfigName + '"]').val("");
+    $('[name="BAIRRO' + fieldConfigName + '"]').val("");
+    $('[name="CIDADE' + fieldConfigName + '"]').val("");
+    $('[name="UF' + fieldConfigName + '"]').val("");
+
 }

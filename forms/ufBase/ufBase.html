@@ -217,6 +217,51 @@
 					</div>
 				</div>
             </section>
+
+            <!-- INÍCIO: informações de CEP -->
+            <section class="secCEP" id="secCEP">
+                <div class="row">
+                    <div class="col-sm-3 col-md-3">
+                        <div class="form-group">
+                            <label class="control-label" for="CEPEXEMPLO"> CEP </label>
+                            <input type="text" name="CEPEXEMPLO" class="form-control required" />
+                        </div>
+                    </div>
+                    <div class="col-sm-7 col-md-7">
+                        <div class="form-group">
+                            <label class="control-label" for="RUACEPEXEMPLO"> Endereço </label>
+                            <input type="text" name="RUACEPEXEMPLO" class="form-control" readonly />
+                        </div>
+                    </div>
+                    <div class="col-sm-2 col-md-2">
+                        <div class="form-group">
+                            <label class="control-label" for="NUMEROCEPEXEMPLO"> Nº </label>
+                            <input type="text" name="NUMEROCEPEXEMPLO" class="form-control required" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-5 col-md-5">
+                        <div class="form-group">
+                            <label class="control-label" for="BAIRROCEPEXEMPLO"> Bairro </label>
+                            <input type="text" name="BAIRROCEPEXEMPLO" class="form-control" readonly />
+                        </div>
+                    </div>
+                    <div class="col-sm-4 col-md-4">
+                        <div class="form-group">
+                            <label class="control-label" for="CIDADECEPEXEMPLO"> Cidade </label>
+                            <input type="text" name="CIDADECEPEXEMPLO" class="form-control" readonly />
+                        </div>
+                    </div>
+                    <div class="col-sm-3 col-md-3">
+                        <div class="form-group">
+                            <label class="control-label" for="UFCEPEXEMPLO"> UF </label>
+                            <input type="text" name="UFCEPEXEMPLO" class="form-control" readonly />
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- FINAL: informações de CEP -->
 			
             <section class="secAprovacaoFINANCEIRO" id="secAprovacaoFINANCEIRO" style="display:none;">
                 <!-- INÍCIO: título de cabeçalho -->
@@ -405,6 +450,7 @@
 <script type="text/javascript" src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap.min.js"></script>    
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.11/jquery.mask.min.js"></script>
 <script src="jquery.maskMoney.min.js" type="text/javascript"></script>
 <script src="mustache.min.js" type="text/javascript"></script>
 <script src="moment.min.js" type="text/javascript"></script>

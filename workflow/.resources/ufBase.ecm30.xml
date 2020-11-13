@@ -2,9 +2,9 @@
   <ProcessDefinition>
     <processDefinitionPK>
       <companyId>1</companyId>
-      <processId>UFBASE</processId>
+      <processId>ufBase</processId>
     </processDefinitionPK>
-    <processDescription>ufBase-Teste-julia</processDescription>
+    <processDescription>teste alteracao framework cep</processDescription>
     <instruction></instruction>
     <active>true</active>
     <publicProcess>true</publicProcess>
@@ -27,8 +27,8 @@
   <ProcessDefinitionVersion>
     <processDefinitionVersionPK>
       <companyId>1</companyId>
-      <processId>ufBase-Teste-julia</processId>
-      <version>1</version>
+      <processId>teste alteracao framework cep</processId>
+      <version>8</version>
     </processDefinitionVersionPK>
     <versionDescription></versionDescription>
     <formId>0</formId>
@@ -49,7 +49,7 @@
     <ProcessState>
       <processStatePK>
         <companyId>1</companyId>
-        <processId>UFBASE</processId>
+        <processId>ufBase</processId>
         <version>1</version>
         <sequence>1</sequence>
       </processStatePK>
@@ -99,7 +99,7 @@
     <ProcessState>
       <processStatePK>
         <companyId>1</companyId>
-        <processId>UFBASE</processId>
+        <processId>ufBase</processId>
         <version>1</version>
         <sequence>2</sequence>
       </processStatePK>
@@ -149,7 +149,7 @@
     <ProcessState>
       <processStatePK>
         <companyId>1</companyId>
-        <processId>UFBASE</processId>
+        <processId>ufBase</processId>
         <version>1</version>
         <sequence>4</sequence>
       </processStatePK>
@@ -185,7 +185,7 @@
       <frequenceManagerTime>0</frequenceManagerTime>
       <inhibitTransfer>false</inhibitTransfer>
       <periodId></periodId>
-      <stateType>0</stateType>
+      <stateType>6</stateType>
       <bpmnType>60</bpmnType>
       <signalId>0</signalId>
       <counterSign>false</counterSign>
@@ -199,7 +199,7 @@
     <ProcessLink>
       <processLinkPK>
         <companyId>1</companyId>
-        <processId>UFBASE</processId>
+        <processId>ufBase</processId>
         <version>1</version>
         <linkSequence>3</linkSequence>
       </processLinkPK>
@@ -216,7 +216,7 @@
     <ProcessLink>
       <processLinkPK>
         <companyId>1</companyId>
-        <processId>UFBASE</processId>
+        <processId>ufBase</processId>
         <version>1</version>
         <linkSequence>5</linkSequence>
       </processLinkPK>
@@ -237,7 +237,7 @@
       <workflowProcessEventPK>
         <companyId>1</companyId>
         <eventId>afterProcessCreate</eventId>
-        <processId>UFBASE</processId>
+        <processId>ufBase</processId>
         <version>1</version>
       </workflowProcessEventPK>
       <eventDescription>/**&#xd;

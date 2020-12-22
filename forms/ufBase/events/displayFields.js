@@ -56,5 +56,8 @@ function displayFields(form, customHTML) {
     //form.setValue('STATUS', statusAtivAtual.tit);
     customHTML.append("<script type='text/javascript'>var ufStatus = "+JSON.stringify(statusAtivAtual)+";</script>");
     
+    var isMobile = form.getMobile()
+    customHTML.append("<script type='text/javascript'>var isMobile = " + isMobile + ";</script>");
+
     log.info('### uf-log | Final displayFields(WKNumProces: '+getValue('WKNumProces')+', WKNumState: '+getValue('WKNumState')+', modForm: '+form.getFormMode()+', WKUser: '+getValue('WKUser')+') ###');
 }

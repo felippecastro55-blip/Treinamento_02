@@ -12,7 +12,6 @@ $(document).ready(function() {
 	{
 		name: 'DATAEXEMPLO', //NOME DO CAMPO
 		state: {type: 'default', num: [0, 1]}, //type: LISTA DE ESTADO DO FORMULARIO (EX: ['VIEW']). DEFAULT = [MOD, ADD] || NUM = LISTA DE ATIVIDADES QUE TAL CONFIGURAÇÃO VAI AGIR. (EX: [1, 2]). "all" = TODAS 
-
 		fieldType: 'date', //TIPO DE CAMPO DATA
 		validate: ['required'],
 		validationCascade: {
@@ -67,7 +66,7 @@ $(document).ready(function() {
 		},
 	},
 	{
-		state: {type: 'default', num: [2]}, 
+		state: {type: 'default', num: [0, 1, 2]}, 
 		fieldType: 'aprovacao', //TIPO DE CAMPO APROVACAO
 		name: 'FINANCEIRO', //STRING CHAVE PARA INICIAR APROVACAO
 	},
@@ -88,15 +87,16 @@ $(document).ready(function() {
 		}, 
 		zoomOptions: {
 			label: 'Coligada',
-	        uFZommType: '2',	// 1=DataServer | 2=Consulta | 3=Dataset | 4=query 
+	        uFZommType: '3',	// 1=DataServer | 2=Consulta | 3=Dataset | 4=query 
 	        clear: [{
 				name:'COLIGADA',
 	        }],
-	        CodQuery: 'FLUIG.EXEMPLO', // dataserver | codsentenca | nome_dataset | array
-	        constraints:[],
+	        CodQuery: 'colleague', // dataserver | codsentenca | nome_dataset | array
+			constraints:[],
+			// Fields que serão inseridos no dataset para o uFZommType: '3'
+			dsFields: ['colleagueName'],
 	        columns: [
-				{ title: 'Código', data: 'CODCOLIGADA', className: 'text-nowrap' },
-	            { title: 'Nome', data: 'NOMEFANTASIA' },
+				{ title: 'Código', data: 'colleagueName', className: 'text-nowrap' },
 	        ],
 	    },
 	    zoomReturn: {
@@ -215,9 +215,9 @@ var sectionsConfig = [
 		{
 			id: 'secAprovacaoFINANCEIRO',
 			visible: false, //TRUE = SEMPRE VISIVEL || FALSE = VISIVEL APENAS NAS ATIVIDADES CONTIDAS EM VISIBLEATV
-			visibleAtv: [2, 4], //LISTA DE ATIVIDADES QUE ESSA SECTION É VISIVEL
+			visibleAtv: [0, 1, 2, 4], //LISTA DE ATIVIDADES QUE ESSA SECTION É VISIVEL
 			enabled: true, //TRUE = TAL SECTION É ENABLED EM ALGUMA ATIVIDADE || FALSE = SEMPRE DISABLED
-			enabledAtv: [2] //LISTA DE ATIVIDADES QUE ESSA SECTION NÃO ESTÁ DISABLED
+			enabledAtv: [0, 1, 2] //LISTA DE ATIVIDADES QUE ESSA SECTION NÃO ESTÁ DISABLED
 		},
 		{
 			id: 'secDependentes',
@@ -432,8 +432,10 @@ var sectionsConfig = [
 					 */
 					constraints:[{
 						sourceVal: '3', // 1 = Valor Fixo | 2 = Campo de Formulario | 3 = Valor do usuario
-						field: 'mail',
+						field: 'colleagueName',
 					}],
+					// Fields que serão inseridos no dataset
+					dsFields: ['colleagueName'],
 					columns: [
 						{ title: 'Nome', data: 'colleagueName', className: 'text-nowrap' },
 		

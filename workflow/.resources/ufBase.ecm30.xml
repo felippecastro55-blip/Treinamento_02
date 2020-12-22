@@ -9,7 +9,7 @@
     <active>true</active>
     <publicProcess>true</publicProcess>
     <volumeId>Default</volumeId>
-    <categoryId>Treinamento.upflow</categoryId>
+    <categoryId>Framework</categoryId>
     <managerEngineAllocationId></managerEngineAllocationId>
     <snapshotFrequency>0</snapshotFrequency>
     <baseDay>0</baseDay>
@@ -28,7 +28,7 @@
     <processDefinitionVersionPK>
       <companyId>1</companyId>
       <processId>teste alteracao framework cep</processId>
-      <version>8</version>
+      <version>3</version>
     </processDefinitionVersionPK>
     <versionDescription></versionDescription>
     <formId>0</formId>
@@ -185,7 +185,7 @@
       <frequenceManagerTime>0</frequenceManagerTime>
       <inhibitTransfer>false</inhibitTransfer>
       <periodId></periodId>
-      <stateType>6</stateType>
+      <stateType>0</stateType>
       <bpmnType>60</bpmnType>
       <signalId>0</signalId>
       <counterSign>false</counterSign>

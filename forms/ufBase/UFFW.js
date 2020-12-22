@@ -74,7 +74,6 @@ var uFFw = {
 				var fieldSufix = sufix == null ? '' : sufix;
 				
 				var nameField = item.formField + fieldSufix
-				console.log(nameField)
 				
 				$('[name="' + nameField + '"]').val(info[item.data]).trigger('change')
 				
@@ -569,6 +568,7 @@ var uFFw = {
 						label: zoomOptions.label,
 						title: 'Cadastro de ' + zoomOptions.label,
 						CodQuery: zoomOptions.CodQuery, //nome_dataset
+						fields: zoomOptions.dsFields,
 						constraints: zoomOptions.constraints,	// filtros aplicados a consulta
 						columns: zoomOptions.columns,
 				},zoomCallback, listFields, sufix);
@@ -624,7 +624,8 @@ var uFFw = {
 					CodQuery: zoomOptions.CodQuery, // dataserver | codsentenca | nome_dataset | array
 					constraints: zoomOptions.constraints,
 					columns: zoomOptions.columns,
-					lstLocal: zoomOptions.lstLocal
+					lstLocal: zoomOptions.lstLocal,
+					fields: zoomOptions.dsFields
 				}, zoomCallback, listFields, sufix);
 	
 		
@@ -817,7 +818,9 @@ var uFFw = {
 	                $cmpAprovDta.val( moment().format('DD/MM/YYYY HH:mm:ss') );
 	                $cmpAprovNom.val(infoUserActive.name);
 	                $cmpAprovCod.val(infoUserActive.code);
-	                $cmpAprovMail.val(infoUserActive.mail);
+					$cmpAprovMail.val(infoUserActive.mail);
+					$cmpAprov.valid()
+ 					$cmpObs.valid()
 	                // exibe a mensagem no formulário
 	                exbMsgAprov( this.value, this.checked );
         		});
@@ -833,8 +836,6 @@ var uFFw = {
 			valid: function (fieldConfig, $cmpAprov, $cmpObs) {
 				$cmpAprov.rules('add', { required: true});
     			$cmpObs.rules('add', { required:{ depends: function(el) { return $('input[name="APROVADO' + fieldConfig.name + '"]:checked').val() != 'S' }, },})
-
-				
 			}
 
 		},
@@ -1363,25 +1364,22 @@ $.fn.uFZoomBETA = function(zoomInfo, callback, listFields, sufix){
 						_type: 2,	// type 2 significa constraint SHOULD
 						_likeSearch: true
 					}
+					var constraint;
 					// verifica a origem do valor do filtro
 					switch ( String(e.sourceVal) ) {
 						case '1':    // se o valor é fixo (sourceVal = 1), ou seja, passado direto pelo zoomInfo
-							defaultConstraint['_field'] 		= e.field
-							defaultConstraint['_initialValue'] 	= e.value
-							defaultConstraint['_finalValue'] 	= e.value
+							constraint = DatasetFactory.createConstraint(e.field, e.value, e.value, ConstraintType.SHOULD, true)
 						break;
 						case '2':   // se o valor é uma referência (sourceVal = 2), ou seja, vem de um campo do formulário
-							defaultConstraint['_field'] 		= e.field
-							defaultConstraint['_initialValue'] 	= $('[name="'+e.formField+'"]').val()
-							defaultConstraint['_finalValue'] 	= $('[name="'+e.formField+'"]').val()
+							var valorCampo = $('[name="'+e.formField+'"]').val()
+							constraint = DatasetFactory.createConstraint(e.field, valorCampo, valorCampo, ConstraintType.SHOULD, true)
 						break;
 						case '3':	// se o usuario informa o valor (sourceVal = 3), ou seja, vem do filtro
-							defaultConstraint['_field'] 		= e.field
-							defaultConstraint['_initialValue'] 	= inputUsuario
-							defaultConstraint['_finalValue'] 	= inputUsuario 
+							constraint = DatasetFactory.createConstraint(e.field, inputUsuario, inputUsuario, ConstraintType.SHOULD, true)
 						break;
 					};
-					return defaultConstraint
+					return constraint
+					// return defaultConstraint
 				});
 
 			};
@@ -1432,7 +1430,7 @@ $.fn.uFZoomBETA = function(zoomInfo, callback, listFields, sufix){
 						//console.info('data do ajax: ', d);
 						var objAPI = {
 							name: zoomInfo.CodQuery,
-							fields: zoomInfo.fields == 'undefined' ? uFFw.defaults.zoomBetaFields : zoomInfo.fields,
+							fields: zoomInfo.fields ? zoomInfo.fields : uFFw.defaults.zoomBetaFields,
 							constraints: processaConstraint(valor) == 'undefined' ? uFFw.defaults.zoomBetaConstraints : processaConstraint(valor),
 							order: null
 						};
@@ -1505,7 +1503,8 @@ $.fn.uFZoomBETA = function(zoomInfo, callback, listFields, sufix){
 			}
 			
 			//dtZoom.search($(this).val()).draw() ;
-		}).focus();
+		})
+		if(!isMobile) $('#zoomModal input[type="search"]').focus()
 		
 		// ao clicar no botão
 		$('#zoomModal button[type="button"]').on('click', function() {
@@ -1519,7 +1518,7 @@ $.fn.uFZoomBETA = function(zoomInfo, callback, listFields, sufix){
 				dtZoom.search(val).draw() ;   
 			}
 			
-			$('#zoomModal input[type="search"]').focus();
+			if(!isMobile) $('#zoomModal input[type="search"]').focus();
 		});
 
 		// ao fechar o modal
@@ -1664,7 +1663,7 @@ $.fn.uFZoom = function (zoomInfo, callback, listFields, sufix) {
                     DataSetName = zoomInfo.CodQuery;    // resgata o nome do DataSet no html
 
                     // não passa parâmetros
-                    parametros = null;
+                    parametros = zoomInfo.fields ? zoomInfo.fields : null
 
                     break;
                 case '4':    // consulta utilizando uma query
@@ -1943,7 +1942,8 @@ $.fn.uFZoom = function (zoomInfo, callback, listFields, sufix) {
             // define ação de pesquisa e foca no campo de busca          
             $('#zoomModal input[type="search"]').keyup(function() {
                 dtZoom.search($(this).val()).draw() ;
-            }).focus();
+			})
+			if(!isMobile) $('#zoomModal input[type="search"]').focus();
 
 			// ao fechar o modal
 			$('#zoomModal').on('hide.bs.modal', function() {

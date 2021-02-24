@@ -40,7 +40,6 @@
     opacity: .65;
 }
 .uF .form-group.ufZoom input[readonly],
-.uF .form-group.ufZoom .input-group-btn button,
 .uF .form-group.ufZoom .input-group .codinput {
     background-color: #f7f7f7;
 }
@@ -83,7 +82,7 @@
 .uF .form-group input.form-control,
 .uF .form-group textarea.form-control,
 .uF .form-group span.form-control {
-	font-size: 16px;
+	/* font-size: 16px; */
 	font-weight: bold;
 }
 .uF span.obs-processo {
@@ -105,17 +104,17 @@
     font-weight: 600;
 }
 .uF .form-group.has-success .input-group-btn button {
-    color: #3c763d;
+    color: #dff0d8;
     border-color: #3c763d;
-    background-color: #dff0d8;
+    background-color: #3c763d;
 }
 .uF .form-group.has-error .input-group-btn button {
-    color: #a94442;
+    color: #f2dede;
     border-color: #a94442;
-    background-color: #f2dede;
+    background-color: #a94442;
 }
 .uF .form-group.has-error label.error {
-	font-size: 90% !important;
+	font-size: 85% !important;
 	text-transform:none;
 }
 .uF .fluig-style-guide .has-error label {
@@ -130,6 +129,106 @@
     color: #fff;
     background-color: #d9534f;
     border-color: #d43f3a;
+}
+
+.uF .fluig-style-guide .form-group.has-error .form-control {
+    background-image: linear-gradient(to left,#EF9A9A,#EF9A9A),linear-gradient(to left,#EF9A9A,#EF9A9A) !important;
+}
+.uF .fluig-style-guide .form-group.has-error .btn-default {
+    box-shadow: inset 0 0 0 1px #a94442 !important;
+}
+.uF .fluig-style-guide .form-group.has-error .btn-default:hover {
+    box-shadow: inset 0 0 0 1px #8a3533 !important;
+}
+.uF .fluig-style-guide .form-group.has-error .input-group .input-group-btn .btn-default:hover {
+    background-color: #8a3533 !important;
+}
+.uF .fluig-style-guide .form-group.has-error .input-group .input-group-addon {
+    border-color: #a94442 !important;
+    background-color: #a94442 !important;
+}
+
+.uF .fluig-style-guide .has-success label {
+    color: #3c763d;
+}
+.uF .fluig-style-guide .form-group.has-success .form-control {
+    background-image: linear-gradient(to left,#A5D6A7,#A5D6A7),linear-gradient(to left,#A5D6A7,#A5D6A7) !important;
+}
+
+.uF .fluig-style-guide .form-group.has-success .btn-default {
+    box-shadow: inset 0 0 0 1px #3c763d !important;
+}
+.uF .fluig-style-guide .form-group.has-success .btn-default:hover {
+    box-shadow: inset 0 0 0 1px #2e5f2f !important;
+}
+.uF .fluig-style-guide .form-group.has-success .input-group .input-group-btn .btn-default:hover {
+    background-color: #2e5f2f !important;
+}
+.uF .fluig-style-guide .form-group.has-success .input-group .input-group-addon {
+    border-color: #3c763d !important;
+    background-color: #3c763d !important;
+}
+.uF .form-group.has-error .help-block.fromnow {
+	display: none;
+}
+.uF .fluig-style-guide .form-control[readonly] {
+	color: #555 !important;
+}
+.uF .form-group.has-error label.error {
+	font-size: 90% !important;
+	text-transform:none;
+}
+.uF .fluig-style-guide .has-error label {
+    color: #a94442;
+}
+
+.uF .form-group.has-success .input-group-btn button {
+    color: #dff0d8;
+    border-color: #3c763d;
+    background-color: #3c763d;
+}
+.uF .form-group.has-error .input-group-btn button {
+    color: #f2dede;
+    border-color: #a94442;
+    background-color: #a94442;
+}
+
+.uF .fluig-style-guide .form-group.has-error .form-control {
+    background-image: linear-gradient(to left,#EF9A9A,#EF9A9A),linear-gradient(to left,#EF9A9A,#EF9A9A) !important;
+}
+.uF .fluig-style-guide .form-group.has-error .btn-default {
+    box-shadow: inset 0 0 0 1px #a94442 !important;
+}
+.uF .fluig-style-guide .form-group.has-error .btn-default:hover {
+    box-shadow: inset 0 0 0 1px #8a3533 !important;
+}
+.uF .fluig-style-guide .form-group.has-error .input-group .input-group-btn .btn-default:hover {
+    background-color: #8a3533 !important;
+}
+.uF .fluig-style-guide .form-group.has-error .input-group .input-group-addon {
+    border-color: #a94442 !important;
+    background-color: #a94442 !important;
+}
+
+
+.uF .fluig-style-guide .has-success label {
+    color: #3c763d;
+}
+.uF .fluig-style-guide .form-group.has-success .form-control {
+    background-image: linear-gradient(to left,#A5D6A7,#A5D6A7),linear-gradient(to left,#A5D6A7,#A5D6A7) !important;
+}
+.uF .fluig-style-guide .form-group.has-success .btn-default {
+    box-shadow: inset 0 0 0 1px #3c763d !important;
+}
+.uF .fluig-style-guide .form-group.has-success .btn-default:hover {
+	box-shadow: inset 0 0 0 1px #2e5f2f !important;
+}
+.uF .fluig-style-guide .form-group.has-success .input-group .input-group-btn .btn-default:hover {
+    background-color: #2e5f2f !important;
+}
+.uF .fluig-style-guide .form-group.has-success .input-group .input-group-addon {
+    border-color: #3c763d !important;
+    background-color: #3c763d !important;
 }
 
 /* ========== 3. TABELA ESTILO UF  ========== */

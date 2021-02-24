@@ -30,15 +30,9 @@ function displayFields(form, customHTML) {
 	customHTML.append("<script type='text/javascript'>var modForm = '"+form.getFormMode()+"';</script>");
 
     log.info('### uf-log | Início displayFields(WKNumProces: '+getValue('WKNumProces')+', WKNumState: '+getValue('WKNumState')+', modForm: '+form.getFormMode()+', WKUser: '+getValue('WKUser')+') ###');
-    
-    var NumState = parseInt(getValue('WKNumState'));
-    
-    var filter = new java.util.HashMap();
-    filter.put('colleaguePK.colleagueId', getValue('WKUser'));
-    var usuario = getDatasetValues('colleague', filter);    // variável com dados do usuário logado
-    
+   
     // resgata informações do usuário logado
-    var filter = new java.util.HashMap();
+    filter = new java.util.HashMap();
     filter.put('colleaguePK.colleagueId', getValue('WKUser'));
     var usuario = getDatasetValues('colleague', filter);    // variável com dados do usuário logado
     
@@ -52,9 +46,15 @@ function displayFields(form, customHTML) {
     // leva as informações do status para o front-end
     var statusAtivAtual = lstAtiv[1];
     if (form.getFormMode() != 'ADD') statusAtivAtual = lstAtiv[getValue('WKNumState')];
-    //form.setValue('STATUSCOD', getValue('WKNumState'));
-    //form.setValue('STATUS', statusAtivAtual.tit);
+    // Caso a solicitação for cancelada, manda para a atv de cancelado
+    if(form.getValue("STATUSCOD") == '0') {
+        statusAtivAtual = lstAtiv[0];
+    } 
+
     customHTML.append("<script type='text/javascript'>var ufStatus = "+JSON.stringify(statusAtivAtual)+";</script>");
     
+    var isMobile = form.getMobile()
+    customHTML.append("<script type='text/javascript'>var isMobile = " + isMobile + ";</script>");
+
     log.info('### uf-log | Final displayFields(WKNumProces: '+getValue('WKNumProces')+', WKNumState: '+getValue('WKNumState')+', modForm: '+form.getFormMode()+', WKUser: '+getValue('WKUser')+') ###');
 }

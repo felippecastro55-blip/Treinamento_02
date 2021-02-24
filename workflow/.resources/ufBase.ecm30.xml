@@ -2,14 +2,14 @@
   <ProcessDefinition>
     <processDefinitionPK>
       <companyId>1</companyId>
-      <processId>UFBASE</processId>
+      <processId>ufBase</processId>
     </processDefinitionPK>
-    <processDescription>ufBase-Teste-julia</processDescription>
+    <processDescription>ufBase - Pablo</processDescription>
     <instruction></instruction>
     <active>true</active>
     <publicProcess>true</publicProcess>
     <volumeId>Default</volumeId>
-    <categoryId>Treinamento.upflow</categoryId>
+    <categoryId>Framework</categoryId>
     <managerEngineAllocationId></managerEngineAllocationId>
     <snapshotFrequency>0</snapshotFrequency>
     <baseDay>0</baseDay>
@@ -27,11 +27,11 @@
   <ProcessDefinitionVersion>
     <processDefinitionVersionPK>
       <companyId>1</companyId>
-      <processId>ufBase-Teste-julia</processId>
-      <version>1</version>
+      <processId>ufBase - Pablo</processId>
+      <version>8</version>
     </processDefinitionVersionPK>
     <versionDescription></versionDescription>
-    <formId>0</formId>
+    <formId>237</formId>
     <editionMode>true</editionMode>
     <updateAttachmentsVersion>false</updateAttachmentsVersion>
     <controlsAttachmentsSecurity>false</controlsAttachmentsSecurity>
@@ -39,7 +39,7 @@
     <blockedVersion>false</blockedVersion>
     <counterSign>false</counterSign>
     <openInstances>0</openInstances>
-    <bpmnVersion>1</bpmnVersion>
+    <bpmnVersion>2</bpmnVersion>
     <processStates/>
     <favorito>false</favorito>
     <inheritFormSecurity>false</inheritFormSecurity>
@@ -49,7 +49,7 @@
     <ProcessState>
       <processStatePK>
         <companyId>1</companyId>
-        <processId>UFBASE</processId>
+        <processId>ufBase</processId>
         <version>1</version>
         <sequence>1</sequence>
       </processStatePK>
@@ -75,8 +75,8 @@
       <notifyAuthorityFollowUp>false</notifyAuthorityFollowUp>
       <notifyRequisitionerFollowUp>false</notifyRequisitionerFollowUp>
       <automatic>false</automatic>
-      <positionX>210</positionX>
-      <positionY>195</positionY>
+      <positionX>70</positionX>
+      <positionY>145</positionY>
       <forecastedEffortType>0</forecastedEffortType>
       <forecastedEffort>0</forecastedEffort>
       <notifyManagerFollowUp>false</notifyManagerFollowUp>
@@ -99,7 +99,7 @@
     <ProcessState>
       <processStatePK>
         <companyId>1</companyId>
-        <processId>UFBASE</processId>
+        <processId>ufBase</processId>
         <version>1</version>
         <sequence>2</sequence>
       </processStatePK>
@@ -110,6 +110,8 @@
       <deadlineFieldName></deadlineFieldName>
       <joint>false</joint>
       <agreementPercentage>0</agreementPercentage>
+      <engineAllocationId>Executor Atividade</engineAllocationId>
+      <engineAllocationConfiguration>&lt;AssignmentController&gt;&lt;BaseActivity&gt;1&lt;/BaseActivity&gt;&lt;Returns&gt;Last&lt;/Returns&gt;&lt;/AssignmentController&gt;</engineAllocationConfiguration>
       <selectColleague>1</selectColleague>
       <initialState>false</initialState>
       <notifyAuthorityDelay>true</notifyAuthorityDelay>
@@ -124,8 +126,8 @@
       <notifyAuthorityFollowUp>true</notifyAuthorityFollowUp>
       <notifyRequisitionerFollowUp>false</notifyRequisitionerFollowUp>
       <automatic>false</automatic>
-      <positionX>335</positionX>
-      <positionY>185</positionY>
+      <positionX>195</positionX>
+      <positionY>135</positionY>
       <forecastedEffortType>0</forecastedEffortType>
       <forecastedEffort>0</forecastedEffort>
       <notifyManagerFollowUp>false</notifyManagerFollowUp>
@@ -149,7 +151,32 @@
     <ProcessState>
       <processStatePK>
         <companyId>1</companyId>
-        <processId>UFBASE</processId>
+        <processId>ufBase</processId>
+        <version>1</version>
+        <sequence>7</sequence>
+      </processStatePK>
+      <stateName>Aprovado ?</stateName>
+      <stateDescription>Aprovado ?</stateDescription>
+      <joint>false</joint>
+      <initialState>false</initialState>
+      <transferAttachments>false</transferAttachments>
+      <subProcessId></subProcessId>
+      <formFolder>0</formFolder>
+      <automatic>true</automatic>
+      <positionX>349</positionX>
+      <positionY>112</positionY>
+      <inhibitTransfer>false</inhibitTransfer>
+      <stateType>1</stateType>
+      <bpmnType>120</bpmnType>
+      <signalId>0</signalId>
+      <openInstances>0</openInstances>
+      <destinationStates/>
+      <digitalSignature>false</digitalSignature>
+    </ProcessState>
+    <ProcessState>
+      <processStatePK>
+        <companyId>1</companyId>
+        <processId>ufBase</processId>
         <version>1</version>
         <sequence>4</sequence>
       </processStatePK>
@@ -175,8 +202,8 @@
       <notifyAuthorityFollowUp>false</notifyAuthorityFollowUp>
       <notifyRequisitionerFollowUp>false</notifyRequisitionerFollowUp>
       <automatic>false</automatic>
-      <positionX>540</positionX>
-      <positionY>195</positionY>
+      <positionX>362</positionX>
+      <positionY>40</positionY>
       <forecastedEffortType>0</forecastedEffortType>
       <forecastedEffort>0</forecastedEffort>
       <notifyManagerFollowUp>false</notifyManagerFollowUp>
@@ -185,7 +212,7 @@
       <frequenceManagerTime>0</frequenceManagerTime>
       <inhibitTransfer>false</inhibitTransfer>
       <periodId></periodId>
-      <stateType>0</stateType>
+      <stateType>6</stateType>
       <bpmnType>60</bpmnType>
       <signalId>0</signalId>
       <counterSign>false</counterSign>
@@ -193,13 +220,85 @@
       <destinationStates/>
       <digitalSignature>false</digitalSignature>
     </ProcessState>
+    <ProcessState>
+      <processStatePK>
+        <companyId>1</companyId>
+        <processId>ufBase</processId>
+        <version>1</version>
+        <sequence>6</sequence>
+      </processStatePK>
+      <stateName>Solicitação Cancelada</stateName>
+      <stateDescription>Solicitação Cancelada</stateDescription>
+      <instruction>Atividade final do processo</instruction>
+      <deadlineTime>0</deadlineTime>
+      <joint>false</joint>
+      <agreementPercentage>0</agreementPercentage>
+      <engineAllocationId></engineAllocationId>
+      <engineAllocationConfiguration></engineAllocationConfiguration>
+      <selectColleague>0</selectColleague>
+      <initialState>false</initialState>
+      <notifyAuthorityDelay>true</notifyAuthorityDelay>
+      <notifyRequisitionerDelay>false</notifyRequisitionerDelay>
+      <allowanceAuthorityTime>0</allowanceAuthorityTime>
+      <frequenceAuthorityTime>1</frequenceAuthorityTime>
+      <allowanceRequisitionerTime>0</allowanceRequisitionerTime>
+      <frequenceRequisitionerTime>0</frequenceRequisitionerTime>
+      <transferAttachments>false</transferAttachments>
+      <subProcessId></subProcessId>
+      <formFolder>0</formFolder>
+      <notifyAuthorityFollowUp>false</notifyAuthorityFollowUp>
+      <notifyRequisitionerFollowUp>false</notifyRequisitionerFollowUp>
+      <automatic>false</automatic>
+      <positionX>362</positionX>
+      <positionY>240</positionY>
+      <forecastedEffortType>0</forecastedEffortType>
+      <forecastedEffort>0</forecastedEffort>
+      <notifyManagerFollowUp>false</notifyManagerFollowUp>
+      <notifyManagerDelay>false</notifyManagerDelay>
+      <allowanceManagerTime>0</allowanceManagerTime>
+      <frequenceManagerTime>0</frequenceManagerTime>
+      <inhibitTransfer>false</inhibitTransfer>
+      <periodId></periodId>
+      <stateType>6</stateType>
+      <bpmnType>65</bpmnType>
+      <signalId>0</signalId>
+      <counterSign>false</counterSign>
+      <openInstances>0</openInstances>
+      <destinationStates/>
+      <digitalSignature>false</digitalSignature>
+    </ProcessState>
   </list>
-  <list/>
+  <list>
+    <ConditionProcessState>
+      <conditionProcessStatePK>
+        <companyId>1</companyId>
+        <processId>ufBase</processId>
+        <expressionOrder>1</expressionOrder>
+        <version>8</version>
+        <sequence>7</sequence>
+      </conditionProcessStatePK>
+      <condition>hAPI.getCardValue(&quot;APROVADOTESTE&quot;) == &quot;N&quot;</condition>
+      <destinationSequenceId>6</destinationSequenceId>
+      <conditionType>0</conditionType>
+    </ConditionProcessState>
+    <ConditionProcessState>
+      <conditionProcessStatePK>
+        <companyId>1</companyId>
+        <processId>ufBase</processId>
+        <expressionOrder>2</expressionOrder>
+        <version>8</version>
+        <sequence>7</sequence>
+      </conditionProcessStatePK>
+      <condition>true</condition>
+      <destinationSequenceId>4</destinationSequenceId>
+      <conditionType>0</conditionType>
+    </ConditionProcessState>
+  </list>
   <list>
     <ProcessLink>
       <processLinkPK>
         <companyId>1</companyId>
-        <processId>UFBASE</processId>
+        <processId>ufBase</processId>
         <version>1</version>
         <linkSequence>3</linkSequence>
       </processLinkPK>
@@ -216,14 +315,48 @@
     <ProcessLink>
       <processLinkPK>
         <companyId>1</companyId>
-        <processId>UFBASE</processId>
+        <processId>ufBase</processId>
         <version>1</version>
-        <linkSequence>5</linkSequence>
+        <linkSequence>8</linkSequence>
+      </processLinkPK>
+      <actionLabel></actionLabel>
+      <returnPermited>false</returnPermited>
+      <initialStateSequence>7</initialStateSequence>
+      <finalStateSequence>4</finalStateSequence>
+      <returnLabel></returnLabel>
+      <name></name>
+      <automaticLink>false</automaticLink>
+      <defaultLink>false</defaultLink>
+      <type>0</type>
+    </ProcessLink>
+    <ProcessLink>
+      <processLinkPK>
+        <companyId>1</companyId>
+        <processId>ufBase</processId>
+        <version>1</version>
+        <linkSequence>9</linkSequence>
+      </processLinkPK>
+      <actionLabel></actionLabel>
+      <returnPermited>false</returnPermited>
+      <initialStateSequence>7</initialStateSequence>
+      <finalStateSequence>6</finalStateSequence>
+      <returnLabel></returnLabel>
+      <name></name>
+      <automaticLink>false</automaticLink>
+      <defaultLink>false</defaultLink>
+      <type>0</type>
+    </ProcessLink>
+    <ProcessLink>
+      <processLinkPK>
+        <companyId>1</companyId>
+        <processId>ufBase</processId>
+        <version>1</version>
+        <linkSequence>10</linkSequence>
       </processLinkPK>
       <actionLabel></actionLabel>
       <returnPermited>false</returnPermited>
       <initialStateSequence>2</initialStateSequence>
-      <finalStateSequence>4</finalStateSequence>
+      <finalStateSequence>7</finalStateSequence>
       <returnLabel></returnLabel>
       <name></name>
       <automaticLink>false</automaticLink>
@@ -237,65 +370,153 @@
       <workflowProcessEventPK>
         <companyId>1</companyId>
         <eventId>afterProcessCreate</eventId>
-        <processId>UFBASE</processId>
+        <processId>ufBase</processId>
         <version>1</version>
       </workflowProcessEventPK>
-      <eventDescription>/**&#xd;
- *&#xd;
- * @desc        Script que será executado logo após a criação da solicitação no Fluig&#xd;
- * @copyright   2018 upFlow.me&#xd;
- * @version     1.0.0&#xd;
- * @author      Helbert Campos &lt;helbert@upflow.me&gt;&#xd;
- *&#xd;
- */&#xd;
-&#xd;
-function afterProcessCreate(processId) {&#xd;
-    log.info(&apos;### uf-log | Início afterProcessCreate(processId: &apos;+processId+&apos;) ###&apos;);&#xd;
-&#xd;
-	// salva o número da solicitação no campo do formulário&#xd;
-	hAPI.setCardValue(&quot;PROTOCOLO&quot;, processId);&#xd;
-    &#xd;
-    // salva a data no campo do formulário&#xd;
-    var dtaHra = dataFormatada();&#xd;
-	hAPI.setCardValue(&apos;SOLICDATA&apos;, dtaHra);&#xd;
-	&#xd;
-    log.info(&apos;### uf-log | Final afterProcessCreate(processId: &apos;+processId+&apos;) ###&apos;);&#xd;
-}&#xd;
-&#xd;
-/**&#xd;
- * @desc 	Retorna a Data e Hora atual no formato: DD/MM/AAAA hh:mm:ss &#xd;
- */&#xd;
-function dataFormatada() {&#xd;
-    var data = new Date(),&#xd;
-        dia = data.getDate(),&#xd;
-        mes = data.getMonth() + 1,&#xd;
-        ano = data.getFullYear(),&#xd;
-        hora = data.getHours(),&#xd;
-        minutos = data.getMinutes(),&#xd;
-        segundos = data.getSeconds();&#xd;
-    &#xd;
-    var dtaHra = &apos;&apos;;&#xd;
-    dtaHra += [Number(dia).pad(), Number(mes).pad(), Number(ano).pad()].join(&apos;/&apos;);&#xd;
-    dtaHra += &apos; &apos;;&#xd;
-    dtaHra += [Number(hora).pad(), Number(minutos).pad(), Number(segundos).pad()].join(&apos;:&apos;);&#xd;
-    &#xd;
-    return dtaHra;&#xd;
-}&#xd;
-&#xd;
-/**&#xd;
- * @desc 	Formata um número colocando @size zeros à esquerda  &#xd;
- */&#xd;
-Number.prototype.pad = function (size) {&#xd;
-    var s = String(this);&#xd;
-    while (s.length &lt; (size || 2)) {&#xd;
-        s = &quot;0&quot; + s;&#xd;
-    }&#xd;
-    return s;&#xd;
+      <eventDescription>/**
+ *
+ * @desc        Script que será executado logo após a criação da solicitação no Fluig
+ * @copyright   2018 upFlow.me
+ * @version     1.0.0
+ * @author      Helbert Campos &lt;helbert@upflow.me&gt;
+ *
+ */
+
+function afterProcessCreate(processId) {
+    log.info(&apos;### uf-log | Início afterProcessCreate(processId: &apos;+processId+&apos;) ###&apos;);
+
+	// salva o número da solicitação no campo do formulário
+	hAPI.setCardValue(&quot;PROTOCOLO&quot;, processId);
+    
+    // salva a data no campo do formulário
+    var dtaHra = dataFormatada();
+	hAPI.setCardValue(&apos;SOLICDATA&apos;, dtaHra);
+	
+    log.info(&apos;### uf-log | Final afterProcessCreate(processId: &apos;+processId+&apos;) ###&apos;);
+}
+
+/**
+ * @desc 	Retorna a Data e Hora atual no formato: DD/MM/AAAA hh:mm:ss 
+ */
+function dataFormatada() {
+    var data = new Date(),
+        dia = data.getDate(),
+        mes = data.getMonth() + 1,
+        ano = data.getFullYear(),
+        hora = data.getHours(),
+        minutos = data.getMinutes(),
+        segundos = data.getSeconds();
+    
+    var dtaHra = &apos;&apos;;
+    dtaHra += [Number(dia).pad(), Number(mes).pad(), Number(ano).pad()].join(&apos;/&apos;);
+    dtaHra += &apos; &apos;;
+    dtaHra += [Number(hora).pad(), Number(minutos).pad(), Number(segundos).pad()].join(&apos;:&apos;);
+    
+    return dtaHra;
+}
+
+/**
+ * @desc 	Formata um número colocando @size zeros à esquerda  
+ */
+Number.prototype.pad = function (size) {
+    var s = String(this);
+    while (s.length &lt; (size || 2)) {
+        s = &quot;0&quot; + s;
+    }
+    return s;
 }</eventDescription>
+    </WorkflowProcessEvent>
+    <WorkflowProcessEvent>
+      <workflowProcessEventPK>
+        <companyId>1</companyId>
+        <eventId>afterProcessFinish</eventId>
+        <processId>ufBase</processId>
+        <version>1</version>
+      </workflowProcessEventPK>
+      <eventDescription>function afterProcessFinish(processId){&#xd;
+	var atvAtual = getValue(&apos;WKCurrentState&apos;);&#xd;
+    log.dir(&apos;### uf-log | Início ufBase.afterProcessFinish.js (atvAtual: &apos; + atvAtual + &apos;) ###&apos;);&#xd;
+	&#xd;
+    // Lista com os possíveis status de finalizado&#xd;
+	var lstAtiv = {&#xd;
+        4: {&#xd;
+	    	tit: &apos;Solicitação Finalizada&apos;,&#xd;
+        },&#xd;
+        6: {&#xd;
+	    	tit: &apos;Solicitação Cancelada&apos;,&#xd;
+        },&#xd;
+	   &#xd;
+	};&#xd;
+	hAPI.setCardValue(&quot;STATUSCOD&quot;, atvAtual);&#xd;
+    hAPI.setCardValue(&quot;STATUS&quot;, lstAtiv[atvAtual].tit);&#xd;
+    log.info(&apos;### uf-log | Fim da Chamada do ufBase.afterProcessFinish.js (atvAtual: &apos; + atvAtual + &apos; ###&apos;)&#xd;
+}</eventDescription>
+    </WorkflowProcessEvent>
+    <WorkflowProcessEvent>
+      <workflowProcessEventPK>
+        <companyId>1</companyId>
+        <eventId>afterCancelProcess</eventId>
+        <processId>ufBase</processId>
+        <version>1</version>
+      </workflowProcessEventPK>
+      <eventDescription>function afterCancelProcess(colleagueId,processId){&#xd;
+	log.dir(&apos;### uf-log | Início ufBase.afterCancelProcess.js ###&apos;);&#xd;
+	&#xd;
+	// Caso a solicitação seja cancelada no meio de uma atividade atualiza para este status&#xd;
+	hAPI.setCardValue(&quot;STATUSCOD&quot;, &apos;0&apos;);&#xd;
+    hAPI.setCardValue(&quot;STATUS&quot;, &apos;Cancelado&apos;);&#xd;
+    &#xd;
+    log.info(&apos;### uf-log | Fim da Chamada do ufBase.afterCancelProcess.js ###&apos;)&#xd;
+	&#xd;
+}</eventDescription>
+    </WorkflowProcessEvent>
+    <WorkflowProcessEvent>
+      <workflowProcessEventPK>
+        <companyId>1</companyId>
+        <eventId>beforeSendData</eventId>
+        <processId>ufBase</processId>
+        <version>1</version>
+      </workflowProcessEventPK>
+      <eventDescription>function beforeSendData(customFields,customFacts){
+	var atvAtual = getValue(&apos;WKCurrentState&apos;);
+    log.dir(&apos;### uf-log | Início ufBase.beforeSendData.js (atvAtual: &apos; + atvAtual + &apos;) ###&apos;);
+	
+    // Atualiza o status das atividades em andamento
+	var lstAtiv = {
+	    1: {
+	        tit: &apos;Início&apos;,
+	    },
+	    2: {
+	    	tit: &apos;Em Execução&apos;,
+        },
+	   
+	};
+	hAPI.setCardValue(&quot;STATUSCOD&quot;, atvAtual);
+    hAPI.setCardValue(&quot;STATUS&quot;, lstAtiv[atvAtual].tit);
+    log.info(&apos;### uf-log | Fim da Chamada do ufBase.beforeSendData.js (atvAtual: &apos; + atvAtual + &apos; ###&apos;)
+}
+</eventDescription>
     </WorkflowProcessEvent>
   </list>
   <list/>
-  <list/>
+  <list>
+    <SwimLane>
+      <color>82b0b7</color>
+      <height>281</height>
+      <width>410</width>
+      <positionX>20</positionX>
+      <positionY>20</positionY>
+      <stateName>UfBase</stateName>
+      <type>2</type>
+      <parentSequence>0</parentSequence>
+      <swimLanePK>
+        <companyId>1</companyId>
+        <processId>ufBase</processId>
+        <version>1</version>
+        <sequence>1</sequence>
+      </swimLanePK>
+    </SwimLane>
+  </list>
   <list/>
   <list/>
   <list/>

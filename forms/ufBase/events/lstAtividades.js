@@ -31,15 +31,22 @@ lstAtiv = {
     2: {
         tit: 'Em Execução',
         des: 'Atividade em andamento utilizando os materiais e mão-de-obra definidos.',
-        cbk: '#2E7D32',
+        cbk: '##2E7D32',
         cfn: '#E8F5E9',
         ico: '<span class="fluigicon fluigicon-test-refresh"></span>',
     },
-    9: {
-        tit: 'Encerrado',
+    4: {
+        tit: 'Solicitação Finalizada',
         des: 'Solicitação foi encerrada com sucesso.',
         cbk: '#2E7D32',
         cfn: '#E8F5E9',
+        ico: '<span class="fluigicon fluigicon-check-circle-on"></span>',
+    },
+    6: {
+        tit: 'Solicitação cancelada',
+        des: 'Solicitação não foi aprovada.',
+        cbk: '#B71C1C',
+        cfn: '#FFEBEE',
         ico: '<span class="fluigicon fluigicon-check-circle-on"></span>',
     },
 }

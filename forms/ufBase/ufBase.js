@@ -346,7 +346,7 @@ $(document).ready(function () {
 
 	//inicia o framework
 	uFFw.init(modForm, WKNumState, fieldsConfig, sectionsConfig, tablesConfig, customActionsConfig);
-	$validator.form()
+	if(modForm != 'VIEW') setTimeout(() => {$validator.form();}, 300)
 
 });
 
@@ -379,7 +379,7 @@ var beforeSendValidate = function (numState, nextState) {
 	if (!$validator.form()) {
 
 		parent.FLUIGC.message.alert({
-			message: 'Não será possível enviar os dados pois há campos com erro.</br>Por favor, verifique os campos destacados de vermelho.</br>' + listaErros(),
+			message: 'Não será possível enviar os dados pois há campos com erro.</br>Por favor, verifique os campos destacados de vermelho.</br>' + uFFw.utils.listaErros(),
 			title: 'Formulário não validado',
 			label: 'OK'
 		});

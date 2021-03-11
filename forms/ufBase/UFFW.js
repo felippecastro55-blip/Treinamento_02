@@ -616,16 +616,9 @@ var uFFw = {
 				
 				
 				$el.uFZoom({
+					...zoomOptions,
 					loading: 'Aguarde, consultando cadastro de ' + zoomOptions.label + '...',
-					label: zoomOptions.label,
-					clear: zoomOptions.clear,
 					title: 'Cadastro de ' + zoomOptions.label,
-					uFZommType: zoomOptions.uFZommType,	// 1=DataServer | 2=Consulta | 3=Dataset | 4=query | 5=array
-					CodQuery: zoomOptions.CodQuery, // dataserver | codsentenca | nome_dataset | array
-					constraints: zoomOptions.constraints,
-					columns: zoomOptions.columns,
-					lstLocal: zoomOptions.lstLocal,
-					fields: zoomOptions.dsFields
 				}, zoomCallback, listFields, sufix);
 	
 		
@@ -1625,6 +1618,9 @@ $.fn.uFZoom = function (zoomInfo, callback, listFields, sufix) {
 		// a todo momento, deixando assim, a lista armazenada localmente
 		if (typeof lstZoom == 'undefined') lstZoom = {}; 
         
+		if(zoomInfo.serverSide)
+			return exbTabela([])
+
 		// verifica se há informado uma variável para armazenar o resultado
 		// e se a lista desse zoom já está armazenada na variável
 		if (zoomInfo.lstLocal != undefined) {
@@ -1633,8 +1629,7 @@ $.fn.uFZoom = function (zoomInfo, callback, listFields, sufix) {
 				return;	// saí do zoom
 			}
 		}
-        
-        // monta os filtros e parâmetros para consulta ao DataSet
+		// monta os filtros e parâmetros para consulta ao DataSet
         try {
             
             // verifica o tipo de consulta ao RM (via DataSever ou ConsultaSQL)
@@ -1860,8 +1855,16 @@ $.fn.uFZoom = function (zoomInfo, callback, listFields, sufix) {
                 };
                 
             }
-			
 		}
+
+		if(zoomInfo.serverSide){
+			//verifica se tem as keys nevessarias
+			const {objSearch = false} = zoomInfo.serverSide
+			if(objSearch === false)
+				throw Error("O parâmetro objSearch está faltando!")
+			return exbTabela([])
+		}
+		
    
         // função que monta a tabela e exibe o modal
         function exbTabela(listaZoom) {
@@ -1916,10 +1919,7 @@ $.fn.uFZoom = function (zoomInfo, callback, listFields, sufix) {
 			// oculta a barra padrão do Fluig
 			parent.$('#workflowview-header').hide();
 			
-            // preenche a tabela com os itens inicializando o pluing do DataTable
-            // a inicialização do plugin DataTable deve ser feita
-            // depois que o modal já está renderizado no DOM
-            var dtZoom = $('#zoomModal').find('table').DataTable({
+			let configDataTable = {
 				dom: "<'row'<'col-xs-12't>><'row tabela-rodape'<'col-xs-12 col-md-5'i><'col-xs-12 col-md-7'p>>",
 				language: {
 					thousands: ".",
@@ -1938,66 +1938,132 @@ $.fn.uFZoom = function (zoomInfo, callback, listFields, sufix) {
 				columns: zoomInfo.columns,
                 data: listaZoom,
                 paging: false,
-            });
+				drawCallback: function(){
+					const dtZoom = this.api();
+					// define ação de pesquisa e foca no campo de busca 
+					let timer = 0;         
+					$('#zoomModal input[type="search"]').keyup(function () {
+						if(zoomInfo.serverSide){
+							if(timer)
+								clearTimeout(timer)
+							timer = setTimeout(_ => dtZoom.search($(this).val()).draw(),zoomInfo.serverSide.searchTimer || 250)
+						}else{
+							dtZoom.search($(this).val()).draw();
+						}
+					})
+					
+					// ao clicar na linha (clique simples apenas para selecionar)
+					$('#zoomModal table tbody tr').on('click', function () {
+						
+						// se for a linha de tabela vazia, sai da function
+						if ($(this).find('td').hasClass('dataTables_empty')) return; 
+						
+						// se já estiver selecionada
+						if ($(this).hasClass('selected')) {
+							$(this).removeClass('selected');    // remove a classe de seleção
+						} else {    // se ainda não estiver selecionada
+							dtZoom.$('tr.selected').removeClass('selected'); // remove a seleção de todas as linhas
+							$(this).addClass('selected');
+						}
+					});
+					
 
-            // define ação de pesquisa e foca no campo de busca          
-            $('#zoomModal input[type="search"]').keyup(function() {
-                dtZoom.search($(this).val()).draw() ;
-			})
+					// ao dar um duplo clique em uma das linhas
+					$('#zoomModal table tbody tr').on('dblclick', function () {
+						
+						// se for a linha de tabela vazia, sai da function
+						if ($(this).find('td').hasClass('dataTables_empty')) return;
+
+						// faz chamada para preenchimento do formulário
+						callback( $cmp, dtZoom.row(this).data(), listFields, sufix );
+
+						zoomModal.remove(); // fecha o modal do Fluig
+						$('#zoomModal').remove(); // remove o modal do DOM
+
+					});
+
+					// evento click do botão de inserir do modal
+					$('#zoomModal [data-inserirselecaozoom]').on('click', function() {
+				
+						// localiza a linha selecionada
+						var $lin = $('#zoomModal table tbody tr.selected');
+						
+						// se não tiver linha selecionada, sai da funciton
+						if (!$lin.length) return; 
+						
+						// faz chamada para preenchimento do formulário
+						callback( $cmp, dtZoom.rows('.selected').data()[0], listFields, sufix );
+			
+						zoomModal.remove(); // fecha o modal do Fluig
+						$('#zoomModal').remove(); // remove o modal do DOM
+				  
+					});
+				}
+            }
+			
+			if(zoomInfo.serverSide){
+				const pageSize = zoomInfo.serverSide.pageSize || 25
+				const newOptions = {
+					deferRender: true,
+					processing: true,
+					serverSide: true,
+					paging: true,
+					pageLength: pageSize,
+					data: undefined,
+					ajax: function(data,callback,settings){
+						(async function(){
+							FLUIGC.loading($('#zoomModal')).show()
+							let promise
+							if(data.search.value !== "" && zoomInfo.serverSide.searchWithValue){
+								promise = zoomInfo.serverSide.searchWithValue({value: data.search.value})
+							}else{
+								const start = data.start + 1	// start começa no 0
+								const page = (data.start + pageSize)/pageSize
+								promise = zoomInfo.serverSide.objSearch({start,pageSize,page})
+							}
+							try{
+								const {dados = false} = await promise
+								if(dados === false)
+									throw "A consulta não retornou os dados corretamente!"
+								
+								callback({
+									draw: data.draw,
+									data: dados,
+									recordsTotal: zoomInfo.serverSide.total,
+									recordsFiltered: zoomInfo.serverSide.total
+								})
+							}catch(err){
+								console.error(Error(err))
+								exbErro(err)
+							}finally{
+								FLUIGC.loading($('#zoomModal')).hide()
+							}
+						})()
+					},
+				}
+				configDataTable = {
+					...configDataTable,
+					...newOptions
+				}
+			}
+            // preenche a tabela com os itens inicializando o pluing do DataTable
+            // a inicialização do plugin DataTable deve ser feita
+            // depois que o modal já está renderizado no DOM
+            var dtZoom = $('#zoomModal').find('table').DataTable(configDataTable);
 			if(!isMobile) $('#zoomModal input[type="search"]').focus();
+
+			if(zoomInfo.serverSide){
+				$('#zoomModal').find('div.row.tabela-rodape').addClass('flex-container')
+				$('#zoomModal').find('div.row.tabela-rodape > div').removeAttr('class')
+			}
+
 
 			// ao fechar o modal
 			$('#zoomModal').on('hide.bs.modal', function() {
 				// exibe novamente a barra do fluig
 				parent.$('#workflowview-header').show();
 			});
-
-            // ao clicar na linha (clique simples apenas para selecionar)
-            $('#zoomModal table tbody tr').on('click', function () {
-				
-				// se for a linha de tabela vazia, sai da function
-				if ($(this).find('td').hasClass('dataTables_empty')) return; 
-				
-                // se já estiver selecionada
-                if ($(this).hasClass('selected')) {
-                    $(this).removeClass('selected');    // remove a classe de seleção
-                } else {    // se ainda não estiver selecionada
-                    dtZoom.$('tr.selected').removeClass('selected'); // remove a seleção de todas as linhas
-                    $(this).addClass('selected');
-                }
-            });
-
-            // ao da um duplo clique em uma das linhas
-            $('#zoomModal table tbody tr').on('dblclick', function () {
-				
-				// se for a linha de tabela vazia, sai da function
-				if ($(this).find('td').hasClass('dataTables_empty')) return;
-
-                // faz chamada para preenchimento do formulário
-                callback( $cmp, dtZoom.row(this).data(), listFields, sufix );
-
-                zoomModal.remove(); // fecha o modal do Fluig
-                $('#zoomModal').remove(); // remove o modal do DOM
-
-            });
-
-			// evento click do botão de inserir do modal
-            $('#zoomModal [data-inserirselecaozoom]').on('click', function() {
-				
-				// localiza a linha selecionada
-				var $lin = $('#zoomModal table tbody tr.selected');
-				
-				// se não tiver linha selecionada, sai da funciton
-				if (!$lin.length) return; 
-                
-                // faz chamada para preenchimento do formulário
-                callback( $cmp, dtZoom.rows('.selected').data()[0], listFields, sufix );
-    
-                zoomModal.remove(); // fecha o modal do Fluig
-                $('#zoomModal').remove(); // remove o modal do DOM
-          
-            });
-            
+			
             // fix tamanho do modal
             $('#zoomModal .modal-body').css('max-height',  (window.innerHeight-200)+'px');
             $('#zoomModal .modal-body').css('overflow-x','hidden');
@@ -2005,7 +2071,6 @@ $.fn.uFZoom = function (zoomInfo, callback, listFields, sufix) {
             $(window).trigger('resize')
             
             msgLoading.hide(); $this.button('reset');
-			
         };
         
         // função que exibe o erro para o usuário

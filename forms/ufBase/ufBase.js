@@ -87,6 +87,75 @@ $(document).ready(function () {
 		},
 		{
 			state: { type: 'default', num: [0, 1] },
+			fieldType: 'zoom', //TIPO DE CAMPO APROVACAO
+			name: 'PROCESSO', //STRING CHAVE PARA INICIAR APROVACAO
+			validate: ['required'],
+			zoomOptions: {
+				tooltip: false,
+				label: 'processos',
+				serverSide:{
+					searchWithValue: async function({value}){
+						const processId = "FLUIGADHOC"
+						const url = `/process-management/api/v2/processes/${processId}/requests/tasks?
+													&expand=deadlineSpecification
+													&order=deadline
+													&processInstanceId=${value}`
+						let response = await fetch(url)
+						response = await response.json()
+						return {
+							dados: response.items,
+							total: this.total
+						}
+					},
+					objSearch: async function({start,pageSize,page}){
+						const processId = "FLUIGADHOC"
+						if(!this.total){
+							const url = `/process-management/api/v2/processes/${processId}/requests/tasks/resume`
+							let response = await fetch(url)
+							response = await response.json()
+							this.total = response.total
+						}
+						const url = `/process-management/api/v2/processes/${processId}/requests/tasks?
+							&expand=deadlineSpecification
+							&pageSize=${pageSize}
+							&page=${page}
+							&order=deadline`
+						let response = await fetch(url)
+						response = await response.json()
+						return {
+							dados: response.items,
+							total: this.total
+						}
+					},
+					total: 0
+				},
+				// Fields que serão inseridos no dataset para o uFZommType: '3'
+				columns: [
+					{ title: 'Protocolo', data: 'processInstanceId', className: 'text-nowrap' },
+					{ title: 'Descrição', data: 'processDescription' },
+					{ title: 'Sequence', data: 'movementSequence' },
+				],
+			},
+			zoomReturn: {
+				//DEFAULT = RETORNO DO DATASET DIRETO PARA CAMPOS DO FORM
+				//1 = UTILIZA 'DE PARA' do fields
+				//2 = UTILIZA 'FUNÇÃO' do fields
+				type: '1',
+				fields: [
+					{
+						data: 'processInstanceId',
+						formField: 'PROCESSOCOD'
+					},
+					{
+						data: 'processDescription',
+						formField: 'PROCESSO'
+					},
+				]
+
+			}
+		},
+		{
+			state: { type: 'default', num: [0, 1] },
 			fieldType: 'zoomFluig', //TIPO DE CAMPO APROVACAO
 			name: 'ZOOMFLUIGEXEMPLO', //STRING CHAVE PARA INICIAR APROVACAO
 			validate: ['required'],
@@ -302,6 +371,75 @@ $(document).ready(function () {
 							console.log(item)
 							console.log(self)
 						},
+					}
+				},
+				{
+					state: { type: 'default', num: [0, 1] },
+					fieldType: 'zoom', //TIPO DE CAMPO APROVACAO
+					name: 'PROCESSO_PAIFILHO', //STRING CHAVE PARA INICIAR APROVACAO
+					validate: ['required'],
+					zoomOptions: {
+						tooltip: false,
+						label: 'processos',
+						serverSide:{
+							searchWithValue: async function({value}){
+								const processId = "FLUIGADHOC"
+								const url = `/process-management/api/v2/processes/${processId}/requests/tasks?
+															&expand=deadlineSpecification
+															&order=deadline
+															&processInstanceId=${value}`
+								let response = await fetch(url)
+								response = await response.json()
+								return {
+									dados: response.items,
+									total: this.total
+								}
+							},
+							objSearch: async function({start,pageSize,page}){
+								const processId = "FLUIGADHOC"
+								if(!this.total){
+									const url = `/process-management/api/v2/processes/${processId}/requests/tasks/resume`
+									let response = await fetch(url)
+									response = await response.json()
+									this.total = response.total
+								}
+								const url = `/process-management/api/v2/processes/${processId}/requests/tasks?
+									&expand=deadlineSpecification
+									&pageSize=${pageSize}
+									&page=${page}
+									&order=deadline`
+								let response = await fetch(url)
+								response = await response.json()
+								return {
+									dados: response.items,
+									total: this.total
+								}
+							},
+							total: 0
+						},
+						// Fields que serão inseridos no dataset para o uFZommType: '3'
+						columns: [
+							{ title: 'Protocolo', data: 'processInstanceId', className: 'text-nowrap' },
+							{ title: 'Descrição', data: 'processDescription' },
+							{ title: 'Sequence', data: 'movementSequence' },
+						],
+					},
+					zoomReturn: {
+						//DEFAULT = RETORNO DO DATASET DIRETO PARA CAMPOS DO FORM
+						//1 = UTILIZA 'DE PARA' do fields
+						//2 = UTILIZA 'FUNÇÃO' do fields
+						type: '1',
+						fields: [
+							{
+								data: 'processInstanceId',
+								formField: 'PROCESSO_PAIFILHOCOD'
+							},
+							{
+								data: 'processDescription',
+								formField: 'PROCESSO_PAIFILHO'
+							},
+						]
+		
 					}
 				},
 			],

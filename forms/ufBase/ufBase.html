@@ -90,7 +90,7 @@
                                 <input type="text" class="form-control" name="MONETARIOEXEMPLO">
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-3">
                             <div class="form-group ufZoom">
                                 <label class="control-label" for="USUARIO">ZOOM NORMAL</label>
                                 <div class="input-group">
@@ -100,6 +100,18 @@
                                     </span>
                                 </div>
                                 <input type="hidden" class="form-control codinput" name="USUARIOCOD">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group ufZoom">
+                                <label class="control-label" for="PROCESSO">Zoom Paginado</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" name="PROCESSO" placeholder="Selecione..." readonly>
+                                    <span class="input-group-btn">
+                                        <button uf-zoom="PROCESSO" class="btn btn-default" type="button" data-loading-text="<i class=&quot;fa fa-circle-o-notch fa-spin&quot;></i>"><span class="fluigicon fluigicon-search-test"></span></button>
+                                    </span>
+                                </div>
+                                <input type="hidden" class="form-control codinput" name="PROCESSOCOD">
                             </div>
                         </div>
                     </div>
@@ -136,21 +148,15 @@
                                     <table class="table table-hover table-striped" tablename="tblPaiFilho" noaddbutton="true" nodeletebutton="true">
                                         <thead>
                                             <tr class="uppercase">
-                                                <th style="width:1%"></th>
-                                                <th style="width:98%">DADOS</th>
-                                                <th style="width:1%"></th>
+                                                <th style="width:98%">Zoom Fluig</th>
+                                                <th style="width:2%"></th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td class="itm-id">
-                                                    <div class="form-group" style="margin-top:23px;"><input type="text" class="form-control text-center sem-borda" name="ITMID" tabindex="-1" readonly></div>
-                                                </td>
                                                 <td class="itm-dados ItemVlrTotal">
-
                                                     <div class="row">
                                                         <div class="col-md-12 form-group">
-                                                            <label class="control-label" for="ZOOMFLUIGPAIEXEMPLO">ZOOM FLUIG DENTRO DO PAI FILHO</label>
                                                             <input type="text" class="form-control" id="ZOOMFLUIGPAIEXEMPLO" name="ZOOMFLUIGPAIEXEMPLO">
                                                         </div>
                                                     </div>

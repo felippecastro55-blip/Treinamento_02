@@ -299,3 +299,21 @@
     background-color: #3c763d !important;
     border-color: #3c763d !important;
 }
+
+.fluig-style-guide #zoomModal .pagination {
+	margin: 0;
+	padding-left: revert;
+}
+.flex-container { 
+	display: flex; 
+	align-content: space-between; 
+} 
+          
+.flex-container > div { 
+	background-color: #fff; 
+	padding: 10px 15px; 
+} 
+
+.flex-container > div:first-child { 
+	margin-right:auto
+} 

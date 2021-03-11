@@ -1,254 +1,238 @@
 
 // variáreis declaradas no evento displayFields.js do Formulário verifica se elas existem, se não, define valores padrão
-if (typeof infoWorkflow      == 'undefined')     infoWorkflow       = {};       // objeto com informações do workflow
-if (typeof modForm           == 'undefined')     modForm            = 'ADD';    // modo do formulário
+if (typeof infoWorkflow == 'undefined') infoWorkflow = {};       // objeto com informações do workflow
+if (typeof modForm == 'undefined') modForm = 'ADD';    // modo do formulário
 
-$(document).ready(function() {
-	WKNumState = ((typeof infoWorkflow.WKNumState != 'undefined')?Number(infoWorkflow.WKNumState):0);
-
-
+$(document).ready(function () {
+	WKNumState = ((typeof infoWorkflow.WKNumState != 'undefined') ? Number(infoWorkflow.WKNumState) : 0);
 	//Lista contendo objetos de configurações de campo
 	var fieldsConfig = [
-	{
-		name: 'DATAEXEMPLO', //NOME DO CAMPO
-		state: {type: 'default', num: [0, 1]}, //type: LISTA DE ESTADO DO FORMULARIO (EX: ['VIEW']). DEFAULT = [MOD, ADD] || NUM = LISTA DE ATIVIDADES QUE TAL CONFIGURAÇÃO VAI AGIR. (EX: [1, 2]). "all" = TODAS 
-		fieldType: 'date', //TIPO DE CAMPO DATA
-		validate: ['required'],
-		validationCascade: {
-			eventToValidate: 'change',
-			fieldsToValidate: [
-				'MONETARIOEXEMPLO',
-			]
-		},
-		successValidation: function ( $self ) {
-			console.log(`${$self.attr('name')} validado`)
-		},
-		errorValidation: function ( $self ) {
-			console.log(`${$self.attr('name')} NÂO validado`)
-		},
-
-		fieldOptions: {
-			maxDate: moment(),
-			useCurrent: false
-		},
-		customActions: function( $self ) { //função para customização
-			
-			$self.parent().find('.iconData').on('click', function(){
-				
-				$self.trigger('click').focus();
-				
-			})
-		
-		}
-	},
-	{
-		state: {type: 'default', num: "all"}, //type: LISTA DE ESTADO DO FORMULARIO (EX: ['VIEW']). DEFAULT = [MOD, ADD] || NUM = LISTA DE ATIVIDADES QUE TAL CONFIGURAÇÃO VAI AGIR. (EX: [1, 2]). "all" = TODAS 
-		name: 'MONETARIOEXEMPLO', //NOME DO CAMPO
-		class: ['text-right'],
-		fieldType: 'money', //TIPO DE CAMPO monetario
-		validate: ['required'],
-		validationCascade: {
-			fieldsToValidate: [
-				'COLIGADA',
-			]
-		},
-		requiredConfig: { depends: function(el) { return $(el).is(":visible") && $('[name="DATAEXEMPLO"]').val() != '' }, },
-		successValidation: function ( $self ) {
-			console.log(`${$self.attr('name')} validado`)
-		},
-		errorValidation: function ( $self ) {
-			console.log(`${$self.attr('name')} NÂO validado`)
-		},
-		fieldOptions: {
-			prefix: 'R$ ', 
-			thousands: '', 
-			decimal: ','
-		},
-	},
-	{
-		state: {type: 'default', num: [0, 1, 2]}, 
-		fieldType: 'aprovacao', //TIPO DE CAMPO APROVACAO
-		name: 'FINANCEIRO', //STRING CHAVE PARA INICIAR APROVACAO
-	},
-	{
-		state: {type: 'default', num: [0, 1]}, 
-		fieldType: 'zoom', //TIPO DE CAMPO APROVACAO
-		name: 'COLIGADA', //STRING CHAVE PARA INICIAR APROVACAO
-		validate: ['required'],
-		validationCascade: {
-			eventToValidate: 'click',
-		},
-		requiredConfig: { depends: function(el) { return $(el).is(":visible") && $('[name="DATAEXEMPLO"]').val() != '' }, },
-		successValidation: function ( $self ) {
-			console.log(`${$self.attr('name')} validado`)
-		},
-		errorValidation: function ( $self ) {
-			console.log(`${$self.attr('name')} NÂO validado`)
-		}, 
-		zoomOptions: {
-			label: 'Coligada',
-	        uFZommType: '3',	// 1=DataServer | 2=Consulta | 3=Dataset | 4=query 
-	        clear: [{
-				name:'COLIGADA',
-	        }],
-	        CodQuery: 'colleague', // dataserver | codsentenca | nome_dataset | array
-			constraints:[],
-			// Fields que serão inseridos no dataset para o uFZommType: '3'
-			dsFields: ['colleagueName'],
-	        columns: [
-				{ title: 'Código', data: 'colleagueName', className: 'text-nowrap' },
-	        ],
-	    },
-	    zoomReturn: {
-			//DEFAULT = RETORNO DO DATASET DIRETO PARA CAMPOS DO FORM
-	    	//1 = UTILIZA 'DE PARA' do fields
-	    	//2 = UTILIZA 'FUNÇÃO' do fields
-	    	type: '1', 
-	    	fields: [
-				{
-					data: 'CODCOLIGADA',
-	    			formField: 'COLIGADACOD'
-	    		},
-	    		{
-					data: 'NOMEFANTASIA',
-	    			formField: 'COLIGADA'
-	    		},
-	    	]
-	    	
-	    }
-	},
-	{
-		state: {type: 'default', num: [0, 1, 2]}, 
-		fieldType: 'zoomFluig', //TIPO DE CAMPO APROVACAO
-		name: 'ZOOMFLUIGEXEMPLO', //STRING CHAVE PARA INICIAR APROVACAO
-		validate: ['required'],
-		configs: {
-			displayKey: 'colleagueId',
-			datasetId: 'colleague',
-			maximumSelectionLength: '3',
-			fields:[
-				{
-				   field: 'mail',
-				   label: 'EMAIL'
-				},{
-				  field: 'colleagueName',
-				  label: 'Nome',
-				  standard: 'true'
-				},{
-				  field:'login',
-				  label:'Login'
-				},{
-				  field:'colleagueId',
-				  label:'colleagueID'
-				}
-			] 
-		},
-		constraints: [{
-			field: 'login',
-			value: 'teste'
+		{
+			state: { type: 'default', num: [2] },
+			fieldType: 'aprovacao', //TIPO DE CAMPO APROVACAO
+			name: 'TESTE', //STRING CHAVE PARA INICIAR APROVACAO
 		},
 		{
-			field: 'colleagueName',
-			value: 'User Teste 00'
-		}],
-		callbacks: {
-			onAdd: function($self, item, name){
-				console.log(item)
-				console.log($self)
-				console.log(name)
-				enableZoomField('ZOOMFLUIGEXEMPLO2')
+			name: 'DATAEXEMPLO', //NOME DO CAMPO
+			state: { type: 'default', num: [0, 1] }, //type: LISTA DE ESTADO DO FORMULARIO (EX: ['VIEW']). DEFAULT = [MOD, ADD] || NUM = LISTA DE ATIVIDADES QUE TAL CONFIGURAÇÃO VAI AGIR. (EX: [1, 2]). "all" = TODAS 
+			fieldType: 'date', //TIPO DE CAMPO DATA
+			validate: ['required'],
+			fieldOptions: {
+				maxDate: moment(),
+				useCurrent: false
 			},
-			onRemove: function($self, item, name){
-				console.log(item)
-				console.log($self)
-				console.log(name)
-				disableZoomField('ZOOMFLUIGEXEMPLO2')
-			},
-		}
-	},
-	{
-		state: {type: 'default', num: [0, 1, 2]}, 
-		fieldType: 'zoomFluig', //TIPO DE CAMPO APROVACAO
-		name: 'ZOOMFLUIGEXEMPLO2', //STRING CHAVE PARA INICIAR APROVACAO
-		validate: ['required'], 
-		configs: {
-			displayKey: 'colleagueName',
-			datasetId: 'colleague',
-			fields:[
-				{
-				  field: 'colleagueName',
-				  label: 'Nome',
-				  standard: 'true'
-				},{
-				  field:'login',
-				  label:'Login'
-				}
-			] 
-		},
-		callbacks: {
-			onAdd: function($self, item, name){
-				console.log(item)
-				console.log($self)
-				console.log(name)
-				disableZoomField(name)
-			},
-		}
-	},
-	{
-		name: 'CEPEXEMPLO', //NOME DO CAMPO
-		state: { type: 'default', num: [0, 1] }, //type: LISTA DE ESTADO DO FORMULARIO (EX: ['VIEW']). DEFAULT = [MOD, ADD] || NUM = LISTA DE ATIVIDADES QUE TAL CONFIGURAÇÃO VAI AGIR. (EX: [1, 2]). "all" = TODAS 
+			customActions: function ($self) { //função para customização
 
-		fieldType: 'cep', //TIPO DE CAMPO cep
-		validate: ['required']
-	}
-];
+				$self.parent().find('.iconData').on('click', function () {
 
-//Lista contendo objeto de sections
-var sectionsConfig = [
-	{
-		id: 'secRequisicao',
-		visible: false, //TRUE = SEMPRE VISIVEL || FALSE = VISIVEL APENAS NAS ATIVIDADES CONTIDAS EM VISIBLEATV
-		visibleAtv: [0, 1], //LISTA DE ATIVIDADES QUE ESSA SECTION É VISIVEL. 
-		enabled: true, //TRUE = TAL SECTION É ENABLED EM ALGUMA ATIVIDADE || FALSE = SEMPRE DISABLED
-		enabledAtv: [0, 1] //LISTA DE ATIVIDADES QUE ESSA SECTION NÃO ESTÁ DISABLED. "all" HABILITA TODAS AS ATIVIDADES
+					$self.trigger('click').focus();
+
+				})
+
+			}
 		},
 		{
-			id: 'secAprovacaoFINANCEIRO',
+			state: { type: 'default', num: [0, 1] }, //type: LISTA DE ESTADO DO FORMULARIO (EX: ['VIEW']). DEFAULT = [MOD, ADD] || NUM = LISTA DE ATIVIDADES QUE TAL CONFIGURAÇÃO VAI AGIR. (EX: [1, 2]). "all" = TODAS 
+			name: 'MONETARIOEXEMPLO', //NOME DO CAMPO
+			class: ['text-right'],
+			fieldType: 'money', //TIPO DE CAMPO monetario
+			validate: ['required'],
+			fieldOptions: {
+				prefix: 'R$ ',
+				thousands: '.',
+				decimal: ','
+			},
+		},
+		{
+			state: { type: 'default', num: [0, 1] },
+			fieldType: 'zoom', //TIPO DE CAMPO APROVACAO
+			name: 'USUARIO', //STRING CHAVE PARA INICIAR APROVACAO
+			validate: ['required'],
+			zoomOptions: {
+				label: 'Usuários',
+				uFZommType: '3',	// 1=DataServer | 2=Consulta | 3=Dataset | 4=query 
+				clear: [{
+					name: 'USUARIO',
+				},
+				{
+					name: 'USUARIOCOD',
+				}],
+				CodQuery: 'colleague', // dataserver | codsentenca | nome_dataset | array
+				constraints: [],
+				// Fields que serão inseridos no dataset para o uFZommType: '3'
+				dsFields: ['colleagueName', 'login', 'mail'],
+				columns: [
+					{ title: 'Matricula', data: 'login', className: 'text-nowrap' },
+					{ title: 'Nome', data: 'colleagueName' },
+					{ title: 'Email', data: 'mail'},
+				],
+			},
+			zoomReturn: {
+				//DEFAULT = RETORNO DO DATASET DIRETO PARA CAMPOS DO FORM
+				//1 = UTILIZA 'DE PARA' do fields
+				//2 = UTILIZA 'FUNÇÃO' do fields
+				type: '1',
+				fields: [
+					{
+						data: 'colleagueName',
+						formField: 'USUARIO'
+					},
+					{
+						data: 'login',
+						formField: 'USUARIOCOD'
+					},
+				]
+
+			}
+		},
+		{
+			state: { type: 'default', num: [0, 1] },
+			fieldType: 'zoomFluig', //TIPO DE CAMPO APROVACAO
+			name: 'ZOOMFLUIGEXEMPLO', //STRING CHAVE PARA INICIAR APROVACAO
+			validate: ['required'],
+			successValidation: function () {},
+			errorValidation: function () {},
+			configs: {
+				displayKey: 'colleagueId',
+				datasetId: 'colleague',
+				maximumSelectionLength: '3',
+				fields: [
+					{
+						field: 'mail',
+						label: 'EMAIL'
+					}, {
+						field: 'colleagueName',
+						label: 'Nome',
+						standard: 'true'
+					}, {
+						field: 'login',
+						label: 'Login'
+					}, {
+						field: 'colleagueId',
+						label: 'colleagueID'
+					}
+				]
+			},
+			constraints: [{
+				field: 'login',
+				value: 'teste'
+			},
+			{
+				field: 'colleagueName',
+				value: 'User Teste 00'
+			}],
+			callbacks: {
+				onAdd: function ($self, item, name) {
+					console.log(item)
+					console.log($self)
+					console.log(name)
+					enableZoomField('ZOOMFLUIGEXEMPLO2')
+				},
+				onRemove: function ($self, item, name) {
+					console.log(item)
+					console.log($self)
+					console.log(name)
+					disableZoomField('ZOOMFLUIGEXEMPLO2')
+				},
+			}
+		},
+		{
+			state: { type: 'default', num: [0, 1] },
+			fieldType: 'zoomFluig', //TIPO DE CAMPO APROVACAO
+			name: 'ZOOMFLUIGEXEMPLO2', //STRING CHAVE PARA INICIAR APROVACAO
+			validate: ['required'],
+			configs: {
+				displayKey: 'colleagueName',
+				datasetId: 'colleague',
+				fields: [
+					{
+						field: 'colleagueName',
+						label: 'Nome',
+						standard: 'true'
+					}, {
+						field: 'login',
+						label: 'Login'
+					}
+				]
+			},
+			callbacks: {
+				onAdd: function ($self, item, name) {
+					console.log(item)
+					console.log($self)
+					console.log(name)
+					disableZoomField(name)
+				},
+			}
+		},
+		{
+			name: 'CEPEXEMPLO', //NOME DO CAMPO
+			state: { type: 'default', num: [0, 1] }, //type: LISTA DE ESTADO DO FORMULARIO (EX: ['VIEW']). DEFAULT = [MOD, ADD] || NUM = LISTA DE ATIVIDADES QUE TAL CONFIGURAÇÃO VAI AGIR. (EX: [1, 2]). "all" = TODAS 
+
+			fieldType: 'cep', //TIPO DE CAMPO cep
+			validate: ['required']
+		}
+	];
+
+	//Lista contendo objeto de sections
+	var sectionsConfig = [
+		{
+			id: 'secCabecalho',
+			visible: true, //TRUE = SEMPRE VISIVEL || FALSE = VISIVEL APENAS NAS ATIVIDADES CONTIDAS EM VISIBLEATV
+			visibleAtv: [], //LISTA DE ATIVIDADES QUE ESSA SECTION É VISIVEL. 
+			enabled: false, //TRUE = TAL SECTION É ENABLED EM ALGUMA ATIVIDADE || FALSE = SEMPRE DISABLED
+			enabledAtv: [] //LISTA DE ATIVIDADES QUE ESSA SECTION NÃO ESTÁ DISABLED. "all" HABILITA TODAS AS ATIVIDADES
+		},
+		{
+			id: 'secSolicitante',
+			visible: true, //TRUE = SEMPRE VISIVEL || FALSE = VISIVEL APENAS NAS ATIVIDADES CONTIDAS EM VISIBLEATV
+			visibleAtv: [], //LISTA DE ATIVIDADES QUE ESSA SECTION É VISIVEL. 
+			enabled: false, //TRUE = TAL SECTION É ENABLED EM ALGUMA ATIVIDADE || FALSE = SEMPRE DISABLED
+			enabledAtv: [] //LISTA DE ATIVIDADES QUE ESSA SECTION NÃO ESTÁ DISABLED. "all" HABILITA TODAS AS ATIVIDADES
+		},
+		{
+			id: 'secRequisicao',
 			visible: false, //TRUE = SEMPRE VISIVEL || FALSE = VISIVEL APENAS NAS ATIVIDADES CONTIDAS EM VISIBLEATV
-			visibleAtv: [0, 1, 2, 4], //LISTA DE ATIVIDADES QUE ESSA SECTION É VISIVEL
+			visibleAtv: [0, 1, 2, 4, 6], //LISTA DE ATIVIDADES QUE ESSA SECTION É VISIVEL. 
+			enabled: true, //TRUE = TAL SECTION É ENABLED EM ALGUMA ATIVIDADE || FALSE = SEMPRE DISABLED
+			enabledAtv: [0, 1] //LISTA DE ATIVIDADES QUE ESSA SECTION NÃO ESTÁ DISABLED. "all" HABILITA TODAS AS ATIVIDADES
+		},
+		{
+			id: 'secAprovacaoTESTE',
+			visible: false, //TRUE = SEMPRE VISIVEL || FALSE = VISIVEL APENAS NAS ATIVIDADES CONTIDAS EM VISIBLEATV
+			visibleAtv: [2, 4, 6], //LISTA DE ATIVIDADES QUE ESSA SECTION É VISIVEL
 			enabled: true, //TRUE = TAL SECTION É ENABLED EM ALGUMA ATIVIDADE || FALSE = SEMPRE DISABLED
 			enabledAtv: [0, 1, 2] //LISTA DE ATIVIDADES QUE ESSA SECTION NÃO ESTÁ DISABLED
 		},
 		{
 			id: 'secDependentes',
 			visible: false, //TRUE = SEMPRE VISIVEL || FALSE = VISIVEL APENAS NAS ATIVIDADES CONTIDAS EM VISIBLEATV
-			visibleAtv: [0, 1], //LISTA DE ATIVIDADES QUE ESSA SECTION É VISIVEL
+			visibleAtv: [0, 1, 2, 4, 6], //LISTA DE ATIVIDADES QUE ESSA SECTION É VISIVEL
 			enabled: true, //TRUE = TAL SECTION É ENABLED EM ALGUMA ATIVIDADE || FALSE = SEMPRE DISABLED
 			enabledAtv: [0, 1] //LISTA DE ATIVIDADES QUE ESSA SECTION NÃO ESTÁ DISABLED
 		},
 		{
-            id: 'secCEP',
-            visible: false, //TRUE = SEMPRE VISIVEL || FALSE = VISIVEL APENAS NAS ATIVIDADES CONTIDAS EM VISIBLEATV
-            visibleAtv: [0, 1], //LISTA DE ATIVIDADES QUE ESSA SECTION É VISIVEL
-            enabled: true, //TRUE = TAL SECTION É ENABLED EM ALGUMA ATIVIDADE || FALSE = SEMPRE DISABLED
-            enabledAtv: [0, 1] //LISTA DE ATIVIDADES QUE ESSA SECTION NÃO ESTÁ DISABLED
-        }
-		
+			id: 'secCEP',
+			visible: false, //TRUE = SEMPRE VISIVEL || FALSE = VISIVEL APENAS NAS ATIVIDADES CONTIDAS EM VISIBLEATV
+			visibleAtv: [0, 1, 2, 4, 6], //LISTA DE ATIVIDADES QUE ESSA SECTION É VISIVEL
+			enabled: true, //TRUE = TAL SECTION É ENABLED EM ALGUMA ATIVIDADE || FALSE = SEMPRE DISABLED
+			enabledAtv: [0, 1] //LISTA DE ATIVIDADES QUE ESSA SECTION NÃO ESTÁ DISABLED
+		}
+
 	];
 
 	//Lista contendo objeto de tables
-	var tablesConfig =  [
+	var tablesConfig = [
 		{
-			state: {type: 'default', num: [0, 1]},
+			state: { type: 'default', num: [0, 1] },
 			id: 'tabela_pf_produto',
-			
+
 			fields: [
 				{
-					state: {type: 'default', num: [0, 1]}, //type: LISTA DE ESTADO DO FORMULARIO (EX: ['VIEW']). DEFAULT = [MOD, ADD] || NUM = LISTA DE ATIVIDADES QUE TAL CONFIGURAÇÃO VAI AGIR. (EX: [1, 2]). NULL = TODAS 
+					state: { type: 'default', num: [0, 1] }, //type: LISTA DE ESTADO DO FORMULARIO (EX: ['VIEW']). DEFAULT = [MOD, ADD] || NUM = LISTA DE ATIVIDADES QUE TAL CONFIGURAÇÃO VAI AGIR. (EX: [1, 2]). NULL = TODAS 
 					name: 'COLIGADA_EXEMPLO', //NOME DO CAMPO
 					validate: [],
-					fieldType: 'zoom', 
-					customActions: function( $self ) { //função para customização
+					fieldType: 'zoom',
+					customActions: function ($self) { //função para customização
 						console.log('Teste Execução Custom')
 						console.log($self)
 					},
@@ -256,241 +240,114 @@ var sectionsConfig = [
 						label: 'Coligada',
 						uFZommType: '3',	// 1=DataServer | 2=Consulta | 3=Dataset | 4=query 
 						CodQuery: 'colleague', // dataserver | codsentenca | nome_dataset | array
-						constraints:[],
+						constraints: [],
 						columns: [
 							{ title: 'Nome', data: 'CODCOLIGADA2', className: 'text-nowrap' },
-			
+
 						],
 					},
 					zoomReturn: {
 						//DEFAULT = RETORNO DO DATASET DIRETO PARA CAMPOS DO FORM
 						//1 = UTILIZA 'DE PARA' do fields
 						//2 = UTILIZA 'FUNÇÃO' do fields
-						type: '1', 
+						type: '1',
 						fields: [
 							{
 								data: 'colleagueName',
 								formField: 'COLIGADA_EXEMPLO'
 							}
-							
+
 						]
-						
+
 					}
 
-				
+
 				}
 			]
 
 		},
 		{
-			state: {type: 'default', num: [0, 1]},
-			id: 'tblDependentes',
+			state: { type: 'default', num: [0, 1] },
+			id: 'tblPaiFilho',
 			fields: [
-			{
-				state: {type: 'default', num: [0, 1]}, //type: LISTA DE ESTADO DO FORMULARIO (EX: ['VIEW']). DEFAULT = [MOD, ADD] || NUM = LISTA DE ATIVIDADES QUE TAL CONFIGURAÇÃO VAI AGIR. (EX: [1, 2]). "all" = TODAS 
-				name: 'DATAEXEMPLOTABLE', //NOME DO CAMPO
-				fieldType: 'date', //TIPO DE CAMPO DATA
-				validationCascade: {
-					eventToValidate: 'change'
-				},
-				validate: ['required'],
-				successValidation: function ( $self ) {
-					console.log(`${$self.attr('name')} validado`)
-				},
-				errorValidation: function ( $self ) {
-					console.log(`${$self.attr('name')} NÃO validado`)
-				},
-				fieldOptions: {
-					minDate: moment(),
-					useCurrent: false
-				},
-				customActions: function( $self ) { //função para customização
-					console.log('Teste Execução Custom')
-					console.log($self)
-		
-				}
-			},
-			{
-				state: {type: 'default', num: [0, 1, 2]}, 
-				fieldType: 'zoomFluig', //TIPO DE CAMPO APROVACAO
-				name: 'ZOOMFLUIGPAIEXEMPLO', //STRING CHAVE PARA INICIAR APROVACAO
-				validate: ['required'], 
-				configs: {
-					displayKey: 'colleagueName',
-					datasetId: 'colleague',
-					fields:[
-						{
-						field: 'mail',
-						label: 'EMAIL'
-						},{
-						field: 'colleagueName',
-						label: 'Nome',
-						standard: 'true'
-						},{
-						field:'login',
-						label:'Login'
-						}
-					]
-				},
-				callbacks: {
-					onAdd: function(self, item){
-						console.log(item)
-						console.log(self)
-						//disableZoomField(self)
+				{
+					state: { type: 'default', num: [0, 1] },
+					fieldType: 'zoomFluig', //TIPO DE CAMPO APROVACAO
+					name: 'ZOOMFLUIGPAIEXEMPLO', //STRING CHAVE PARA INICIAR APROVACAO
+					validate: ['required'],
+					configs: {
+						displayKey: 'colleagueName',
+						datasetId: 'colleague',
+						fields: [
+							{
+								field: 'mail',
+								label: 'EMAIL'
+							}, {
+								field: 'colleagueName',
+								label: 'Nome',
+								standard: 'true'
+							}, {
+								field: 'login',
+								label: 'Login'
+							}
+						]
 					},
-					onRemove: function(self, item){
-						console.log(item)
-						console.log(self)
-					},
-				}
-			},
-			{
-				state: {type: 'default', num: [0, 1]}, //type: LISTA DE ESTADO DO FORMULARIO (EX: ['VIEW']). DEFAULT = [MOD, ADD] || NUM = LISTA DE ATIVIDADES QUE TAL CONFIGURAÇÃO VAI AGIR. (EX: [1, 2]). "all" = TODAS 
-				name: 'MONETARIOEXEMPLOTABLE', //NOME DO CAMPO
-				class: ['text-right'],
-				fieldType: 'money', //TIPO DE CAMPO monetario
-				validate: ['required'], 
-				requiredConfig: { depends: function(el) { return $(el).is(":visible") && $('[name="DATAEXEMPLO"]').val() != '' }, },
-				successValidation: function ( $self ) {
-					console.log(`${$self.attr('name')} validado`)
+					callbacks: {
+						onAdd: function (self, item) {
+							console.log(item)
+							console.log(self)
+							//disableZoomField(self)
+						},
+						onRemove: function (self, item) {
+							console.log(item)
+							console.log(self)
+						},
+					}
 				},
-				errorValidation: function ( $self ) {
-					console.log(`${$self.attr('name')} NÂO validado`)
-				},
-				fieldOptions: {
-					prefix: 'R$ ', 
-					thousands: '', 
-					decimal: ','
-				}
-			},
-			{
-				state: {type: 'default', num: [0, 1]}, 
-				fieldType: 'zoom', //TIPO DE CAMPO APROVACAO
-				name: 'COLIGADATABLE', //STRING CHAVE PARA INICIAR APROVACAO
-				validate: [], 
-				zoomOptions: {
-					label: 'Coligada',
-					// array opcional com o name do campo a ser limpo, o evento para dar trigger e um callback
-					clear: [{	
-						name: 'DATAEXEMPLO',
-						trigger:'change'
-					},{
-						name:'COLIGADATABLE',	// Se estiver em um pai filho, vai procurar um campo com esse name + ___idx
-						trigger:'blur',	// evento do jquery apos limpar o campo
-						afterClear: function($self){	//callback ao limpar campo
-							console.log('depois de limpar eu dei esse console aqui =)',$self)
-						}
-					}],
-			        uFZommType: '2',	// 1=DataServer | 2=Consulta | 3=Dataset | 4=query 
-			        CodQuery: 'FLUIG.EXEMPLO', // dataserver | codsentenca | nome_dataset | array
-			        constraints:[],
-			        columns: [
-			            { title: 'Código', data: 'CODCOLIGADA', className: 'text-nowrap' },
-			            { title: 'Nome', data: 'NOMEFANTASIA' },
-			        ],
-			    },
-			    zoomReturn: {
-			    	//DEFAULT = RETORNO DO DATASET DIRETO PARA CAMPOS DO FORM
-			    	//1 = UTILIZA 'DE PARA' do fields
-			    	//2 = UTILIZA 'FUNÇÃO' do fields
-			    	type: '1', 
-			    	fields: [
-			    		{
-			    			data: 'NOMEFANTASIA',
-			    			formField: 'COLIGADATABLE'
-			    		},
-			    		{
-			    			data: 'CODCOLIGADA',
-			    			formField: 'COLIGADACODTABLE'
-			    		},
-			    	]
-			    	
-			    }
-			},
-			{
-				state: {type: 'default', num: [0, 1]}, //type: LISTA DE ESTADO DO FORMULARIO (EX: ['VIEW']). DEFAULT = [MOD, ADD] || NUM = LISTA DE ATIVIDADES QUE TAL CONFIGURAÇÃO VAI AGIR. (EX: [1, 2]). NULL = TODAS 
-				name: 'COLIGADA_EXEMPLO', //NOME DO CAMPO
-				validate: [],
-				successValidation: function () {},
-				errorValidation: function () {},
-				fieldType: 'zoomBeta', 
-				customActions: function( $self ) { //função para customização
-					console.log('Teste Execução Custom')
-					console.log($self)
-		
-				},
-				zoomOptions: {
-					label: 'Coligada',
-					CodQuery: 'colleague', // Nome do Dataset -> Por enquanto só funciona para dataset
-					/**
-					 * @sourceVal -> {string}
-					 * 	se sourceVal = '1', o valor da constraint eh fixo e eh necessario passar a chave valor 
-					 *  com o valor desejado
-					 *  se sourceVal = '2', o valor da constraint vem de um campo de formulario e eh necesario
-					 *  passar a chave formField com o nome do campo
-					 *  se sourceVal = '3', o usuario ira inserir o valor da constraint no filtro do modal do zoom
-					 */
-					constraints:[{
-						sourceVal: '3', // 1 = Valor Fixo | 2 = Campo de Formulario | 3 = Valor do usuario
-						field: 'colleagueName',
-					}],
-					// Fields que serão inseridos no dataset
-					dsFields: ['colleagueName'],
-					columns: [
-						{ title: 'Nome', data: 'colleagueName', className: 'text-nowrap' },
-		
-					],
-				},
-				zoomReturn: {
-					//DEFAULT = RETORNO DO DATASET DIRETO PARA CAMPOS DO FORM
-					//1 = UTILIZA 'DE PARA' do fields
-					//2 = UTILIZA 'FUNÇÃO' do fields
-					type: '1', 
-					fields: [
-						{
-							data: 'colleagueName',
-							formField: 'COLIGADA_EXEMPLO'
-						}
-						
-					]
-					
-				}
-
-			
-			}
 			],
 			// Função que executa antes de deletar um ITEM da tabela.
-			beforeRemoveCallback: function($self){
+			beforeRemoveCallback: function ($self) {
 				console.info('Rodou antes de excluir a linha: ', $self)
 			},
 			// Função que executa após deletar um ITEM da tabela  OBS: Não retorna o $self pois a linha já foi excluida.
-			afterRemoveCallback: function(){
+			afterRemoveCallback: function () {
 				console.info('Rodou após excluir a linha.')
 			},
 			// Função que executa após adicionar um ITEM da tabela.
-			afterAddLine: function($self){
+			afterAddLine: function ($self) {
 				console.info('Rodou após adicionar uma linha.')
-			}
-	}];
-	
-	
-	var customActionsConfig = [
-		{
-			state: {type: 'default', num: [0, 1, 2]}, 
-			customActions: function( ) {//função para customização7
-				
-				console.log('testando custom action')
 			}
 		}
 	];
+
+
+	var customActionsConfig = [
+		{
+			state: { type: ['VIEW'], num: 'all' },
+			customActions: function () {
+				var secNome = ['secAprovacaoTESTE']
+				var arrayWKNumstate = [2]
 	
+				if (modForm == 'VIEW') { // No modo view esconde as seções de aprovações necessárias
+					arrayWKNumstate.forEach(function (item, i) {
+						if (item == WKNumState) {
+							$('#' + secNome[i]).hide()
+						}
+					})
+				};
+
+				console.log('Executou customActions')
+			}
+		}
+	];
+
 	//função para determinar qual será a configuração padrao do validate dentro do framework
-	uFFw.setDefaults('validOptions', { depends: function(el) { return true }, })
-	
+	uFFw.setDefaults('validOptions', { depends: function (el) { return true }, })
+
 	//inicia o framework
 	uFFw.init(modForm, WKNumState, fieldsConfig, sectionsConfig, tablesConfig, customActionsConfig);
-    $validator.form()
-	
+	if(modForm != 'VIEW') setTimeout(() => {$validator.form();}, 300)
+
 });
 
 
@@ -502,11 +359,11 @@ var sectionsConfig = [
 * throw(“Erro”): impedirá a execução e exibirá uma tela de erro padrão do fluig com o texto informado.
 * @param numState - número da atividade atual
 */
-var beforeMovementOptions = function(numState){
-    console.info('VALIDAÇÃO', 'Atividade:', numState);
-    
-	if ( !$validator.form() ) throw 'Não será possível enviar os dados pois há campos com erro.</br>Por favor, verifique os campos destacados de vermelho.</br>'+uFFw.utils.listaErros();
-    
+var beforeMovementOptions = function (numState) {
+	console.info('VALIDAÇÃO', 'Atividade:', numState);
+
+	if (!$validator.form()) throw 'Não será possível enviar os dados pois há campos com erro.</br>Por favor, verifique os campos destacados de vermelho.</br>' + uFFw.utils.listaErros();
+
 };
 
 /**
@@ -516,22 +373,22 @@ var beforeMovementOptions = function(numState){
  * @param nextState - número da atividade destino
  */
 var beforeSendValidate = function (numState, nextState) {
-    console.info('CONFIRMAÇÃO', 'De:', numState, 'Para:', nextState);
-	    
+	console.info('CONFIRMAÇÃO', 'De:', numState, 'Para:', nextState);
+
 	// verifica a validação do formulário
-	if ( !$validator.form() ) {
-		
+	if (!$validator.form()) {
+
 		parent.FLUIGC.message.alert({
-			message: 'Não será possível enviar os dados pois há campos com erro.</br>Por favor, verifique os campos destacados de vermelho.</br>'+listaErros(),
+			message: 'Não será possível enviar os dados pois há campos com erro.</br>Por favor, verifique os campos destacados de vermelho.</br>' + uFFw.utils.listaErros(),
 			title: 'Formulário não validado',
 			label: 'OK'
 		});
-	
+
 		return false;
 	}
 
 	return true
-    
+
 };
 
 

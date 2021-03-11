@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8">
     <link type="text/css" rel="stylesheet" href="/portal/resources/style-guide/css/fluig-style-guide.min.css" />
@@ -8,456 +9,342 @@
 </head>
 
 <body class="uF">
-<div class="fluig-style-guide">
-    <h1>Teste Simone</h1>
-    <div class="col-md-offset-1 col-md-10">
+    <div class="fluig-style-guide">
+        <div class="col-md-offset-1 col-md-10">
 
-        <!-- INÍCIO: formulário geral -->
-        <form class="modForm" role="form" name="frm" id="frm">
-            
-            <!-- INÍCIO: título de cabeçalho -->
-            <div class="page-header">
-                <div class="row">
-                    <div class="col-xs-12">
-                        <h1 class="fs-no-margin fs-ellipsis fs-full-width uf-colormenu"><i class="fas fa-tasks"></i> Formulário Base <small class="hidden-xs"></small></h1>
-                    </div>
-                </div>
-            </div>
-            <!-- FINAL: título de cabeçalho -->
-            
-             <!-- INÍCIO: cabeçalho do formulário -->
-            <section class="secCabecalho" id="secCabecalho">
-                <div class="row">
-                    <div class="col-xs-6 col-sm-2 col-md-2">
-                        <div class="form-group">
-                            <label class="control-label" for="PROTOCOLO">Nº Protocolo</label>
-                            <input type="text" class="form-control NumSolic" name="PROTOCOLO" readonly>
-                            
-                        </div>
-                    </div>
-                    <div class="col-xs-6 col-sm-2 col-md-2">
-                        <div class="form-group">
-                            <label class="control-label" for="SOLICDATA">Data da Abertura</label>
-                            <input type="text" class="form-control DataSolic" name="SOLICDATA" readonly>
-                            
-                        </div>
-                    </div>
-                     
-                    <div class="col-xs-6 col-sm-4 col-md-offset-4 col-md-4">
-                        <div class="form-group status-solicitacao">
-                            <label class="control-label">Status</label>
-                            <input type="text" class="form-control hide cmpStatusCod" name="STATUSCOD" value="1" readonly>
-                            <input type="text" class="form-control hide cmpStatusNome" name="STATUS" value="Início" readonly>
+            <!-- INÍCIO: formulário geral -->
+            <form class="modForm" role="form" name="frm" id="frm">
+
+                <!-- INÍCIO: título de cabeçalho -->
+                <div class="page-header">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <h1 class="fs-no-margin fs-ellipsis fs-full-width uf-colormenu"><i class="fas fa-tasks"></i> Formulário Base <small class="hidden-xs"></small></h1>
                         </div>
                     </div>
                 </div>
-            </section>
-            <!-- FINAL: cabeçalho do formulário -->
-            
-            <!-- INÍCIO: informações do solicitante -->
-            <section class="secSolicitante" id="secSolicitante">
-                <div class="row">
-                    <div class="col-xs-6 col-md-6">
-                        <div class="form-group">
-                            <label class="control-label" for="SOLICNOME">Nome do Solicitante</label>
-                            <input type="text" class="form-control" name="SOLICNOME" readonly>
-                            <input type="hidden" class="form-control" name="SOLICCOD" readonly>
-                        </div>
-                    </div>
-                    <div class="col-xs-5 col-md-6">
-                        <div class="form-group">
-                            <label class="control-label" for="SOLICEMAIL">Email do Solicitante</label>
-                            <input type="text" class="form-control" name="SOLICEMAIL" readonly>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            <!-- FINAL: informações do solicitante -->
-            
-            <section class="secRequisicao" id="secRequisicao">
-                <div class="row">
-                    <div class="col-md-3">
-                    	<div class="form-group">           	
-                            <label class="control-label" for="DATAEXEMPLO">DATA EXEMPLO</label>
-                            <div class="input-group">
-                            	<input type="text" class="form-control" name="DATAEXEMPLO" readonly><span class="input-group-addon iconData"><i class="far fa-calendar-alt"></i></span>
-                        	</div>
-                        </div>
-					</div>
-                </div>
-                <div class="row">
-                    <div class="col-md-3">
-						<div class="form-group">
-                            <label class="control-label" for="MONETARIOEXEMPLO">MONETÁRIO EXEMPLO</label>
-                            <input type="text" class="form-control" name="MONETARIOEXEMPLO">
-                      	 </div>
-					</div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-						<div class="form-group ufZoom">
-                            <label class="control-label" for="COLIGADA">COLIGADA EXEMPLO</label>
-                            <div class="input-group">
-                                <input type="text" class="form-control" name="COLIGADA" placeholder="Selecione..." readonly>
-                                <span class="input-group-btn">
-                                    <button uf-zoom="COLIGADA" class="btn btn-default" type="button" data-loading-text="<i class=&quot;fa fa-circle-o-notch fa-spin&quot;></i>"><span class="fluigicon fluigicon-search-test"></span></button>
-                                </span>
+                <!-- FINAL: título de cabeçalho -->
+
+                <!-- INÍCIO: cabeçalho do formulário -->
+                <section class="secCabecalho" id="secCabecalho">
+                    <div class="row">
+                        <div class="col-xs-6 col-sm-2 col-md-2">
+                            <div class="form-group">
+                                <label class="control-label" for="PROTOCOLO">Nº Protocolo</label>
+                                <input type="text" class="form-control NumSolic" name="PROTOCOLO" readonly>
+
                             </div>
-                            <input type="hidden" class="form-control codinput" name="COLIGADACOD" >
                         </div>
-					</div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <label class="control-label" for="ZOOMFLUIGEXEMPLO">ZOOM FLUIG EXEMPLO</label>
-                            <input type="zoom" class="form-control" id="ZOOMFLUIGEXEMPLO" name="ZOOMFLUIGEXEMPLO">
+                        <div class="col-xs-6 col-sm-2 col-md-2">
+                            <div class="form-group">
+                                <label class="control-label" for="SOLICDATA">Data da Abertura</label>
+                                <input type="text" class="form-control DataSolic" name="SOLICDATA" readonly>
+
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <label class="control-label" for="ZOOMFLUIGEXEMPLO2">ZOOM FLUIG EXEMPLO 2</label>
-						    <input type="zoom" class="form-control" id="ZOOMFLUIGEXEMPLO2" name="ZOOMFLUIGEXEMPLO2">
+
+                        <div class="col-xs-6 col-sm-4 col-md-offset-4 col-md-4">
+                            <div class="form-group status-solicitacao">
+                                <label class="control-label">Status</label>
+                                <input type="text" class="form-control hide cmpStatusCod" name="STATUSCOD" value="1" readonly>
+                                <input type="text" class="form-control hide cmpStatusNome" name="STATUS" value="Início" readonly>
+                            </div>
                         </div>
                     </div>
-                </div>
-                
-            </section>
-            
-            <section class="secDependentes" id="secDependentes" style="display:none;">
-            	<div class="panel panel-default">
-					<div class="page-header">
-						<h1>
-						<span class="fluigicon fluigicon-group fluigicon-lg icone-span"></span><small
-							class="title-small">&nbsp;Dependentes</small>
-						</h1>
-					</div>
-					<div class="panel-body">
-						<div class="row">
-		                    <div class="col-xs-12">
-		                        <table class="table table-hover table-striped" tablename="tblDependentes" noaddbutton="true" nodeletebutton="true">
-		                            <thead>
-		                                <tr class="uppercase">
-		                                    <th style="width:1%">DEP.</th>
-		                                    <th style="width:98%">DADOS DO DEPENDENTE</th>
-		                                    <th style="width:1%"></th>
-		                                </tr>
-		                            </thead>
-		                            <tbody>
-		                                <tr>
-		                                    <td class="itm-id">
-		                                        <div class="form-group" style="margin-top:23px;"><input type="text" class="form-control text-center sem-borda" name="ITMID" tabindex="-1" readonly></div>
-		                                    </td>
-		                                    <td class="itm-dados ItemVlrTotal">
-		                                    	<div class="row">
-								                    <div class="col-md-3">
-														<div class="form-group">
-								                            <label class="control-label" for="DATAEXEMPLOTABLE">DATA EXEMPLO</label>
-								                            <input type="text" class="form-control" name="DATAEXEMPLOTABLE">
-								                      	 </div>
-													</div>
-								                </div>
-								                <div class="row">
-								                    <div class="col-md-3">
-														<div class="form-group">
-								                            <label class="control-label" for="MONETARIOEXEMPLOTABLE">MONETÁRIO EXEMPLO</label>
-								                            <input type="text" class="form-control" name="MONETARIOEXEMPLOTABLE">
-								                      	 </div>
-													</div>
-								                </div>
-								                <div class="row">
-								                    <div class="col-md-6">
-														<div class="form-group ufZoom">
-								                            <label class="control-label" for="COLIGADATABLE">COLIGADA EXEMPLO</label>
-								                            <div class="input-group">
-								                                <input type="text" class="form-control" name="COLIGADATABLE" placeholder="Selecione..." readonly>
-								                                <span class="input-group-btn">
-								                                    <button uf-zoom="COLIGADATABLE" class="btn btn-default" type="button" data-loading-text="<i class=&quot;fa fa-circle-o-notch fa-spin&quot;></i>"><span class="fluigicon fluigicon-search-test"></span></button>
-								                                </span>
-								                            </div>
-								                            <input type="hidden" class="form-control codinput" name="COLIGADACODTABLE" readonly>
-								                        </div>
-													</div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-md-12">
-                                                        <div class="form-group ufZoom">
-                                                            <label class="control-label" for="COLIGADA_EXEMPLO">COLIGADA EXEMPLO</label>
-                                                            <div class="input-group">
-                                                                <input type="text" class="form-control" name="COLIGADA_EXEMPLO" placeholder="Selecione..." readonly>
-                                                                <span class="input-group-btn">
-                                                                    <button uf-zoom="COLIGADA_EXEMPLO" class="btn btn-default" type="button" data-loading-text="<i class=&quot;fa fa-circle-o-notch fa-spin&quot;></i>"><span class="fluigicon fluigicon-search-test"></span></button>
-                                                                </span>
-                                                            </div>
-                                                            <input type="hidden" class="form-control codinput" name="COLIGADACOD2" readonly>
+                </section>
+                <!-- FINAL: cabeçalho do formulário -->
+
+                <!-- INÍCIO: informações do solicitante -->
+                <section class="secSolicitante" id="secSolicitante">
+                    <div class="row">
+                        <div class="col-xs-6 col-md-6">
+                            <div class="form-group">
+                                <label class="control-label" for="SOLICNOME">Nome do Solicitante</label>
+                                <input type="text" class="form-control" name="SOLICNOME" readonly>
+                                <input type="hidden" class="form-control" name="SOLICCOD" readonly>
+                            </div>
+                        </div>
+                        <div class="col-xs-5 col-md-6">
+                            <div class="form-group">
+                                <label class="control-label" for="SOLICEMAIL">Email do Solicitante</label>
+                                <input type="text" class="form-control" name="SOLICEMAIL" readonly>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <!-- FINAL: informações do solicitante -->
+
+                <section class="secRequisicao" id="secRequisicao">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="control-label" for="DATAEXEMPLO">CAMPO DATA</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" name="DATAEXEMPLO" readonly><span class="input-group-addon iconData"><i class="far fa-calendar-alt"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="control-label" for="MONETARIOEXEMPLO">CAMPO MONETÁRIO</label>
+                                <input type="text" class="form-control" name="MONETARIOEXEMPLO">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group ufZoom">
+                                <label class="control-label" for="USUARIO">ZOOM NORMAL</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" name="USUARIO" placeholder="Selecione..." readonly>
+                                    <span class="input-group-btn">
+                                        <button uf-zoom="USUARIO" class="btn btn-default" type="button" data-loading-text="<i class=&quot;fa fa-circle-o-notch fa-spin&quot;></i>"><span class="fluigicon fluigicon-search-test"></span></button>
+                                    </span>
+                                </div>
+                                <input type="hidden" class="form-control codinput" name="USUARIOCOD">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="control-label" for="ZOOMFLUIGEXEMPLO">ZOOM FLUIG LISTANDO APENAS 1 USUARIO </label>
+                                <input type="zoom" class="form-control" id="ZOOMFLUIGEXEMPLO" name="ZOOMFLUIGEXEMPLO">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="control-label" for="ZOOMFLUIGEXEMPLO2">ZOOM FLUIG LISTANDO TODOS USUARIOS DO FLUIG</label>
+                                <input type="zoom" class="form-control" id="ZOOMFLUIGEXEMPLO2" name="ZOOMFLUIGEXEMPLO2">
+                            </div>
+                        </div>
+                    </div>
+
+                </section>
+
+                <section class="secDependentes" id="secDependentes" style="display:none;">
+                    <div class="panel panel-default">
+                        <div class="page-header">
+                            <h1>
+                                <span style="padding-left: 20px;" class="fluigicon fluigicon-group fluigicon-lg icone-span"></span><small
+                                    class="title-small">&nbsp;Exemplo Pai Filho</small>
+                            </h1>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <table class="table table-hover table-striped" tablename="tblPaiFilho" noaddbutton="true" nodeletebutton="true">
+                                        <thead>
+                                            <tr class="uppercase">
+                                                <th style="width:1%"></th>
+                                                <th style="width:98%">DADOS</th>
+                                                <th style="width:1%"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="itm-id">
+                                                    <div class="form-group" style="margin-top:23px;"><input type="text" class="form-control text-center sem-borda" name="ITMID" tabindex="-1" readonly></div>
+                                                </td>
+                                                <td class="itm-dados ItemVlrTotal">
+
+                                                    <div class="row">
+                                                        <div class="col-md-12 form-group">
+                                                            <label class="control-label" for="ZOOMFLUIGPAIEXEMPLO">ZOOM FLUIG DENTRO DO PAI FILHO</label>
+                                                            <input type="text" class="form-control" id="ZOOMFLUIGPAIEXEMPLO" name="ZOOMFLUIGPAIEXEMPLO">
                                                         </div>
                                                     </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-md-12 form-group">
-                                                        <label class="control-label" for="ZOOMFLUIGPAIEXEMPLO">ZOOM FLUIG EXEMPLO</label>
-                                                        <input type="text" class="form-control" id="ZOOMFLUIGPAIEXEMPLO" name="ZOOMFLUIGPAIEXEMPLO">
-                                                    </div>
-                                                </div>
-		                                    </td>
-		                                    <td class="acoes-linha">
-		                                        <a href="javascript:;" class="remove-linha" uf-removeChild="tblDependentes" data-toggle="tooltip" title="Remover Item"><span class="fluigicon fluigicon-remove-circle fluigicon-sm"></span></a>
-		                                    </td>
-		                                </tr>
-		                            </tbody>
-		                        </table>
-		                    </div>
-		                    <div class="col-md-offset-8 col-md-4">
-	                			<button type="button" class="btn btn-primary btn-block" uf-addChild="tblDependentes"><i class="fluigicon fluigicon-plus-sign" aria-hidden="true"></i> Dependente</button>
-		                	</div>
-		                </div>
-					
-					</div>
-				</div>
-            </section>
+                                                </td>
+                                                <td class="acoes-linha">
+                                                    <a href="javascript:;" class="remove-linha" uf-removeChild="tblPaiFilho" data-toggle="tooltip" title="Remover Item"><span class="fluigicon fluigicon-remove-circle fluigicon-sm"></span></a>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="col-md-offset-8 col-md-4">
+                                    <button type="button" class="btn btn-primary btn-block" uf-addChild="tblPaiFilho"><i class="fluigicon fluigicon-plus-sign" aria-hidden="true"></i> Nova linha</button>
+                                </div>
+                            </div>
 
-            <!-- INÍCIO: informações de CEP -->
-            <section class="secCEP" id="secCEP">
-                <div class="row">
-                    <div class="col-sm-3 col-md-3">
-                        <div class="form-group">
-                            <label class="control-label" for="CEPEXEMPLO"> CEP </label>
-                            <input type="text" name="CEPEXEMPLO" class="form-control required" />
                         </div>
                     </div>
-                    <div class="col-sm-7 col-md-7">
-                        <div class="form-group">
-                            <label class="control-label" for="RUACEPEXEMPLO"> Endereço </label>
-                            <input type="text" name="RUACEPEXEMPLO" class="form-control" readonly />
-                        </div>
-                    </div>
-                    <div class="col-sm-2 col-md-2">
-                        <div class="form-group">
-                            <label class="control-label" for="NUMEROCEPEXEMPLO"> Nº </label>
-                            <input type="text" name="NUMEROCEPEXEMPLO" class="form-control required" />
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-5 col-md-5">
-                        <div class="form-group">
-                            <label class="control-label" for="BAIRROCEPEXEMPLO"> Bairro </label>
-                            <input type="text" name="BAIRROCEPEXEMPLO" class="form-control" readonly />
-                        </div>
-                    </div>
-                    <div class="col-sm-4 col-md-4">
-                        <div class="form-group">
-                            <label class="control-label" for="CIDADECEPEXEMPLO"> Cidade </label>
-                            <input type="text" name="CIDADECEPEXEMPLO" class="form-control" readonly />
-                        </div>
-                    </div>
-                    <div class="col-sm-3 col-md-3">
-                        <div class="form-group">
-                            <label class="control-label" for="UFCEPEXEMPLO"> UF </label>
-                            <input type="text" name="UFCEPEXEMPLO" class="form-control" readonly />
-                        </div>
-                    </div>
-                </div>
-            </section>
-            <!-- FINAL: informações de CEP -->
-			
-            <section class="secAprovacaoFINANCEIRO" id="secAprovacaoFINANCEIRO" style="display:none;">
-                <!-- INÍCIO: título de cabeçalho -->
-                <div class="page-header">
-                    <h2><i class="far fa-calendar-check" aria-hidden="true"></i> Aprovação <small class="hidden-xs"></small></h2>
-                </div>
-                <!-- FINAL: título de cabeçalho -->
+                </section>
 
-                <div class="row">
-                    <div class="col-xs-12 col-sm-12 col-md-4">
-                        <div class="form-group">
-                            <label class="control-label" for="APROVADOFINANCEIRO">Aprovado?</label>
-                            <div class="btn-group btn-group-justified opc_aprovacao" data-toggle="buttons">
-                                <label class="btn btn-default sim"><input type="radio" name="APROVADOFINANCEIRO" data-exibicao="Sim, aprovado." id="Aprovado_S" value="S"><span class="fa fa-check-circle"></span> Sim</label>
-                                <label class="btn btn-default nao"><input type="radio" name="APROVADOFINANCEIRO" data-exibicao="Não, reprovado." id="Aprovado_N" value="N"><span class="fa fa-times-circle"></span> Não</label>
-                            </div>
-                            <label class="btn btn-default" style="display:none;"><input type="radio" name="APROVADOFINANCEIRO" data-exibicao="N/A, sem resposta." id="Aprovado_NA" value="NA">Sem Resposta</label>
-                        </div>
-                    </div>
-                    <div class="col-xs-12 col-sm-12 col-md-8">
-                        <div class="form-group">
-                            <label class="control-label" for="APROVADOOBSFINANCEIRO">Observações da Aprovação</label>
-                            <textarea class="form-control" rows="1" name="APROVADOOBSFINANCEIRO"></textarea>
-                        </div>
-                    </div>
-                </div>    
-                <div class="row">	
-                    <div class="col-xs-12 msg-aprov">
-                        <div class="alert" role="alert" style="display:none;" view></div>
-                    </div>
-                    <div style="display:none;">
-                        <div class="col-xs-3">
+                <!-- INÍCIO: informações de CEP -->
+                <section class="secCEP" id="secCEP">
+                    <div class="row">
+                        <div class="col-sm-3 col-md-3">
                             <div class="form-group">
-                            <label class="control-label" for="APROVADORIDFINANCEIRO">ID do Aprovador</label>
-                                <input type="text" class="form-control" name="APROVADORIDFINANCEIRO">
-                                <p class="help-block">Id do usuário responsável pela aprovação</p>
+                                <label class="control-label" for="CEPEXEMPLO"> CEP </label>
+                                <input type="text" name="CEPEXEMPLO" class="form-control required" />
                             </div>
                         </div>
-                        <div class="col-xs-3">
+                        <div class="col-sm-7 col-md-7">
                             <div class="form-group">
-                            <label class="control-label" for="APROVADORNOMEFINANCEIRO">Nome do Aprovador</label>
-                                <input type="text" class="form-control" name="APROVADORNOMEFINANCEIRO">
-                                <p class="help-block">Nome do usuário responsável pela aprovação</p>
+                                <label class="control-label" for="RUACEPEXEMPLO"> Endereço </label>
+                                <input type="text" name="RUACEPEXEMPLO" class="form-control" readonly />
                             </div>
                         </div>
-                        <div class="col-xs-3">
+                        <div class="col-sm-2 col-md-2">
                             <div class="form-group">
-                            <label class="control-label" for="APROVADOREMAILFINANCEIRO">Email do Aprovador</label>
-                                <input type="text" class="form-control" name="APROVADOREMAILFINANCEIRO">
-                                <p class="help-block">Email do usuário responsável pela aprovação</p>
-                            </div>
-                        </div>
-                        <div class="col-xs-3">
-                            <div class="form-group">
-                            <label class="control-label" for="APROVADODATAFINANCEIRO">Dta/Hra da Aprov/Reprov</label>
-                                <input type="text" class="form-control" name="APROVADODATAFINANCEIRO">
-                                <p class="help-block">Data da aprovação/reprovação</p>
+                                <label class="control-label" for="NUMEROCEPEXEMPLO"> Nº </label>
+                                <input type="text" name="NUMEROCEPEXEMPLO" class="form-control required" />
                             </div>
                         </div>
                     </div>
-                </div>
-            </section>
-            <!-- FINAL: aprovação da solicitação -->
-            
-            <section class="secAprovacaoRH" id="secAprovacaoRH" style="display:none;">
-                <!-- INÍCIO: título de cabeçalho -->
-                <div class="page-header">
-                    <h2><i class="far fa-calendar-check" aria-hidden="true"></i> Aprovação <small class="hidden-xs"></small></h2>
-                </div>
-                <!-- FINAL: título de cabeçalho -->
+                    <div class="row">
+                        <div class="col-sm-5 col-md-5">
+                            <div class="form-group">
+                                <label class="control-label" for="BAIRROCEPEXEMPLO"> Bairro </label>
+                                <input type="text" name="BAIRROCEPEXEMPLO" class="form-control" readonly />
+                            </div>
+                        </div>
+                        <div class="col-sm-4 col-md-4">
+                            <div class="form-group">
+                                <label class="control-label" for="CIDADECEPEXEMPLO"> Cidade </label>
+                                <input type="text" name="CIDADECEPEXEMPLO" class="form-control" readonly />
+                            </div>
+                        </div>
+                        <div class="col-sm-3 col-md-3">
+                            <div class="form-group">
+                                <label class="control-label" for="UFCEPEXEMPLO"> UF </label>
+                                <input type="text" name="UFCEPEXEMPLO" class="form-control" readonly />
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <!-- FINAL: informações de CEP -->
 
-                <div class="row">
-                    <div class="col-xs-12 col-sm-12 col-md-4">
-                        <div class="form-group">
-                            <label class="control-label" for="APROVADORH">Aprovado?</label>
-                            <div class="btn-group btn-group-justified opc_aprovacao" data-toggle="buttons">
-                                <label class="btn btn-default sim"><input type="radio" name="APROVADORH" data-exibicao="Sim, aprovado." id="Aprovado_S" value="S"><span class="fa fa-check-circle"></span> Sim</label>
-                                <label class="btn btn-default nao"><input type="radio" name="APROVADORH" data-exibicao="Não, reprovado para Ajuste." id="Aprovado_A" value="A"><span class="fa fa-times-circle"></span> Ajuste</label>
-                                <label class="btn btn-default nao"><input type="radio" name="APROVADORH" data-exibicao="Não, reprovado." id="Aprovado_N" value="N"><span class="fa fa-times-circle"></span> Não</label>
-                            </div>
-                            <label class="btn btn-default" style="display:none;"><input type="radio" name="APROVADORH" data-exibicao="N/A, sem resposta." id="Aprovado_NA" value="NA">Sem Resposta</label>
-                        </div>
+                <!-- INÍCIO: Seção de aprovação -->
+                <section class="secAprovacaoTESTE" id="secAprovacaoTESTE" style="display:none;">
+                    <div class="page-header">
+                        <h2><i class="far fa-calendar-check" aria-hidden="true"></i> Aprovação <small class="hidden-xs"></small></h2>
                     </div>
-                    <div class="col-xs-12 col-sm-12 col-md-8">
-                        <div class="form-group">
-                            <label class="control-label" for="APROVADOOBSRH">Observações da Aprovação</label>
-                            <textarea class="form-control" rows="1" name="APROVADOOBSRH"></textarea>
-                        </div>
-                    </div>
-                </div>    
-                <div class="row">	
-                    <div class="col-xs-12 msg-aprov">
-                        <div class="alert" role="alert" style="display:none;" view></div>
-                    </div>
-                    <div style="display:none;">
-                        <div class="col-xs-3">
-                            <div class="form-group">
-                            <label class="control-label" for="APROVADORIDRH">ID do Aprovador</label>
-                                <input type="text" class="form-control" name="APROVADORIDRH">
-                                <p class="help-block">Id do usuário responsável pela aprovação</p>
-                            </div>
-                        </div>
-                        <div class="col-xs-3">
-                            <div class="form-group">
-                            <label class="control-label" for="APROVADORNOMERH">Nome do Aprovador</label>
-                                <input type="text" class="form-control" name="APROVADORNOMERH">
-                                <p class="help-block">Nome do usuário responsável pela aprovação</p>
-                            </div>
-                        </div>
-                        <div class="col-xs-3">
-                            <div class="form-group">
-                            <label class="control-label" for="APROVADOREMAILRH">Email do Aprovador</label>
-                                <input type="text" class="form-control" name="APROVADOREMAILRH">
-                                <p class="help-block">Email do usuário responsável pela aprovação</p>
-                            </div>
-                        </div>
-                        <div class="col-xs-3">
-                            <div class="form-group">
-                            <label class="control-label" for="APROVADODATARH">Dta/Hra da Aprov/Reprov</label>
-                                <input type="text" class="form-control" name="APROVADODATARH">
-                                <p class="help-block">Data da aprovação/reprovação</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            <!-- FINAL: aprovação da solicitação -->
-            
-            
 
-            <!-- INÍCIO: rodapé do pedido -->
-            <section class="secRodape" id="secRodape">
-                <div class="row">
-                    <div class="col-xs-12 col-sm-6 col-md-6">
-                        <div class="form-group">
-                            <label class="control-label" for="OBSERVACOES">Observações</label>
-                            <span class="form-control obs-processo">Utilize este formulário informar o prosseguimento da admissão.</span>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-4">
+                            <div class="form-group">
+                                <label class="control-label" for="APROVADOTESTE">Aprovado?</label>
+                                <div class="btn-group btn-group-justified opc_aprovacao" data-toggle="buttons">
+                                    <label class="btn btn-default sim"><input type="radio" name="APROVADOTESTE" data-exibicao="Sim, aprovado." id="Aprovado_S" value="S"><span class="fa fa-check-circle"></span> Sim</label>
+                                    <label class="btn btn-default nao"><input type="radio" name="APROVADOTESTE" data-exibicao="Não, reprovado." id="Aprovado_N" value="N"><span class="fa fa-times-circle"></span> Não</label>
+                                </div>
+                                <label class="btn btn-default" style="display:none;"><input type="radio" name="APROVADO" data-exibicao="N/A, sem resposta." id="Aprovado_NA" value="NA">Sem Resposta</label>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-8">
+                            <div class="form-group">
+                                <label class="control-label" for="APROVADOOBSTESTE">Observações da Aprovação</label>
+                                <textarea class="form-control" rows="1" name="APROVADOOBSTESTE"></textarea>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-xs-12 col-sm-6 col-md-6">
-                        <div class="form-group">
-                            <label class="control-label" for="OBSERVACOES">Informações Adicionais</label>
-                            <textarea class="form-control" rows="1" name="OBSERVACOES" id="OBSERVACOES"></textarea>
-                            <p class="help-block">Por favor, utilize a maior quantidade de informações possível.</p>
+                    <div class="row">
+                        <div class="col-xs-12 msg-aprov">
+                            <div class="alert" role="alert" style="display:none;" view></div>
+                        </div>
+                        <div style="display:none;">
+                            <div class="col-xs-3">
+                                <div class="form-group">
+                                    <label class="control-label" for="APROVADORIDTESTE">ID do Aprovador</label>
+                                    <input type="text" class="form-control" name="APROVADORIDTESTE">
+                                    <p class="help-block">Id do usuário responsável pela aprovação</p>
+                                </div>
+                            </div>
+                            <div class="col-xs-3">
+                                <div class="form-group">
+                                    <label class="control-label" for="APROVADORNOMETESTE">Nome do Aprovador</label>
+                                    <input type="text" class="form-control" name="APROVADORNOMETESTE">
+                                    <p class="help-block">Nome do usuário responsável pela aprovação</p>
+                                </div>
+                            </div>
+                            <div class="col-xs-3">
+                                <div class="form-group">
+                                    <label class="control-label" for="APROVADOREMAILTESTE">Email do Aprovador</label>
+                                    <input type="text" class="form-control" name="APROVADOREMAILTESTE">
+                                    <p class="help-block">Email do usuário responsável pela aprovação</p>
+                                </div>
+                            </div>
+                            <div class="col-xs-3">
+                                <div class="form-group">
+                                    <label class="control-label" for="APROVADODATATESTE">Dta/Hra da Aprov/Reprov</label>
+                                    <input type="text" class="form-control" name="APROVADODATATESTE">
+                                    <p class="help-block">Data da aprovação/reprovação</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>     
-            </section>
-            <!-- FINAL: rodapé do pedido -->
-            
-            <!-- INÍCIO: footer -->
-            <section class="page-footer" id="secFooter">
-                <div class="row text-muted small">
-                    <div class="col-xs-8">
-                        <ul class="info">
-                            <li>2018 &copy; Upflow</li>
-                        </ul>
+                </section>
+                <!-- FINAL: Seção de aprovação -->
+
+                <!-- INÍCIO: rodapé do pedido -->
+                <section class="secRodape" id="secRodape">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6 col-md-6">
+                            <div class="form-group">
+                                <label class="control-label" for="OBSERVACOES">Observações</label>
+                                <span class="form-control obs-processo">Utilize este formulário informar o prosseguimento da admissão.</span>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-6 col-md-6">
+                            <div class="form-group">
+                                <label class="control-label" for="OBSERVACOES">Informações Adicionais</label>
+                                <textarea class="form-control" rows="1" name="OBSERVACOES" id="OBSERVACOES"></textarea>
+                                <p class="help-block">Por favor, utilize a maior quantidade de informações possível.</p>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-xs-4">
-                        <div class="pull-right">
+                </section>
+                <!-- FINAL: rodapé do pedido -->
+
+                <!-- INÍCIO: footer -->
+                <section class="page-footer" id="secFooter">
+                    <div class="row text-muted small">
+                        <div class="col-xs-8">
                             <ul class="info">
-                                <li><small>Rep.: Ufbase | v.0.0.1</small></li>
+                                <li><script type="text/javascript">document.write(new Date().getFullYear());</script> &copy; Upflow</li>
                             </ul>
                         </div>
+                        <div class="col-xs-4">
+                            <div class="pull-right">
+                                <ul class="info">
+                                    <li><small>Rep.: Ufbase | v.1.0.PabloEdition</small></li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </section>
-            <!-- FINAL: footer -->
-            
-            <!-- INÍCIO: campos ocultos do formulário -->
-            <section class="secCamposAux" id="secCamposAux" style="display:none;">
-            </section>
-            <!-- FINAL: campos ocultos do formulário -->
-            
-        </form>
-        <!-- FINAL: formulário geral -->
+                </section>
+                <!-- FINAL: footer -->
+
+                <!-- INÍCIO: campos ocultos do formulário -->
+                <section class="secCamposAux" id="secCamposAux" style="display:none;">
+                </section>
+                <!-- FINAL: campos ocultos do formulário -->
+
+            </form>
+            <!-- FINAL: formulário geral -->
+
+        </div>
 
     </div>
 
-</div>
-
-<script type="text/javascript" src="/portal/resources/js/jquery/jquery.js"></script>	
-<script type="text/javascript" src="/portal/resources/style-guide/js/fluig-style-guide.min.js" charset="utf-8"></script>
-<script src="/webdesk/vcXMLRPC.js" type="text/javascript"></script>
-<!-- <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/all.js"></script> -->
-<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"/>
-<script type="text/javascript" src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap.min.js"></script>    
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.11/jquery.mask.min.js"></script>
-<script src="jquery.maskMoney.min.js" type="text/javascript"></script>
-<script src="mustache.min.js" type="text/javascript"></script>
-<script src="moment.min.js" type="text/javascript"></script>
-<script src="moment.pt-br.js" type="text/javascript"></script>
-<script src="UFFW.js" type="text/javascript"></script>
-<script src="ufBase.js" type="text/javascript"></script>
+    <script type="text/javascript" src="/portal/resources/js/jquery/jquery.js"></script>
+    <script type="text/javascript" src="/portal/resources/style-guide/js/fluig-style-guide.min.js" charset="utf-8"></script>
+    <script src="/webdesk/vcXMLRPC.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" />
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.11/jquery.mask.min.js"></script>
+    <script src="sweetalert2.all.min.js" type="text/javascript"></script>
+    <script src="jquery.maskMoney.min.js" type="text/javascript"></script>
+    <script src="mustache.min.js" type="text/javascript"></script>
+    <script src="moment.min.js" type="text/javascript"></script>
+    <script src="moment.pt-br.js" type="text/javascript"></script>
+    <script src="UFFW.js" type="text/javascript"></script>
+    <script src="ufBase.js" type="text/javascript"></script>
 
 </body>
+
 </html>

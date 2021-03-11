@@ -1113,7 +1113,8 @@ var uFFw = {
 
 		//verifica se o conteudo passado esta na lista
 		verificaConteudo: function( conteudo, lista ) {
-			if (lista == "all") return true
+            if(modForm == 'VIEW') return false
+			else if (lista == "all") return true
 			return lista.some( function( conteudoLoop ) {
 				return conteudo == conteudoLoop
 			});
@@ -1170,7 +1171,7 @@ $.fn.setDisabled = function () {
     $el.find('div.form-group button[uf-zoom]').hide();
 
     // desabilita todos os botões
-    $el.find('div.form-group button[type="button"]').attr('disabled', true);
+    $el.find('button[type="button"]').attr('disabled', true);
 
     // oculta os addons e botões agrupados aos campos
     $el.find('div.form-group div.input-group .input-group-addon').hide();

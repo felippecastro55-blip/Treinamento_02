@@ -1106,8 +1106,7 @@ var uFFw = {
 
 		//verifica se o conteudo passado esta na lista
 		verificaConteudo: function( conteudo, lista ) {
-            if(modForm == 'VIEW') return false
-			else if (lista == "all") return true
+            if (lista == "all") return true
 			return lista.some( function( conteudoLoop ) {
 				return conteudo == conteudoLoop
 			});

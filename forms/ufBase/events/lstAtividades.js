@@ -7,11 +7,22 @@
  *
  */
 
-// tit ==> título
-// des ==> descrição
-// cbk ==> cor do background
-// cfn ==> cor da fonte
-// ico ==> ícone do fluig style guide
+/** Lista de atividades/status utilizados pela framework para preencher o campo status do formulário
+ * 
+ * numeral ==> código da atividade
+ * 
+ * tit ==> título
+ * des ==> descrição
+ * cbk ==> cor do background
+ * cfn ==> cor da fonte
+ * ico ==> ícone do fluig style guide
+ * 
+ * Observação Importante:
+ * A Atividade que inicia o workflow tem sempre dois códigos, e ambos devem ser informados na lista
+ *      Código '0' - Código reservado pelo Fluig, para a atividade inicial.
+ *      Código 'X' - Código atribuido ao criar a atividade no diagrama/workflow.
+ *  
+ * */
 
 lstAtiv = {
     0: {

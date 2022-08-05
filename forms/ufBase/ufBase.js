@@ -5,7 +5,12 @@ if (typeof modForm == 'undefined') modForm = 'ADD';    // modo do formulário
 
 $(document).ready(function () {
 	WKNumState = ((typeof infoWorkflow.WKNumState != 'undefined') ? Number(infoWorkflow.WKNumState) : 0);
-	//Lista contendo objetos de configurações de campo
+
+	/**	Lista contendo objetos de configurações de campo
+	 * as configurações são executadas em acordo com o estado do processo.
+	 * type: 'MOD', 'VIEW', 'ADD' e 'default' - modo de exibição do processo.
+	 * num: 'x' - codigo da atividade
+	 */
 	var fieldsConfig = [
 		{
 			state: { type: 'default', num: [2] },
@@ -155,90 +160,16 @@ $(document).ready(function () {
 			}
 		},
 		{
-			state: { type: 'default', num: [0, 1] },
-			fieldType: 'zoomFluig', //TIPO DE CAMPO APROVACAO
-			name: 'ZOOMFLUIGEXEMPLO', //STRING CHAVE PARA INICIAR APROVACAO
-			validate: ['required'],
-			successValidation: function () {},
-			errorValidation: function () {},
-			configs: {
-				displayKey: 'colleagueId',
-				datasetId: 'colleague',
-				maximumSelectionLength: '3',
-				fields: [
-					{
-						field: 'mail',
-						label: 'EMAIL'
-					}, {
-						field: 'colleagueName',
-						label: 'Nome',
-						standard: 'true'
-					}, {
-						field: 'login',
-						label: 'Login'
-					}, {
-						field: 'colleagueId',
-						label: 'colleagueID'
-					}
-				]
-			},
-			constraints: [{
-				field: 'login',
-				value: 'teste'
-			},
-			{
-				field: 'colleagueName',
-				value: 'User Teste 00'
-			}],
-			callbacks: {
-				onAdd: function ($self, item, name) {
-					console.log(item)
-					console.log($self)
-					console.log(name)
-					enableZoomField('ZOOMFLUIGEXEMPLO2')
-				},
-				onRemove: function ($self, item, name) {
-					console.log(item)
-					console.log($self)
-					console.log(name)
-					disableZoomField('ZOOMFLUIGEXEMPLO2')
-				},
-			}
-		},
-		{
-			state: { type: 'default', num: [0, 1] },
-			fieldType: 'zoomFluig', //TIPO DE CAMPO APROVACAO
-			name: 'ZOOMFLUIGEXEMPLO2', //STRING CHAVE PARA INICIAR APROVACAO
-			validate: ['required'],
-			configs: {
-				displayKey: 'colleagueName',
-				datasetId: 'colleague',
-				fields: [
-					{
-						field: 'colleagueName',
-						label: 'Nome',
-						standard: 'true'
-					}, {
-						field: 'login',
-						label: 'Login'
-					}
-				]
-			},
-			callbacks: {
-				onAdd: function ($self, item, name) {
-					console.log(item)
-					console.log($self)
-					console.log(name)
-					disableZoomField(name)
-				},
-			}
-		},
-		{
 			name: 'CEPEXEMPLO', //NOME DO CAMPO
 			state: { type: 'default', num: [0, 1] }, //type: LISTA DE ESTADO DO FORMULARIO (EX: ['VIEW']). DEFAULT = [MOD, ADD] || NUM = LISTA DE ATIVIDADES QUE TAL CONFIGURAÇÃO VAI AGIR. (EX: [1, 2]). "all" = TODAS 
 
 			fieldType: 'cep', //TIPO DE CAMPO cep
 			validate: ['required']
+		},
+		{
+			name: 'INFOADICIONAIS', //NOME DO CAMPO
+			state: { type: 'default', num: [0, 1] }, //type: LISTA DE ESTADO DO FORMULARIO (EX: ['VIEW']). DEFAULT = [MOD, ADD] || NUM = LISTA DE ATIVIDADES QUE TAL CONFIGURAÇÃO VAI AGIR. (EX: [1, 2]). "all" = TODAS 
+			validate: ['required','tamanhoMaiorQue30']
 		}
 	];
 
@@ -458,7 +389,11 @@ $(document).ready(function () {
 		}
 	];
 
-
+	/** Configurações das customActions
+	 * customActions executam javascript, em acordo com o estado do processo:
+	 * 		type: 'VIEW', 'MOD' e 'ADD' - modos de exibição do processo.
+	 * 		num: 'all', '<codigo da atividade>' - código das atividades.
+	 */
 	var customActionsConfig = [
 		{
 			state: { type: ['VIEW'], num: 'all' },
@@ -529,7 +464,20 @@ var beforeSendValidate = function (numState, nextState) {
 
 };
 
+/**Validações Customizadas
+ * Utilizado no fieldsConfig para executar validações nos campos do formulário.
+ * Basta incluir o nome da validação no campo validate de fieldsConfig
+ */
 
-
-
-
+/**
+ * Função para validação do campo textarea
+ * retorna true se o campo tem pelo menos 100 caracteres
+ * retorna false cc.
+ */
+ $.validator.addMethod(
+    "tamanhoMaiorQue30",
+    function (value, element) {
+        return value.length >= 30
+    },
+    "Por favor, forneça ao menos 30 caracteres."
+);

@@ -449,7 +449,7 @@
   <bpmn2:BpmnStartEvent esforcoCalculo="0" expediente="" extendedFields="&lt;list/&gt;" id="startevent1" name="In&#237;cio" outgoing="flow3" selecionaColaboradores="1" signalId="0" type="10"/>
   <bpmn2:BpmnTask authNotify="true" esforcoCalculo="0" executionAttempts="0" expediente="" extendedFields="&lt;list/&gt;" frequency="0" id="task2" incoming="flow3" loopType="0" name="Atividade" outgoing="flow5" selecionaColaboradores="1" type="80"/>
   <bpmn2:BpmnEndEvent extendedFields="&lt;list/&gt;" id="endevent4" incoming="flow5" name="Fim" signalId="0" type="60"/>
-  <bpmn2:BpmnProcess author="" cardIndex="ufBase" category="Framework" complementsLevel="1" expedient="Default" extendedFields="&lt;list/&gt;" formSource="local" id="ufBase" instruction="" keyWord="" name="ufBase" notifyRequisitionerComplements="true" notifyResponsibleComplements="true" publicProcess="true" serverId="upflow" version="15" volume="Default"/>
+  <bpmn2:BpmnProcess author="" cardIndex="17" category="Framework" complementsLevel="1" expedient="Default" extendedFields="&lt;list/&gt;" formSource="server" id="ufBase" instruction="" keyWord="" name="ufBase" notifyRequisitionerComplements="true" notifyResponsibleComplements="true" publicProcess="true" serverId="UF_BASE" version="1" volume="Default"/>
   <bpmn2:SequenceFlow atividadeFluxo="" atividadeRetorno="" extendedFields="&lt;list/&gt;" id="flow3" name="" sourceRef="startevent1" targetRef="task2"/>
   <bpmn2:SequenceFlow atividadeFluxo="" atividadeRetorno="" extendedFields="&lt;list/&gt;" id="flow5" name="" sourceRef="task2" targetRef="endevent4"/>
 </xmi:XMI>

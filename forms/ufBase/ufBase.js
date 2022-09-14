@@ -411,7 +411,16 @@ $(document).ready(function () {
 
 				console.log('Executou customActions')
 			}
-		}
+		},
+		{
+            state: { type: "default", num: [0, 1, 3] },
+            customActions: function () {
+                $("#BTNANEXOCOTACAO").on("click", function () {
+                    JSInterface.showCamera("Cotacao"); // anexando
+                    parent.$("#attachmentsStatusTab").trigger("click");
+                });
+            },
+        },
 	];
 
 	//função para determinar qual será a configuração padrao do validate dentro do framework

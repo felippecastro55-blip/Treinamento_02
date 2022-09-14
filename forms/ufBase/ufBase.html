@@ -74,6 +74,7 @@
                 </section>
                 <!-- FINAL: informações do solicitante -->
 
+                <!-- INICIO: dados da requisicao -->
                 <section class="secRequisicao" id="secRequisicao">
                     <div class="panel panel-default">
                         <div class="page-header">
@@ -143,36 +144,70 @@
                         </div>
                     </div>
                 </section>
+                <!-- FINAL: dados da requisicao -->
 
+                <!-- INICIO: Tabela Pai e Filho -->
                 <section class="secDependentes" id="secDependentes" style="display:none;">
                     <div class="panel panel-default">
                         <div class="page-header">
                             <h1>
-                                <span style="padding-left: 20px;" class="fluigicon fluigicon-group fluigicon-lg icone-span"></span><small
-                                    class="title-small">&nbsp;Exemplo Pai Filho</small>
+                                <span style="padding-left: 20px;"
+                                    class="fs-no-margin fs-ellipsis fs-full-width uf-colormenu">
+                                    <i class="fluigicon fluigicon-group icon-lg"></i>
+                                    Ações Complementares</span>
+                                <small class="title-small"></small>
                             </h1>
                         </div>
+                        <!-- tabela de acoes complementares -->
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-xs-12">
                                     <table class="table table-hover table-striped" tablename="tblPaiFilho" noaddbutton="true" nodeletebutton="true">
                                         <thead>
                                             <tr class="uppercase">
-                                                <th style="width:98%">Zoom Fluig</th>
+                                                <th style="width:98%">Tabela de Pai e Filho</th>
                                                 <th style="width:2%"></th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr>
                                                 <td class="itm-dados ItemVlrTotal">
-                                                    <div class="row">
-                                                        <div class="col-md-12 form-group">
-                                                            <input type="text" class="form-control" id="ZOOMFLUIGPAIEXEMPLO" name="ZOOMFLUIGPAIEXEMPLO">
+                                                    <div id="ZOOMFLUIGPAIEXEMPLO" name="ZOOMFLUIGPAIEXEMPLO"> <!-- ZOOMFLUIGPAIEXEMPLO é usado configurar abrir e fechar novas linhas da tabela -->
+                                                        <div class="row">
+                                                            <!-- CAMPO: zoom para escolher qual acao adicional -->
+                                                            <div class="col-md-3">
+                                                                <div class="form-group ufZoom">
+                                                                    <label class="control-label" for="ZOOMCOMP">Ação</label>
+                                                                    <div class="input-group">
+                                                                        <input type="text" class="form-control" name="ZOOMCOMP" placeholder="Selecione..." readonly>
+                                                                        <span class="input-group-btn">
+                                                                            <button uf-zoom="ZOOMCOMP" class="btn btn-default" type="button" data-loading-text="<i class=&quot;fa fa-circle-o-notch fa-spin&quot;></i>"><span class="fluigicon fluigicon-search-test"></span></button>
+                                                                        </span>
+                                                                    </div>
+                                                                    <input type="hidden" class="form-control" id="ACAOCOD" name="ACAOCOD" readyonly>
+                                                                </div>
+                                                            </div>
+                                                            <!-- CAMPO: data para a acao adicional -->
+                                                            <div class="col-md-3">
+                                                                <div class="form-group">
+                                                                    <label class="control-label" for="DATACOMP">Data da Ação</label>
+                                                                    <div class="input-group">
+                                                                        <input type="text" class="form-control" name="DATACOMP" id="DATACOMP" readonly><span class="input-group-addon iconData"><i class="far fa-calendar-alt"></i></span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <!-- CAMPO: campo texto para enviar informacoes sobre a acao adicional -->
+                                                            <div class="col-xs-12 col-sm-12 col-md-6">
+                                                                <div class="form-group">
+                                                                    <label class="control-label" for="OBSCOMP">Informações Adicionais</label>
+                                                                    <textarea class="form-control" rows="1" name="OBSCOMP"></textarea>
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </td>
                                                 <td class="acoes-linha">
-                                                    <a href="javascript:;" class="acao-linha remove-linha" uf-removeChild="tblPaiFilho" data-toggle="tooltip" title="Remover Item"><span class="fluigicon fluigicon-remove-circle fluigicon-sm"></span></a>
+                                                    <a href="javascript:;" class="remove-linha" uf-removeChild="tblPaiFilho" data-toggle="tooltip" title="Remover Item"><span class="fluigicon fluigicon-remove-circle fluigicon-sm"></span></a>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -182,10 +217,12 @@
                                     <button type="button" class="btn btn-primary btn-block" uf-addChild="tblPaiFilho"><i class="fluigicon fluigicon-plus-sign" aria-hidden="true"></i> Nova linha</button>
                                 </div>
                             </div>
-
                         </div>
                     </div>
+
+
                 </section>
+                <!-- FINAL: Tabela Pai e Filho -->
 
                 <!-- INÍCIO: informações de CEP -->
                 <section class="secCEP" id="secCEP">

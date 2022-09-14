@@ -220,173 +220,97 @@ $(document).ready(function () {
 
 	];
 
-	//Lista contendo objeto de tables
+	/** Lista contendo objeto de tables
+	 * Utilizado para configurar campos das tabelas.
+	 */
 	var tablesConfig = [
 		{
-			state: { type: 'default', num: [0, 1] },
-			id: 'tabela_pf_produto',
-
-			fields: [
-				{
-					state: { type: 'default', num: [0, 1] }, //type: LISTA DE ESTADO DO FORMULARIO (EX: ['VIEW']). DEFAULT = [MOD, ADD] || NUM = LISTA DE ATIVIDADES QUE TAL CONFIGURAÇÃO VAI AGIR. (EX: [1, 2]). NULL = TODAS 
-					name: 'COLIGADA_EXEMPLO', //NOME DO CAMPO
-					validate: [],
-					fieldType: 'zoom',
-					customActions: function ($self) { //função para customização
-						console.log('Teste Execução Custom')
-						console.log($self)
-					},
-					zoomOptions: {
-						label: 'Coligada',
-						uFZommType: '3',	// 1=DataServer | 2=Consulta | 3=Dataset | 4=query 
-						CodQuery: 'colleague', // dataserver | codsentenca | nome_dataset | array
-						constraints: [],
-						columns: [
-							{ title: 'Nome', data: 'CODCOLIGADA2', className: 'text-nowrap' },
-
-						],
-					},
-					zoomReturn: {
-						//DEFAULT = RETORNO DO DATASET DIRETO PARA CAMPOS DO FORM
-						//1 = UTILIZA 'DE PARA' do fields
-						//2 = UTILIZA 'FUNÇÃO' do fields
-						type: '1',
-						fields: [
+            state: { type: "default", num: ["all"] },
+            id: "tblPaiFilho",
+            fields: [
+                {
+                    state: { type: "default", num: ["all"] },
+                    fieldType: "zoom", //TIPO DE CAMPO APROVACAO
+                    name: "ZOOMCOMP", //STRING CHAVE PARA INICIAR APROVACAO
+                    validate: ["required"],
+                    zoomOptions: {
+                        label: "Ações",
+                        uFZommType: "5", // 1=DataServer | 2=Consulta | 3=Dataset | 4=query  | 5=array
+                        clear: [
+                            {
+                                name: "ZOOMCOMP",
+                            },
+                            {
+                                name: "ACAOCOD",
+                            },
+                        ],
+                        CodQuery: [// dataserver | codsentenca | nome_dataset | array
 							{
-								data: 'colleagueName',
-								formField: 'COLIGADA_EXEMPLO'
-							}
-
-						]
-
-					}
-
-
-				}
-			]
-
-		},
-		{
-			state: { type: 'default', num: [0, 1] },
-			id: 'tblPaiFilho',
-			fields: [
-				{
-					state: { type: 'default', num: [0, 1] },
-					fieldType: 'zoomFluig', //TIPO DE CAMPO APROVACAO
-					name: 'ZOOMFLUIGPAIEXEMPLO', //STRING CHAVE PARA INICIAR APROVACAO
-					validate: ['required'],
-					configs: {
-						displayKey: 'colleagueName',
-						datasetId: 'colleague',
-						fields: [
-							{
-								field: 'mail',
-								label: 'EMAIL'
-							}, {
-								field: 'colleagueName',
-								label: 'Nome',
-								standard: 'true'
-							}, {
-								field: 'login',
-								label: 'Login'
-							}
-						]
-					},
-					callbacks: {
-						onAdd: function (self, item) {
-							console.log(item)
-							console.log(self)
-							//disableZoomField(self)
-						},
-						onRemove: function (self, item) {
-							console.log(item)
-							console.log(self)
-						},
-					}
-				},
-				{
-					state: { type: 'default', num: [0, 1] },
-					fieldType: 'zoom', //TIPO DE CAMPO APROVACAO
-					name: 'PROCESSO_PAIFILHO', //STRING CHAVE PARA INICIAR APROVACAO
-					validate: ['required'],
-					zoomOptions: {
-						tooltip: false,
-						label: 'processos',
-						serverSide:{
-							searchWithValue: async function({value}){
-								const processId = "FLUIGADHOC"
-								const url = `/process-management/api/v2/processes/${processId}/requests/tasks?
-															&expand=deadlineSpecification
-															&order=deadline
-															&processInstanceId=${value}`
-								let response = await fetch(url)
-								response = await response.json()
-								return {
-									dados: response.items,
-									total: this.total
-								}
-							},
-							objSearch: async function({start,pageSize,page}){
-								const processId = "FLUIGADHOC"
-								if(!this.total){
-									const url = `/process-management/api/v2/processes/${processId}/requests/tasks/resume`
-									let response = await fetch(url)
-									response = await response.json()
-									this.total = response.total
-								}
-								const url = `/process-management/api/v2/processes/${processId}/requests/tasks?
-									&expand=deadlineSpecification
-									&pageSize=${pageSize}
-									&page=${page}
-									&order=deadline`
-								let response = await fetch(url)
-								response = await response.json()
-								return {
-									dados: response.items,
-									total: this.total
-								}
-							},
-							total: 0
-						},
-						// Fields que serão inseridos no dataset para o uFZommType: '3'
-						columns: [
-							{ title: 'Protocolo', data: 'processInstanceId', className: 'text-nowrap' },
-							{ title: 'Descrição', data: 'processDescription' },
-							{ title: 'Sequence', data: 'movementSequence' },
-						],
-					},
-					zoomReturn: {
-						//DEFAULT = RETORNO DO DATASET DIRETO PARA CAMPOS DO FORM
-						//1 = UTILIZA 'DE PARA' do fields
-						//2 = UTILIZA 'FUNÇÃO' do fields
-						type: '1',
-						fields: [
-							{
-								data: 'processInstanceId',
-								formField: 'PROCESSO_PAIFILHOCOD'
+								'ACTIONCOD': '0',
+								'ACTION': 'Enviar email'
 							},
 							{
-								data: 'processDescription',
-								formField: 'PROCESSO_PAIFILHO'
+								'ACTIONCOD': '1',
+								'ACTION': 'Enviar email e acompanhar resposta'
 							},
-						]
-		
-					}
-				},
-			],
-			// Função que executa antes de deletar um ITEM da tabela.
-			beforeRemoveCallback: function ($self) {
-				console.info('Rodou antes de excluir a linha: ', $self)
-			},
-			// Função que executa após deletar um ITEM da tabela  OBS: Não retorna o $self pois a linha já foi excluida.
-			afterRemoveCallback: function () {
-				console.info('Rodou após excluir a linha.')
-			},
-			// Função que executa após adicionar um ITEM da tabela.
-			afterAddLine: function ($self) {
-				console.info('Rodou após adicionar uma linha.')
-			}
-		}
+						], 
+                        constraints: [],
+                        // Fields que serão inseridos no dataset para o uFZommType: '3'
+                        dsFields: ["ACTIONCOD","ACTION"],
+                        columns: [
+                            { title: "Código", data: "ACTIONCOD" },
+                            { title: "Ação", data: "ACTION" },
+                        ],
+                    },
+                    zoomReturn: {
+                        //DEFAULT = RETORNO DO DATASET DIRETO PARA CAMPOS DO FORM
+                        //1 = UTILIZA 'DE PARA' do fields
+                        //2 = UTILIZA 'FUNÇÃO' do fields
+                        type: "1",
+                        fields: [
+                            {
+                                data: "ACTIONCOD",
+                                formField: "ACAOCOD",
+                            },
+                            {
+                                data: "ACTION",
+                                formField: "ZOOMCOMP",
+                            },
+                        ],
+                    },
+                },
+                {
+                    name: "DATACOMP", //NOME DO CAMPO
+                    state: { type: "default", num: [0, 9, 13] }, //type: LISTA DE ESTADO DO FORMULARIO (EX: ['VIEW']). DEFAULT = [MOD, ADD] || NUM = LISTA DE ATIVIDADES QUE TAL CONFIGURAÇÃO VAI AGIR. (EX: [1, 2]). "all" = TODAS
+                    fieldType: "date", //TIPO DE CAMPO DATA
+                    validate: ['required'],
+                    fieldOptions: {
+                        minDate: moment(),
+                        useCurrent: false,
+                    },
+                    customActions: function ($self) {
+                        //função para customização
+                        $self.parent().find('.iconData').on('click', function () {
+
+                            $self.trigger('click').focus();
+        
+                        });
+                    },
+                },
+            ],
+            // Função que executa antes de deletar um ITEM da tabela.
+            beforeRemoveCallback: function ($self) {
+                console.info("Rodou antes de excluir a linha: ", $self);
+            },
+            // Função que executa após deletar um ITEM da tabela  OBS: Não retorna o $self pois a linha já foi excluida.
+            afterRemoveCallback: function () {
+                console.info("Rodou após excluir a linha.");
+            },
+            // Função que executa após adicionar um ITEM da tabela.
+            afterAddLine: function ($self) {
+                console.info("Rodou após adicionar uma linha.");
+            },
+        },
 	];
 
 	/** Configurações das customActions
@@ -475,12 +399,12 @@ var beforeSendValidate = function (numState, nextState) {
 
 /**Validações Customizadas
  * Utilizado no fieldsConfig para executar validações nos campos do formulário.
- * Basta incluir o nome da validação no campo validate de fieldsConfig
+ * deve-se incluir <nome da validação> no campo validate de fieldsConfig
  */
 
 /**
  * Função para validação do campo textarea
- * retorna true se o campo tem pelo menos 100 caracteres
+ * retorna true se o campo tem pelo menos 30 caracteres
  * retorna false cc.
  */
  $.validator.addMethod(

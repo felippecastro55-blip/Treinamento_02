@@ -39,7 +39,8 @@ function displayFields(form, customHTML) {
     var userActive = "var infoUserActive = {";
     userActive += "code:'"+usuario.get(0).get('colleaguePK.colleagueId')+"',";                    // Código do processo.
     userActive += "name:'"+usuario.get(0).get('colleagueName')+"',";            // Versão do processo.        
-    userActive += "mail:'"+usuario.get(0).get('mail')+"',";        // Número da solicitação de processo.               
+    userActive += "mail:'"+usuario.get(0).get('mail')+"',";        // Número da solicitação de processo.
+    userActive += "login:'"+usuario.get(0).get('login')+"',";      // Login do usuário        
     userActive += "};"
     	customHTML.append("<script type='text/javascript'>"+userActive+"</script>");
     

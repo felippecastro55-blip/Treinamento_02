@@ -40,7 +40,8 @@ var uFFw = {
 				$('input[name="SOLICCOD"]').val( infoUserActive.code );
 				$('input[name="SOLICNOME"]').val( infoUserActive.name );
 				$('input[name="SOLICEMAIL"]').val( infoUserActive.mail );		    	
-		    	
+				$('input[name="SOLICLOGIN"]').val( infoUserActive.login );		    	
+
 		    }
 			
 		}

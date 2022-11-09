@@ -351,8 +351,14 @@ $(document).ready(function () {
 	uFFw.setDefaults('validOptions', { depends: function (el) { return true }, })
 
 	//inicia o framework
-	uFFw.init(modForm, WKNumState, fieldsConfig, sectionsConfig, tablesConfig, customActionsConfig);
-	if(modForm != 'VIEW') setTimeout(() => {$validator.form();}, 300)
+	if(!isNaN(WKNumState)){
+		// Form acessado pelo Processo - Inicia a framework
+		uFFw.init(modForm, WKNumState, fieldsConfig, sectionsConfig, tablesConfig, customActionsConfig);
+		if(modForm != 'VIEW') setTimeout(() => {$validator.form();}, 300)
+	} else {
+		// Form acessado pelo GED - Desabilita todos os campos
+		$('section').setDisabled();
+	}
 
 });
 

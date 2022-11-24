@@ -1,0 +1,37 @@
+application.type=widget
+application.code=UF_CrudPaginado
+application.title=UF_CrudPaginado
+application.description=UF_CrudPaginado
+application.category=Paginas
+application.renderer=freemarker
+developer.code=UF_NOTE
+developer.name=ferna
+developer.url=http://www.fluig.com
+application.uiwidget=true
+application.mobileapp=false
+application.version=${build.version}-${build.revision}
+view.file=view.ftl
+edit.file=edit.ftl
+locale.file.base.name=UF_CrudPaginado
+
+# carregamento dos estilos JS
+application.resource.js.1=/resources/js/utilities/sweetalert2.all.min.js
+application.resource.js.2=/resources/js/utilities/jquery.mask.min.js
+application.resource.js.3=/resources/js/utilities/uf_notify.js
+application.resource.js.4=/resources/js/utilities/utils_aux.js
+application.resource.js.5=/resources/js/utilities/dataTable/jquery.dataTables.min.js
+application.resource.js.6=/resources/js/utilities/dataTable/dataTables.buttons.min.js
+application.resource.js.7=/resources/js/utilities/dataTable/buttons.html5.min.js
+application.resource.js.8=/resources/js/utilities/jquery.maskMoney.js
+
+application.resource.js.9=/resources/js/controller/fornecedorController.js
+application.resource.js.10=/resources/js/model/fornecedorModel.js
+application.resource.js.11=/resources/js/view/fornecedorView.js
+application.resource.js.12=/resources/js/view/painelView.js
+
+# carregamento dos estilos CSS
+application.resource.css.1=/resources/css/UF_CrudPaginado.css
+application.resource.css.2=/resources/css/sweetalert2.min.css
+application.resource.css.3=/resources/css/jquery.dataTables.css
+application.resource.css.4=/resources/js/utilities/dataTable/buttons.dataTables.min.css
+application.resource.css.5=/resources/css/jquery.dataTables.min.css

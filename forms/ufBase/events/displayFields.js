@@ -27,7 +27,7 @@ function displayFields(form, customHTML) {
     customHTML.append("<script type='text/javascript'>"+scp+"</script>");
 
     // envia a variável (string) para o HTML com o modo de edição do formulário
-	customHTML.append("<script type='text/javascript'>var modForm = '"+form.getFormMode()+"';</script>");
+	customHTML.append("<script type='text/javascript'>var modForm = '"+((getValue('WKNumState') == null) ? 'GED' : form.getFormMode())+"';</script>");
 
     log.info('### uf-log | Início displayFields(WKNumProces: '+getValue('WKNumProces')+', WKNumState: '+getValue('WKNumState')+', modForm: '+form.getFormMode()+', WKUser: '+getValue('WKUser')+') ###');
    

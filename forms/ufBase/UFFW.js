@@ -34,7 +34,7 @@ var uFFw = {
 		        
 		    // });
 		    
-		    if ( modForm == 'ADD') {
+		    if ( modForm == 'ADD' ) {
 		    	
 		    	$('input[name="SOLICDATA"]').val( moment().format('DD/MM/YYYY') );
 				$('input[name="SOLICCOD"]').val( infoUserActive.code );
@@ -42,7 +42,15 @@ var uFFw = {
 				$('input[name="SOLICEMAIL"]').val( infoUserActive.mail );		    	
 				$('input[name="SOLICLOGIN"]').val( infoUserActive.login );		    	
 
-		    }
+		    } else if ( modForm == 'GED' ) {
+
+				console.log('Executando configuração de exibição do GED')
+				
+				$('section').setDisabled();
+				$('.iconData').hide();
+				$('button').hide();
+
+			}
 			
 		}
 		
@@ -127,21 +135,20 @@ var uFFw = {
 
 					}
 
-				}else{
+				} else {
 
 					if ( uFFw.utils.verificaConteudo(modForm, customActionConfig.state.type) ) {
 
-						if (  typeof customActionConfig.state.num != 'undefined' ) {
-							
-							
-							if( uFFw.utils.verificaConteudo(numState, customActionConfig.state.num) ) {
+						if (modForm == 'GED' || typeof customActionConfig.state.num != 'undefined'){
+
+							if(modForm == 'GED' || uFFw.utils.verificaConteudo(numState, customActionConfig.state.num)){
 
 								uFFw.customActions.start(customActionConfig.customActions);
 
 							}
-							
-						}
 
+						}
+						
 					}
 
 				}
@@ -373,25 +380,42 @@ var uFFw = {
 		//inicia procedimento de seções
 		//parametros: numero da atividade, configuração de seções
 		init: function ( ) {
-			
+
 			// inicializa o objeto para visualização
+			var options;
 			
 			// criando os elementos e inserindo-os no DOM
-            var options = {
-                class: 'status',
-                style: 'color:'+ufStatus.cfn+';background-color:'+ufStatus.cbk+';',
-                'data-toggle': 'popover',
-                'data-title': ufStatus.ico+' '+ufStatus.tit,
-                'data-content': ufStatus.des,
-            };
-			
+			if(modForm == "GED"){
+				options = {
+					class: 'status',
+					style: 'color: #F5F5F5;'+'background-color: #757575;',
+					'data-toggle': 'popover',
+					'data-title': '<span class="fluigicon fluigicon-add-test"></span>'
+									+' '
+									+ ($('[name="STATUS"]').val()
+										? $('[name="STATUS"]').val() 
+										: $('[name="STATUS"]').html()
+											? $('[name="STATUS"]').html()
+											:'GED'),
+					'data-content': 'Solicitação acessada pelo GED',
+				};
+			} else {
+				options = {
+					class: 'status',
+					style: 'color:'+ufStatus.cfn+';background-color:'+ufStatus.cbk+';',
+					'data-toggle': 'popover',
+					'data-title': ufStatus.ico+' '+ufStatus.tit,
+					'data-content': ufStatus.des,
+				};
+			}
+
 			this.start ( options );
-			
+		
 		},
 		
 		start: function ( options ) {
-			
-			this.$elBase.append( $('<div>', options).html(ufStatus.ico+' '+ufStatus.tit) );
+
+			this.$elBase.append( $('<div>', options).html(options['data-title']) );
             FLUIGC.popover('[data-toggle="popover"]', { trigger:'hover', placement:'auto', viewport:'html', html:true} );
 			
 		}

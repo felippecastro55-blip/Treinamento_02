@@ -641,10 +641,11 @@ var uFFw = {
 				
 				
 				$el.uFZoom({
-					...zoomOptions,
-					loading: 'Aguarde, consultando cadastro de ' + zoomOptions.label + '...',
-					title: 'Cadastro de ' + zoomOptions.label,
-				}, zoomCallback, listFields, sufix);
+                    ...zoomOptions,
+                    loading: 'Aguarde, consultando cadastro de ' + zoomOptions.label + '...',
+                    title: 'Cadastro de ' + zoomOptions.label,
+                    fields: zoomOptions.dsFields,
+                }, zoomCallback, listFields, sufix);
 	
 		
 			},

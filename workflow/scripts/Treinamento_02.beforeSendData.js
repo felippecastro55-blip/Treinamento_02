@@ -1,6 +1,6 @@
 function beforeSendData(customFields,customFacts){
 	var atvAtual = getValue('WKCurrentState');
-    log.dir('### uf-log | Início ufBase.beforeSendData.js (atvAtual: ' + atvAtual + ') ###');
+    log.dir('### uf-log | Início Treinamento_02.beforeSendData.js (atvAtual: ' + atvAtual + ') ###');
 	
     // Atualiza o status das atividades em andamento
 	var lstAtiv = {
@@ -14,5 +14,5 @@ function beforeSendData(customFields,customFacts){
 	};
 	hAPI.setCardValue("STATUSCOD", atvAtual);
     hAPI.setCardValue("STATUS", lstAtiv[atvAtual].tit);
-    log.info('### uf-log | Fim da Chamada do ufBase.beforeSendData.js (atvAtual: ' + atvAtual + ' ###')
+    log.info('### uf-log | Fim da Chamada do Treinamento_02.beforeSendData.js (atvAtual: ' + atvAtual + ' ###')
 }

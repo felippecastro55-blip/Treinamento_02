@@ -1684,7 +1684,7 @@ $.fn.uFZoom = function (zoomInfo, callback, listFields, sufix) {
                     DataSetName = zoomInfo.CodQuery;    // resgata o nome do DataSet no html
 
                     // não passa parâmetros
-                    parametros = zoomInfo.fields ? zoomInfo.fields : null
+                    parametros = [$("#UNIDADE").val(), 'COLETA_SALMOURA']
 
                     break;
                 case '4':    // consulta utilizando uma query
@@ -2090,7 +2090,7 @@ $.fn.uFZoom = function (zoomInfo, callback, listFields, sufix) {
 			});
 			
             // fix tamanho do modal
-            $('#zoomModal .modal-body').css('max-height',  (window.innerHeight-200)+'px');
+            $('#zoomModal .modal-body').css('max-height',  (window.innerHeight-300)+'px');
             $('#zoomModal .modal-body').css('overflow-x','hidden');
 
             $(window).trigger('resize')

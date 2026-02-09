@@ -1,6 +1,6 @@
 function afterProcessFinish(processId){
 	var atvAtual = getValue('WKCurrentState');
-    log.dir('### uf-log | Início ufBase.afterProcessFinish.js (atvAtual: ' + atvAtual + ') ###');
+    log.dir('### uf-log | Início Treinamento_02.afterProcessFinish.js (atvAtual: ' + atvAtual + ') ###');
 	
     // Lista com os possíveis status de finalizado
 	var lstAtiv = {
@@ -14,5 +14,5 @@ function afterProcessFinish(processId){
 	};
 	hAPI.setCardValue("STATUSCOD", atvAtual);
     hAPI.setCardValue("STATUS", lstAtiv[atvAtual].tit);
-    log.info('### uf-log | Fim da Chamada do ufBase.afterProcessFinish.js (atvAtual: ' + atvAtual + ' ###')
+    log.info('### uf-log | Fim da Chamada do Treinamento_02.afterProcessFinish.js (atvAtual: ' + atvAtual + ' ###')
 }

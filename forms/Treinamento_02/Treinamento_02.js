@@ -23,7 +23,7 @@ $(document).ready(function () {
 			fieldType: 'date', //TIPO DE CAMPO DATA
 			validate: ['required'],
 			fieldOptions: {
-
+				useCurrent: false
 			},
 			customActions: function ($self) { //função para customização
 
@@ -31,12 +31,24 @@ $(document).ready(function () {
 
 					$self.trigger('click').focus();
 
+
 				});
 				$self.on('change', function () {
 
 					var dataLimite = $self.val();
-
 					var ds = DatasetFactory.getDataset('dataset_data_limite', [dataLimite], null, null)
+					console.log(ds)
+					var verificacao = ds.values[0]['ERRO']
+					console.log(verificacao)
+					if (ds.values.length > 0) {
+						console.log('existe linhas')
+						if (verificacao === "1" || verificacao === "1.1") {
+							console.log('houve erros')
+							$self.val(ds.values[0]['DETALHES']);
+							var msg = 'Erro: A data selecionada deve estar pelo menos 10 dias à frente da data atual e possuir mês posterior ao atual.'
+							modalVerificacaoData(msg);
+						};
+					};
 				});
 			}
 		},
@@ -54,7 +66,7 @@ $(document).ready(function () {
 
 			}
 		},
-		/* {
+		{
 			state: { type: 'default', num: [0, 1] },
 			fieldType: 'zoom', //TIPO DE CAMPO APROVACAO
 			name: 'USUARIO', //STRING CHAVE PARA INICIAR APROVACAO
@@ -95,7 +107,7 @@ $(document).ready(function () {
 				]
 
 			}
-		}, */
+		},
 		{
 			state: { type: 'default', num: [0, 1] },
 			fieldType: 'zoom', //TIPO DE CAMPO APROVACAO
@@ -704,3 +716,22 @@ $('.escopoTabelaCompras').on('click', '.rateio', function () {
 
 
 });
+function modalVerificacaoData(msg) {
+
+	var myModal = FLUIGC.modal({
+		title: 'Erro na seleção da data',
+		content: msg,
+		id: 'Limite-data',
+		actions: [{
+			'label': 'OK',
+			'autoClose': true
+		}]
+	}, function (err, data) {
+		if (err) {
+			// do error handling
+		} else {
+			// do something with data
+		}
+	});
+
+}

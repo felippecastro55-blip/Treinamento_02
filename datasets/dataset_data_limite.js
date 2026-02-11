@@ -20,29 +20,42 @@ function createDataset(fields, constraints, sortFields) {
 
         /* Formatando data inicial no padrão EUA */
         dataSelecionada = dataSelecionada.split("/");
-        dataSelecionada.reverse();
+
 
         /* Criando objeto date para calcular */
-        var dataSelecionadaFormatada = new Date(dataSelecionada[0], dataSelecionada[1], dataSelecionada[2]);
-        var dataAtt = "";
-        if (dataSelecionadaFormatada.getDate() >= dataAtual.getDate() + 10) {
-            log.info('data selecionada maior ou igual a 10 dias da data atual')
+        var dataSelecionadaFormatada = new Date(dataSelecionada[2], dataSelecionada[1] - 1, dataSelecionada[0]);
+        dataSelecionadaFormatada.setHours(0, 0, 0, 0);
 
-            if (dataSelecionada.getMonth() === dataAtual.getMonth()) {
-                log.info('data selecionada ta no mesmo mês que Data atual.');
-                dataSelecionadaFormatada.setMonth(dataSelecionadaFormatada.getMonth() + 1);
-                dataSelecionadaFormatada.setDate(dataSelecionadaFormatada.getDate() + 1);
-                dataAtt = String(dataSelecionadaFormatada.getDate()).padStart(2,'0') + '/' + String(dataSelecionada.getMonth()).padStart(2,'0') + '/' + dataSelecionada.getFullYear();
-                log.info(dataAtt);
+        var dataAtt = "";
+
+        var prazoMinimoDias = new Date();
+        prazoMinimoDias.setDate(dataAtual.getDate() + 10);
+        prazoMinimoDias.setHours(0, 0, 0, 0);
+        
+        var ultimoDiaMes = new Date(dataAtual.getFullYear(), dataAtual.getMonth() + 1, 0);
+
+        log.info("Rodou ate aqui")
+
+
+        if (dataSelecionadaFormatada > ultimoDiaMes) {
+            log.info('Data selecionada tem o mês posterior e ano igual ou maior que o da data atual.');
+            if (dataSelecionadaFormatada >= prazoMinimoDias) {
+                dataAtt = dataSelecionada[0] + "/" + dataSelecionada[1] + "/" + dataSelecionada[2]
+                log.info(dataAtt)
+                log.info('Data selecionada 10 ou mais dias a mais que data atual.');
                 dataset.addRow(["0", "SUCESSO", dataAtt]);
-            };
+            } else {
+                log.info('Data selecionada tem menos de 10 dias da data atual');
+                dataset.addRow(["1", "ERRO", dataAtt]);
+            }
+        } else {
+            log.info('Data selecionada é menor do que a data atual');
+            dataset.addRow(["1", "ERRO", dataAtt]);
         };
 
-
-        dataset.addRow(["1", "SUCESSO", dataAtt]);
-
     } catch (error) {
-        dataset.addRow(["1", "ERRO", error]);
+        log.info('erro catch')
+        dataset.addRow(["1.1", "ERRO", error.message]);
     }
     return dataset;
 }

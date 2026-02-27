@@ -28,7 +28,7 @@
     <processDefinitionVersionPK>
       <companyId>1</companyId>
       <processId>Solicitação de compras</processId>
-      <version>2</version>
+      <version>30</version>
     </processDefinitionVersionPK>
     <versionDescription></versionDescription>
     <formId>75</formId>
@@ -691,7 +691,7 @@
         <companyId>1</companyId>
         <processId>SolicitacaoCompras</processId>
         <expressionOrder>1</expressionOrder>
-        <version>2</version>
+        <version>30</version>
         <sequence>4</sequence>
       </conditionProcessStatePK>
       <condition>true</condition>
@@ -703,7 +703,7 @@
         <companyId>1</companyId>
         <processId>SolicitacaoCompras</processId>
         <expressionOrder>1</expressionOrder>
-        <version>2</version>
+        <version>30</version>
         <sequence>18</sequence>
       </conditionProcessStatePK>
       <condition>true</condition>
@@ -1080,6 +1080,56 @@ Number.prototype.pad = function (size) {&#xd;
     <WorkflowProcessEvent>
       <workflowProcessEventPK>
         <companyId>1</companyId>
+        <eventId>beforeTaskSave</eventId>
+        <processId>SolicitacaoCompras</processId>
+        <version>1</version>
+      </workflowProcessEventPK>
+      <eventDescription>function beforeTaskSave(colleagueId, nextSequenceId, userList) {&#xd;
+    var atvAtual = getValue(&apos;WKCurrentState&apos;);&#xd;
+    log.info(&quot;Executou before&quot;)&#xd;
+    &#xd;
+    if (atvAtual == 1) {&#xd;
+        log.info(&quot;Executou condição&quot;)&#xd;
+        var campoValorTotal = hAPI.getCardValue(&quot;VALORTOTAL&quot;);&#xd;
+        var campoFormatado = parseReais(campoValorTotal);&#xd;
+        log.info(&quot;valor do campo agora&quot;);&#xd;
+        //log.info(campoValorTotal)&#xd;
+        &#xd;
+        if (campoFormatado &gt; 100000) {&#xd;
+            log.info(&quot;atendeu condição valor total&quot;)&#xd;
+            throw &quot;O valor total dos produtos não pode passar de R$ 100.000,00.&quot;&#xd;
+        }&#xd;
+    }&#xd;
+}&#xd;
+/* var teste = &quot;teste&quot;&#xd;
+log.info(teste)&#xd;
+function parseReais (campo) {&#xd;
+    // retira os pontos, depois troca a vírgula por ponto&#xd;
+    var valor = campo.replace(/\./g,&quot;&quot;).replace(&quot;,&quot;,&quot;.&quot;);&#xd;
+    return Number(valor.replace(/[^0-9\.]/g, &quot;&quot;));&#xd;
+} */&#xd;
+function parseReais(valor) {&#xd;
+    if (valor === null || valor === undefined) return 0;&#xd;
+&#xd;
+    // garante string JS (mesmo que venha java.lang.String)&#xd;
+    var s = String(valor).trim();&#xd;
+    if (!s) return 0;&#xd;
+&#xd;
+    // remove R$, espaços, etc. Mantém dígitos, ponto, vírgula e sinal&#xd;
+    s = s.replace(/[^\d.,-]/g, &quot;&quot;);&#xd;
+&#xd;
+    // remove separador de milhar &quot;.&quot; e troca decimal &quot;,&quot; por &quot;.&quot;&#xd;
+    s = s.replace(/\./g, &quot;&quot;).replace(/,/g, &quot;.&quot;);&#xd;
+&#xd;
+    var n = Number(s);&#xd;
+    return isNaN(n) ? 0 : n;&#xd;
+}&#xd;
+&#xd;
+</eventDescription>
+    </WorkflowProcessEvent>
+    <WorkflowProcessEvent>
+      <workflowProcessEventPK>
+        <companyId>1</companyId>
         <eventId>afterCancelProcess</eventId>
         <processId>SolicitacaoCompras</processId>
         <version>1</version>
@@ -1104,33 +1154,6 @@ Number.prototype.pad = function (size) {&#xd;
       </workflowProcessEventPK>
       <eventDescription>function servicetask23(attempt, message) {
 }</eventDescription>
-    </WorkflowProcessEvent>
-    <WorkflowProcessEvent>
-      <workflowProcessEventPK>
-        <companyId>1</companyId>
-        <eventId>beforeSendData</eventId>
-        <processId>SolicitacaoCompras</processId>
-        <version>1</version>
-      </workflowProcessEventPK>
-      <eventDescription>function beforeSendData(customFields,customFacts){&#xd;
-	var atvAtual = getValue(&apos;WKCurrentState&apos;);&#xd;
-    log.dir(&apos;### uf-log | Início Treinamento_02.beforeSendData.js (atvAtual: &apos; + atvAtual + &apos;) ###&apos;);&#xd;
-	&#xd;
-    // Atualiza o status das atividades em andamento&#xd;
-	var lstAtiv = {&#xd;
-	    1: {&#xd;
-	        tit: &apos;Início&apos;,&#xd;
-	    },&#xd;
-	    2: {&#xd;
-	    	tit: &apos;Em Execução&apos;,&#xd;
-        },&#xd;
-	   &#xd;
-	};&#xd;
-	hAPI.setCardValue(&quot;STATUSCOD&quot;, atvAtual);&#xd;
-    hAPI.setCardValue(&quot;STATUS&quot;, lstAtiv[atvAtual].tit);&#xd;
-    log.info(&apos;### uf-log | Fim da Chamada do Treinamento_02.beforeSendData.js (atvAtual: &apos; + atvAtual + &apos; ###&apos;)&#xd;
-}&#xd;
-</eventDescription>
     </WorkflowProcessEvent>
   </list>
   <list/>
@@ -1207,7 +1230,7 @@ Number.prototype.pad = function (size) {&#xd;
       <processLinkBendPK>
         <companyId>1</companyId>
         <processId>SolicitacaoCompras</processId>
-        <version>2</version>
+        <version>30</version>
         <linkSequence>22</linkSequence>
         <bendSequence>1</bendSequence>
       </processLinkBendPK>
@@ -1218,7 +1241,7 @@ Number.prototype.pad = function (size) {&#xd;
       <processLinkBendPK>
         <companyId>1</companyId>
         <processId>SolicitacaoCompras</processId>
-        <version>2</version>
+        <version>30</version>
         <linkSequence>27</linkSequence>
         <bendSequence>1</bendSequence>
       </processLinkBendPK>
@@ -1229,7 +1252,7 @@ Number.prototype.pad = function (size) {&#xd;
       <processLinkBendPK>
         <companyId>1</companyId>
         <processId>SolicitacaoCompras</processId>
-        <version>2</version>
+        <version>30</version>
         <linkSequence>27</linkSequence>
         <bendSequence>2</bendSequence>
       </processLinkBendPK>
@@ -1240,7 +1263,7 @@ Number.prototype.pad = function (size) {&#xd;
       <processLinkBendPK>
         <companyId>1</companyId>
         <processId>SolicitacaoCompras</processId>
-        <version>2</version>
+        <version>30</version>
         <linkSequence>27</linkSequence>
         <bendSequence>3</bendSequence>
       </processLinkBendPK>
@@ -1251,7 +1274,7 @@ Number.prototype.pad = function (size) {&#xd;
       <processLinkBendPK>
         <companyId>1</companyId>
         <processId>SolicitacaoCompras</processId>
-        <version>2</version>
+        <version>30</version>
         <linkSequence>29</linkSequence>
         <bendSequence>1</bendSequence>
       </processLinkBendPK>
@@ -1262,7 +1285,7 @@ Number.prototype.pad = function (size) {&#xd;
       <processLinkBendPK>
         <companyId>1</companyId>
         <processId>SolicitacaoCompras</processId>
-        <version>2</version>
+        <version>30</version>
         <linkSequence>29</linkSequence>
         <bendSequence>2</bendSequence>
       </processLinkBendPK>
@@ -1273,7 +1296,7 @@ Number.prototype.pad = function (size) {&#xd;
       <processLinkBendPK>
         <companyId>1</companyId>
         <processId>SolicitacaoCompras</processId>
-        <version>2</version>
+        <version>30</version>
         <linkSequence>50</linkSequence>
         <bendSequence>1</bendSequence>
       </processLinkBendPK>
@@ -1284,7 +1307,7 @@ Number.prototype.pad = function (size) {&#xd;
       <processLinkBendPK>
         <companyId>1</companyId>
         <processId>SolicitacaoCompras</processId>
-        <version>2</version>
+        <version>30</version>
         <linkSequence>51</linkSequence>
         <bendSequence>1</bendSequence>
       </processLinkBendPK>
@@ -1295,7 +1318,7 @@ Number.prototype.pad = function (size) {&#xd;
       <processLinkBendPK>
         <companyId>1</companyId>
         <processId>SolicitacaoCompras</processId>
-        <version>2</version>
+        <version>30</version>
         <linkSequence>52</linkSequence>
         <bendSequence>1</bendSequence>
       </processLinkBendPK>
@@ -1312,7 +1335,7 @@ Number.prototype.pad = function (size) {&#xd;
       <processId>SolicitacaoCompras</processId>
       <version>1</version>
       <sequence>14</sequence>
-      <attempts>1</attempts>
+      <attempts>0</attempts>
       <sucessFullMessage>Integração executada com sucesso</sucessFullMessage>
       <serviceName>servicetask30</serviceName>
       <frequency>1</frequency>

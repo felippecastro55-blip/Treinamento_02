@@ -53,8 +53,9 @@ $(document).ready(function () {
 			}
 		},
 		{
-			state: { type: ['VIEW'], num: ["all"] }, //type: LISTA DE ESTADO DO FORMULARIO (EX: ['VIEW']). DEFAULT = [MOD, ADD] || NUM = LISTA DE ATIVIDADES QUE TAL CONFIGURAÇÃO VAI AGIR. (EX: [1, 2]). "all" = TODAS 
+			state: { type: ['default'], num: ["all"] }, //type: LISTA DE ESTADO DO FORMULARIO (EX: ['VIEW']). DEFAULT = [MOD, ADD] || NUM = LISTA DE ATIVIDADES QUE TAL CONFIGURAÇÃO VAI AGIR. (EX: [1, 2]). "all" = TODAS 
 			name: 'VALORTOTAL', //NOME DO CAMPO
+			//validate: ['limiteValor'],
 			class: ['text-right'],
 			fieldType: 'money', //TIPO DE CAMPO monetario
 			fieldOptions: {
@@ -507,9 +508,18 @@ var beforeSendValidate = function (numState, nextState) {
 $.validator.addMethod(
 	"tamanhoMaiorQue30",
 	function (value, element) {
+		console.log(value)
 		return value.length >= 30
 	},
 	"Por favor, forneça ao menos 30 caracteres."
+);
+$.validator.addMethod(
+	"limiteValor",
+	function (value, element) {
+		console.log(value)
+		return value.parseReais() < 100000
+	},
+	"O valor total dos produtos não pode passar de R$ 100.000,00."
 );
 function lastId($self) {
 	console.log("last rodou")
@@ -574,6 +584,12 @@ function valorTotal() {
 
 $('.escopoTabelaCompras').on('click', '.rateio', function () {
 	var idLinha = $(this).closest('tr').find('[name^="ID_ITENS"]').val();
+	function linhasTabelaOculta() {
+		return $('#secRateio .escopoTabelaRateio tr');
+	};
+	function linhas() {
+		return $('#data-rateio .escopoTabelaRateio tr');
+	};
 	console.log(idLinha)
 
 	var myModal = FLUIGC.modal({
@@ -662,6 +678,21 @@ $('.escopoTabelaCompras').on('click', '.rateio', function () {
 		$('#data-rateio .escopoTabelaRateio').append(addLinha);
 		console.log(linhas().last().find('[name^="ID_ITENS"]'))
 		linhas().last().find('[name^="ID_ITENS"]').val(idLinha);
+		//Mascara de money
+		linhas().last().find('[name^="VALORRATEIO"]').maskMoney({
+			prefix: 'R$ ',
+			thousands: '.',
+			decimal: ',',
+			allowZero: true
+		});
+		//Mascara porcentagem
+		linhas().last().find('[name^="PORCENTAGEM"]').maskMoney({
+			prefix: '% ',
+			thousands: '.',
+			decimal: ',',
+			allowZero: true
+		});
+
 	});
 	//Button excluir
 	$('#data-rateio .escopoTabelaRateio').on('click', '.excluir', function () {
@@ -672,9 +703,27 @@ $('.escopoTabelaCompras').on('click', '.rateio', function () {
 	});
 	//Salvar tabela
 	var buttonSalvar = $('#data-rateio [salvartabelamodal]');
+	var totalPorcentagem = 0;
 	buttonSalvar.on('click', function () {
+		var listaCamposPorcentagem = $('#data-rateio .escopoTabelaRateio tr').find('[name^="PORCENTAGEM"]')
+		listaCamposPorcentagem.each(function (i, el) {
+			totalPorcentagem += $(el).val().parseReais();
+		});
+		console.log(totalPorcentagem)
+		switch (true) {
+			case (listaCamposPorcentagem.length == 1):
+				confirm
+				console.log('não existe linhas')
+				break;
+			case (totalPorcentagem > 100):
+				totalPorcentagem = 0;
+				return modalVerificacaoData('Erro: A soma das porcentagens não pode ultrapassar 100%.');
+			case (totalPorcentagem < 100):
+				totalPorcentagem = 0;
+				return modalVerificacaoData('Erro: A soma das porcentagens não pode ser menor que 100%.');
+		}
 		console.log("salvou")
-
+		totalPorcentagem = 0;
 		console.log(linhas)
 		var filtroLinhas = linhasTabelaOculta().filter(function () {
 			return $(this).find('[name^="ID_ITENS_OCULTO"]').val() == idLinha
@@ -695,12 +744,6 @@ $('.escopoTabelaCompras').on('click', '.rateio', function () {
 
 		};
 	});
-	function linhasTabelaOculta() {
-		return $('#secRateio .escopoTabelaRateio tr');
-	};
-	function linhas() {
-		return $('#data-rateio .escopoTabelaRateio tr');
-	};
 
 	//Carregando itens salvos
 	for (var i = 1; i < linhasTabelaOculta().length; i++) {
@@ -714,12 +757,44 @@ $('.escopoTabelaCompras').on('click', '.rateio', function () {
 		};
 	};
 
-
+	//Calculo automatico de porcentagem e valor dos produtos
+	$('#data-rateio .escopoTabelaRateio').on('keyup', '[name^="VALORRATEIO"]', function () {
+		var idProduto = $(this).closest('tr').find('[name^="ID_ITENS"]').val()
+		console.log(idProduto)
+		var selectLinhaProduto = $('.escopoTabelaCompras tr').filter(function (i, x) {
+			return $(x).find('[name^="ID_ITENS"]').val() == idProduto
+		});
+		console.log(selectLinhaProduto)
+		var valorProduto = selectLinhaProduto.find('[name^="TOTAL_ITENS"]').val().parseReais();
+		var valorRateio = $(this).closest('tr').find('[name="VALORRATEIO"]').val().parseReais();
+		var resultadoPorcentagem = (valorRateio / valorProduto) * 100;
+		var campoPorcentagem = $(this).closest('tr').find('[name^="PORCENTAGEM"]')
+		console.log(campoPorcentagem);
+		campoPorcentagem.val(resultadoPorcentagem.formatPorcentagem());
+		console.log(valorProduto)
+	});
+	//Calculo automatico de valor do centro de custo
+	$('#data-rateio .escopoTabelaRateio').on('keyup', '[name^="PORCENTAGEM"]', function () {
+		var idProduto = $(this).closest('tr').find('[name^="ID_ITENS"]').val()
+		console.log(idProduto)
+		var selectLinhaProduto = $('.escopoTabelaCompras tr').filter(function (i, x) {
+			return $(x).find('[name^="ID_ITENS"]').val() == idProduto
+		});
+		console.log(selectLinhaProduto)
+		var valorProduto = selectLinhaProduto.find('[name^="TOTAL_ITENS"]').val().parseReais();
+		var campoPorcentagem = $(this).closest('tr').find('[name^="PORCENTAGEM"]').val().parseReais();
+		var resultadoPorcentagem = valorProduto * (campoPorcentagem / 100);
+		var valorRateio = $(this).closest('tr').find('[name="VALORRATEIO"]');
+		console.log(campoPorcentagem);
+		valorRateio.val(resultadoPorcentagem.formatReais());
+		console.log(valorProduto)
+	});
 });
+
 function modalVerificacaoData(msg) {
 
 	var myModal = FLUIGC.modal({
-		title: 'Erro na seleção da data',
+		title: 'Erro',
 		content: msg,
 		id: 'Limite-data',
 		actions: [{
@@ -735,3 +810,12 @@ function modalVerificacaoData(msg) {
 	});
 
 }
+/**
+ * Formata o número para exibir em porcentagem ate 2 casas decimais
+ */
+Number.prototype.formatPorcentagem = function () {
+	return '% ' + Number(this).toLocaleString('pt-BR', {
+		minimumFractionDigits: 2,
+		maximumFractionDigits: 2
+	});
+};

@@ -28,7 +28,7 @@
     <processDefinitionVersionPK>
       <companyId>1</companyId>
       <processId>Solicitação de compras</processId>
-      <version>30</version>
+      <version>31</version>
     </processDefinitionVersionPK>
     <versionDescription></versionDescription>
     <formId>75</formId>
@@ -691,7 +691,7 @@
         <companyId>1</companyId>
         <processId>SolicitacaoCompras</processId>
         <expressionOrder>1</expressionOrder>
-        <version>30</version>
+        <version>31</version>
         <sequence>4</sequence>
       </conditionProcessStatePK>
       <condition>true</condition>
@@ -703,7 +703,7 @@
         <companyId>1</companyId>
         <processId>SolicitacaoCompras</processId>
         <expressionOrder>1</expressionOrder>
-        <version>30</version>
+        <version>31</version>
         <sequence>18</sequence>
       </conditionProcessStatePK>
       <condition>true</condition>
@@ -1085,16 +1085,30 @@ Number.prototype.pad = function (size) {&#xd;
         <version>1</version>
       </workflowProcessEventPK>
       <eventDescription>function beforeTaskSave(colleagueId, nextSequenceId, userList) {&#xd;
+    var attachments = hAPI.listAttachments();&#xd;
+    var hasAttachment = false;&#xd;
+&#xd;
+    for (var i = 0; i &lt; attachments.size(); i++) {&#xd;
+        var attachment = attachments.get(i);&#xd;
+        if (attachment.getDocumentDescription() == &quot;Cotacao&quot;) {&#xd;
+            hasAttachment = true;&#xd;
+        }&#xd;
+    }&#xd;
+&#xd;
+    if (!hasAttachment) {&#xd;
+        throw &apos;Erro: nome do arquivo anexado deve ser &quot;Cotacao&quot;&apos;;&#xd;
+    }&#xd;
+&#xd;
     var atvAtual = getValue(&apos;WKCurrentState&apos;);&#xd;
     log.info(&quot;Executou before&quot;)&#xd;
-    &#xd;
+&#xd;
     if (atvAtual == 1) {&#xd;
         log.info(&quot;Executou condição&quot;)&#xd;
         var campoValorTotal = hAPI.getCardValue(&quot;VALORTOTAL&quot;);&#xd;
         var campoFormatado = parseReais(campoValorTotal);&#xd;
         log.info(&quot;valor do campo agora&quot;);&#xd;
         //log.info(campoValorTotal)&#xd;
-        &#xd;
+&#xd;
         if (campoFormatado &gt; 100000) {&#xd;
             log.info(&quot;atendeu condição valor total&quot;)&#xd;
             throw &quot;O valor total dos produtos não pode passar de R$ 100.000,00.&quot;&#xd;
@@ -1230,7 +1244,7 @@ function parseReais(valor) {&#xd;
       <processLinkBendPK>
         <companyId>1</companyId>
         <processId>SolicitacaoCompras</processId>
-        <version>30</version>
+        <version>31</version>
         <linkSequence>22</linkSequence>
         <bendSequence>1</bendSequence>
       </processLinkBendPK>
@@ -1241,7 +1255,7 @@ function parseReais(valor) {&#xd;
       <processLinkBendPK>
         <companyId>1</companyId>
         <processId>SolicitacaoCompras</processId>
-        <version>30</version>
+        <version>31</version>
         <linkSequence>27</linkSequence>
         <bendSequence>1</bendSequence>
       </processLinkBendPK>
@@ -1252,7 +1266,7 @@ function parseReais(valor) {&#xd;
       <processLinkBendPK>
         <companyId>1</companyId>
         <processId>SolicitacaoCompras</processId>
-        <version>30</version>
+        <version>31</version>
         <linkSequence>27</linkSequence>
         <bendSequence>2</bendSequence>
       </processLinkBendPK>
@@ -1263,7 +1277,7 @@ function parseReais(valor) {&#xd;
       <processLinkBendPK>
         <companyId>1</companyId>
         <processId>SolicitacaoCompras</processId>
-        <version>30</version>
+        <version>31</version>
         <linkSequence>27</linkSequence>
         <bendSequence>3</bendSequence>
       </processLinkBendPK>
@@ -1274,7 +1288,7 @@ function parseReais(valor) {&#xd;
       <processLinkBendPK>
         <companyId>1</companyId>
         <processId>SolicitacaoCompras</processId>
-        <version>30</version>
+        <version>31</version>
         <linkSequence>29</linkSequence>
         <bendSequence>1</bendSequence>
       </processLinkBendPK>
@@ -1285,7 +1299,7 @@ function parseReais(valor) {&#xd;
       <processLinkBendPK>
         <companyId>1</companyId>
         <processId>SolicitacaoCompras</processId>
-        <version>30</version>
+        <version>31</version>
         <linkSequence>29</linkSequence>
         <bendSequence>2</bendSequence>
       </processLinkBendPK>
@@ -1296,7 +1310,7 @@ function parseReais(valor) {&#xd;
       <processLinkBendPK>
         <companyId>1</companyId>
         <processId>SolicitacaoCompras</processId>
-        <version>30</version>
+        <version>31</version>
         <linkSequence>50</linkSequence>
         <bendSequence>1</bendSequence>
       </processLinkBendPK>
@@ -1307,7 +1321,7 @@ function parseReais(valor) {&#xd;
       <processLinkBendPK>
         <companyId>1</companyId>
         <processId>SolicitacaoCompras</processId>
-        <version>30</version>
+        <version>31</version>
         <linkSequence>51</linkSequence>
         <bendSequence>1</bendSequence>
       </processLinkBendPK>
@@ -1318,7 +1332,7 @@ function parseReais(valor) {&#xd;
       <processLinkBendPK>
         <companyId>1</companyId>
         <processId>SolicitacaoCompras</processId>
-        <version>30</version>
+        <version>31</version>
         <linkSequence>52</linkSequence>
         <bendSequence>1</bendSequence>
       </processLinkBendPK>

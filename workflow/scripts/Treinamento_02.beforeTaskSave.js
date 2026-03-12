@@ -1,19 +1,35 @@
 function beforeTaskSave(colleagueId, nextSequenceId, userList) {
+    var attachments = hAPI.listAttachments();
+    var hasAttachment = false;
+
+    for (var i = 0; i < attachments.size(); i++) {
+        var attachment = attachments.get(i);
+        if (attachment.getDocumentDescription() == "Cotacao") {
+            hasAttachment = true;
+        }
+    }
+
+    if (!hasAttachment) {
+        throw 'Erro: nome do arquivo anexado deve ser "Cotacao"';
+    }
+
     var atvAtual = getValue('WKCurrentState');
     log.info("Executou before")
-    
+
     if (atvAtual == 1) {
         log.info("Executou condição")
         var campoValorTotal = hAPI.getCardValue("VALORTOTAL");
         var campoFormatado = parseReais(campoValorTotal);
         log.info("valor do campo agora");
         //log.info(campoValorTotal)
-        
+
         if (campoFormatado > 100000) {
             log.info("atendeu condição valor total")
             throw "O valor total dos produtos não pode passar de R$ 100.000,00."
         }
     }
+
+    //Verificação tipo de pagamentos
 }
 /* var teste = "teste"
 log.info(teste)
@@ -39,7 +55,3 @@ function parseReais(valor) {
     return isNaN(n) ? 0 : n;
 }
 
-// Exemplo de uso
-var v = hAPI.getCardValue("valor_total"); // pode vir java.lang.String
-var total = parseReais(v);
-log.info("Total numérico: " + total);
